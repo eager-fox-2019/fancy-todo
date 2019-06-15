@@ -69,7 +69,7 @@ class UserCont {
         if (row) {
           let isSame = compareSync(req.body.password, row.password)
           if (isSame) {
-            payload = {
+            let payload = {
               _id: row._id,
               name: row.name,
               email: row.email
@@ -79,7 +79,6 @@ class UserCont {
               'access-token': sign(payload, process.env.KUNCI),
               name: row.name
             }
-            if (newPass) data.newPass = newPass
             console.log(data)
             res.status(200).json(data)
           }
