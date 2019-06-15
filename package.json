@@ -1,0 +1,28 @@
+{
+  "name": "fancy-todo",
+  "version": "1.0.0",
+  "description": "fancy-todo",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/melinadewi/fancy-todo.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/melinadewi/fancy-todo/issues"
+  },
+  "homepage": "https://github.com/melinadewi/fancy-todo#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.6.0"
+  }
+}
