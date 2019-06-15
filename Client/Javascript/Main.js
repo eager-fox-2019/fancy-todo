@@ -228,6 +228,9 @@ function readTodo(id, tag, find) {
           `)
         })
       }
+      if (search){
+        $("#readTodo").append(`<p>Search result for "${search}"</p>`)
+      }
       response.forEach((value, index) => {
         $("#readTodo").append(
           `
@@ -243,7 +246,7 @@ function readTodo(id, tag, find) {
                 <li class="list-group-item">
                   <a href="#" class="btn btn-primary" id="editTodo${value._id}" onclick="readEdit('${value._id}')" style="background-color:green;border-color:green">Edit</a>
                   <a href="#" class="btn btn-primary" id="deleteTodo${value._id}" onclick="deleteTodo('${value._id}')" style="background-color:red;border-color:red">Delete</a>
-                  <a href="#" class="btn btn-primary" id="_doneTodo${value._id}" onclick="doneTodo('${value._id}', 1)" >Done</a>
+                  <a href="#" class="btn btn-primary" id="_doneTodo${value._id}" onclick="doneTodo('${value._id}', 1)" >Complete</a>
                 </li>
               </ul>
             </div>
@@ -271,12 +274,14 @@ function readTodo(id, tag, find) {
       }
       if (response.length == 0){
         if (search){
-          $("#readTodo").html(`<p>To-Do with title "${search}" not found!</p><br> <a href="#"  style="background-color:#505397;border-color:#505397" class="btn btn-primary" id="searchTodoButton2" onclick="readTodo()">Show all To-Do</a>`)
+          $("#readTodo").html(`<p>To-Do with title "${search}" not found!</p>`)
         } else {
           $("#readTodo3").html(`<p>Your To-Do is empty</p>`)
         }
       }
-
+      if (search){
+        $("#readTodo").append(`<a href="#"  style="background-color:#505397;border-color:#505397" class="btn btn-primary" id="searchTodoButton2" onclick="readTodo()">Show all To-Do</a>`)
+      }
     })
     .fail(function(jqXHR, textStatus) {
       console.log(jqXHR);

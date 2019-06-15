@@ -40,7 +40,10 @@
     <div id="signinPage">
         <div class="back-ground bg bg1" data-selector=".bg.bg1, .bg.bg2, .header10, .header11"
             style="background-color: rgb(255, 255, 255); margin-top: 0px;">
-            <h1 class="error editContent" data-selector=".editContent" style="">Hacktiv To-Do</h1>
+            <div class="error editContent" style="display:flex;justify-content: center">
+            <img src="./bundles/images/fox.png" style="margin-top: 28px" height="50px" width="50px"  alt="" data-selector="img"
+                style="outline: none; cursor: inherit;">
+            <h1  data-selector=".editContent" style="font-size: 40px;margin:20px;;margin-top: 30px;margin-bottom: 30px">  Hacktiv To-Do</h1></div>
             <div class="w3layouts-two-grids">
                 <div class="mid-class">
                     <div class="txt-left-side editContent" data-selector=".editContent" style="">
@@ -135,7 +138,7 @@
                                 style="outline: none; cursor: inherit;">To-Do List
                             </button>
                             <button class="button" id="archiveBtn" class="btn" data-selector="a.btn, button.btn"
-                            style="outline: none; cursor: inherit;">Finished To-Do
+                            style="outline: none; cursor: inherit;">Completed To-Do
                             </button>
                             <button class="button" id="createTodoBtn" class="btn" data-selector="a.btn, button.btn"
                                 style="outline: none; cursor: inherit;">Create To-Do </button>
@@ -147,13 +150,6 @@
                         </div>
                     </div>
                     <div class="img-right-side editContent" data-selector=".editContent">
-                        <div id="signinRight">
-                            <h3 class="editContent" data-selector=".editContent" style="">
-                                Welcome to Hacktiv <br> To-Do</h3>
-                            <p>From work to play, To-Do is the easiest way to get stuff done, every day.</p>
-                            <img src="./bundles/images/hacktiv.png" class="img-fluid" alt="" data-selector="img"
-                                style="outline: none; cursor: inherit;">
-                        </div>
                         <div id="listTodoRight" class="editContent" data-selector=".editContent" style="">
                             <div id="pieChart">
                                 <div id="container" style="width: 340px;height: 400px;"></div>
@@ -167,7 +163,7 @@
                                 </div>
                             </div>
                             <div id="archiveTodo">
-                                <h3>Finished To-Do</h3>
+                                <h3>Completed To-Do</h3>
                                 <div id="archiveList" style="flex-direction: column;">
                                 </div>
                             </div>
@@ -196,6 +192,13 @@
                                     <a href="#" class="btn btn-primary" id="createTodoButton">Create Todo</a>
                                 </form>
                             </div>
+                        </div>
+                        <div id="signinRight">
+                            <h3 class="editContent" data-selector=".editContent" style="">
+                                Welcome to Hacktiv <br> To-Do</h3>
+                            <p>From work to play, To-Do is the easiest way to get stuff done, every day.</p>
+                            <img src="./bundles/images/hacktiv.png" class="img-fluid" alt="" data-selector="img"
+                                style="outline: none; cursor: inherit;">
                         </div>
                     </div>
 
