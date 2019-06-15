@@ -8,7 +8,6 @@
     <meta name="google-signin-client_id"
         content="895569067234-f405kfpghfta7fduvlpqderjcb8torjl.apps.googleusercontent.com">
     <!-- Required meta tags -->
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -29,6 +28,9 @@
     <style>
         .button:hover{
             background-color:#312636;
+        }
+        #searchTodoButton:hover{
+            background-color: rgb(107, 10, 107);
         }
     </style>
 </head>
@@ -175,16 +177,16 @@
 
                                     <div class="form-group">
                                         <label for="createTodoTitle">Title</label>
-                                        <input type="text" class="form-control" id="createTodoTitle" required>
+                                        <input type="text" class="form-control" id="createTodoTitle" placeholder="Title.."required>
                                     </div>
                                     <div class="form-group">
                                         <label for="createTodoDescription">Description</label>
-                                        <textarea class="form-control" id="createTodoDescription" rows="3"
+                                        <textarea class="form-control" id="createTodoDescription" placeholder="Description.."rows="3"
                                             required></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="createTodoGroup">Tag</label>
-                                        <input type="text" class="form-control" id="createTodoGroup" required>
+                                        <input type="text" class="form-control" id="createTodoGroup" placeholder="Tag.."required>
                                     </div>
                                     <div class="form-group">
                                         <label for="createTodoDue_date">Due date</label>

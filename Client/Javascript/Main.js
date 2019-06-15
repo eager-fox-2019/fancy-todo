@@ -1,12 +1,32 @@
 const url = "http://localhost:3000";
 
 $(document).ready(function() {
-  if (localStorage.getItem("token")) {
-    showList()
-  } else {
-    showSignin()
-  }
+  currentPage()
 });
+
+function currentPage(){
+  if (localStorage.getItem("token")) {
+    if (localStorage.currentPage == 'list'){
+      showList()
+    } else if (localStorage.currentPage == 'archive'){
+      showArchive()
+    } else if (localStorage.currentPage == 'create'){
+      showCreate()
+    } else if (localStorage.currentPage == 'pie'){
+      showPieChart()
+    } else {
+      showList()
+    }
+  } else {
+    if (localStorage.currentPage == 'signin'){
+      showSignin()
+    } else if (localStorage.currentPage == 'signup'){
+      showSignup()
+    } else {
+      showSignin()
+    }
+  }
+}
 
 function signup() {
   $.ajax({
@@ -44,7 +64,7 @@ function signin() {
   })
     .done(function(response) {
       localStorage.setItem("token", response.token);
-      showList()
+      currentPage()
     })
     .fail(function(jqXHR, textStatus) {
       $("#errorSignin").show();
@@ -68,7 +88,7 @@ function onSignIn(googleUser) {
   })
   .done(function(response){
       localStorage.setItem('token', response.token)
-      showList()
+      currentPage()
   })
   .fail(function(jqXHR, textStatus){
     $("#errorSignin").show();
@@ -189,9 +209,9 @@ function readTodo(id, tag, find) {
       if (!tag && !search){
         $("#readTodo3").empty();
         $("#readTodo3").html(`
-        <input type="text" class="form-control" id="searchTodo">
+        <input type="text" class="form-control" id="searchTodo" placeholder="Search title..">
 
-        <a href="#" class="btn btn-primary" id="searchTodoButton" onclick="readTodo(undefined,undefined, true)">Search Title</a><br>
+        <a href="#" class="btn btn-primary" style="padding:3px 10px 3px 10px;margin-top:10px;background-color:#505397;border-color:#505397" id="searchTodoButton" onclick="readTodo(undefined,undefined, true)">Search</a>
         <br><br>
         
         `)
@@ -246,9 +266,12 @@ function readTodo(id, tag, find) {
         if (id != undefined)
         $(`#_todo${id}`).show()
       });
+      if (tag){
+        $("#readTodo").append(`<a href="#" class="btn btn-primary" id="searchTodoButton2" style="margin-top:15px;background-color:#505397;border-color:#505397" onclick="readTodo()">Show all To-Do</a>`)
+      }
       if (response.length == 0){
         if (search){
-          $("#readTodo").html(`<p>${search} not found</p><br> <a href="#" class="btn btn-primary" id="searchTodoButton2" onclick="readTodo()">Show all To-Do</a>`)
+          $("#readTodo").html(`<p>To-Do with title "${search}" not found!</p><br> <a href="#"  style="background-color:#505397;border-color:#505397" class="btn btn-primary" id="searchTodoButton2" onclick="readTodo()">Show all To-Do</a>`)
         } else {
           $("#readTodo3").html(`<p>Your To-Do is empty</p>`)
         }
@@ -413,6 +436,7 @@ function toggleTodo(id){
 }
 
 function showSignup(){
+  localStorage.setItem("currentPage", 'signup');
   $("#signupName").val("");
   $("#signupEmail").val("");
   $("#signupPassword").val("");
@@ -429,6 +453,7 @@ function showSignup(){
 }
 
 function showSignin(){
+  localStorage.setItem("currentPage", 'signin');
   $("#signinEmail").val("");
   $("#signinPassword").val("");
   $("#signinForm").show();
@@ -444,6 +469,7 @@ function showSignin(){
 }
 
 function showList(){
+  localStorage.setItem("currentPage", 'list');
   readTodo()
   $("#homePage").show();
   $("#listTodoRight").show();
@@ -459,6 +485,7 @@ function showList(){
 }
 
 function showArchive(){
+  localStorage.setItem("currentPage", 'archive');
   readArchive()
   $("#homePage").show();
   $("#listTodoRight").show();
@@ -474,6 +501,7 @@ function showArchive(){
 }
 
 function showCreate(){
+  localStorage.setItem("currentPage", 'create');
   $("#homePage").show();
   $("#listTodoRight").show();
   $("#createTodo").show();
@@ -488,6 +516,7 @@ function showCreate(){
 }
 
 function showPieChart(){
+  localStorage.setItem("currentPage", 'pie');
   readPieChart()
   $("#homePage").show();
   $("#listTodoRight").show();
