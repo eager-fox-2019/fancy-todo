@@ -2,8 +2,14 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const todoSchema = new Schema({
-	name: String,
-	description: String,
+	name: {
+		type: String,
+		default: "no name"
+	},
+	description: {
+		type: String,
+		default: "no description"
+	},
 	status: {
 		type: String,
 		default: "not done"
@@ -11,6 +17,10 @@ const todoSchema = new Schema({
 	dueDate: {
 		type: Date,
 		default: new Date()
+	},
+	owner: {
+		type: String,
+		default: "no owner"
 	}
 });
 

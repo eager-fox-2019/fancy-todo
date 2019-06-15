@@ -1,15 +1,14 @@
 const router = require('express').Router()
-const ControllerUser = require('../controllers/controlUsers')
+const controllerUser = require('../controllers/controlUsers')
+const isAuthenticated = require('../middleware/auth.js').authentication
+const isAuthorized = require('../middleware/auth.js').authorization
+
 // /api/users
-router.get('/', ControllerUser.findAll)
-// router.post('/register', ControllerUser.create)
-// router.post('/login', ControllerUser.login)
+router.get('/', controllerUser.findAll)
+router.post('/register', controllerUser.create)
+router.post('/login', controllerUser.login)
 // router.post('/googleSignin', ControllerUser.googleSignin)
 
-// const isAuthenticated = require('../middlewares/authentication')
-// router.post('/addFav/:eventId', isAuthenticated, ControllerUser.addFav)
-// router.get('/getFav', isAuthenticated, ControllerUser.getFav)
-// router.delete('/delFav/:favId', isAuthenticated, ControllerUser.delFav)
-
+// router.patch('/update', isAuthorized, )
 
 module.exports = router

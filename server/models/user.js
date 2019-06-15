@@ -3,24 +3,25 @@ const Schema = mongoose.Schema
 const hashPassword = require('../helpers/bcrypt.js').hashPassword
 
 const userSchema = new Schema({
-	username: String,
+	name: String,
 	email: {
 		type: String,
 		validate:
 			{
 				validator: function(u) {
-					return User.findOne({username:u}).exec()
+					return User.findOne({email:u}).exec()
 						.then(found => {
 							if (found) {
 								return false;
 							}
 						})
 				},
-				message: "username already registered"
+				message: "email already registered"
 			}
 	},
 	password: {
-		type: String
+		type: String,
+		default: "password"
 	}
 });
 

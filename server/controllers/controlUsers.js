@@ -1,84 +1,12 @@
 const User = require('../models/').User
-// const Favorite = require('../models/favorite.js')
-// const comparePassword = require('../helpers/comparePassword')
-// const getToken = require('../helpers/getToken')
-// const getPassword = require('../helpers/getPassword')
-// const { OAuth2Client } = require('google-auth-library');
-// const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-// const compareDate = require('../helpers/compareDate')
+const Todo = require('../models/').Todo
+const verifyPassword = require('../helpers/bcrypt.js').verifyPassword
+const generateToken = require('../helpers/jwt.js').generateToken
+const verifyToken = require('../helpers/jwt.js').verifyToken
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class ControllerUser {
-
-  static delFav(req, res, next){
-    let delFavId = req.params.favId
-    Favorite.findByIdAndDelete(delFavId)
-    .then(done => {
-      res.json(done)
-    })
-    .catch(next)
-  }
-
-  static getFav(req, res, next){
-    let userEmail = req.userData.email
-    User.findOne({email: userEmail})
-      .then(found => {
-        let userId = found._id
-        return Favorite.find({owner: userId})
-      })
-      .then(favList => {
-        res.json(favList)
-      })
-      .catch(next)
-  }
-
-  static addFav(req, res, next){
-    let holidayListArray = JSON.parse(req.body.holidayList)
-    let userEmail = req.userData.email
-    let eventId = req.params.eventId
-    let input = req.body
-    let user = {}
-
-    User.findOne({email: userEmail})
-      .then(found => {
-        if (found){
-          user = found
-          return Favorite.find({owner: found._id})
-        } else {
-          //user not found
-          throw new Error("user not found")
-        }
-      })
-      .then(favList => {
-        if(favList){
-          favList.forEach(event => {
-            if(event.eventId == eventId){
-              //duplicate fav
-              throw new Error("already added to favorite")
-            }
-          })
-
-          let favObj = {}
-          favObj.owner = user._id
-          favObj.eventId = eventId
-          favObj.displayName = input.displayName
-          favObj.startDate = input.startDate
-          favObj.uri = input.uri
-          favObj.venue = input.venue
-          favObj.city = input.city
-          favObj.artists = input.artists
-          favObj.currency = input.currency
-          favObj.exchangeRate = input.exchangeRate
-          favObj.isHoliday = compareDate(holidayListArray, input.startDate)
-
-          return Favorite.create(favObj)
-        }
-      })
-      .then(fav => {
-        console.log("saved 1 favorite")
-        res.status(201).json(fav)
-      })
-      .catch(next)
-  }
 
   static findAll(req, res, next) {
     User.find()
@@ -89,9 +17,8 @@ class ControllerUser {
   }
 
   static create(req, res, next) {
-    console.log('masuk')
-    const { email, password } = req.body
-    const input = { email, password }
+    const { name, email, password } = req.body
+    const input = { name, email, password }
     User.create(input)
     .then(result => {
       res.json(result)
@@ -102,19 +29,19 @@ class ControllerUser {
   static login(req, res, next) {
     const { email, password } = req.body
     const input = { email, password }
-    // console.log(input)
+
     User.findOne({email: input.email})
     .then(user => {
       if(user){
-        let check = comparePassword(user.password, input.password)
+        let check = verifyPassword(input.password, user.password)
         if(check) {
-          let token = getToken(email)
+          let token = generateToken(email)
           res.json(token)
         } else {
-          throw {status: 400, message: 'Wrong email / password'}
+          throw {status: 400, message: 'Wrong password'}
         }
       } else {
-        throw {status: 400, message: 'Wrong email / password'}
+        throw {status: 400, message: 'Wrong email'}
       }
     })
     .catch(next)
@@ -139,16 +66,17 @@ class ControllerUser {
       })
       .then(result => {
         if(result) {
-          res.status(200).json({newEmail, token})
+          res.json({newEmail, token})
         } else {
           return User.create({
+            name: newEmail.split('@')[0],
             email: newEmail,
             password: password
           })
         }
       })
       .then(() => {
-        res.status(200).json({newEmail, token})
+        res.json({newEmail, token})
       })
       .catch(next)
   }
