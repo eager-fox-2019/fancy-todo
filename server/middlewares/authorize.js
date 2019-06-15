@@ -4,7 +4,7 @@ module.exports = (req, res, next) => {
   Todo.findById(req.params.id)
     .then(row => {
       if (row) {
-        if (row.user.equals(req.decoded.id)) {
+        if (row.user.equals(req.decoded._id)) {
           next()
         }
         else {

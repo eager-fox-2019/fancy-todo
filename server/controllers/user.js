@@ -37,13 +37,11 @@ class UserCont {
           name: row.name,
           email: row.email
         }
-        console.log(payload)
         let data = {
           'access-token': sign(payload, process.env.KUNCI),
           name: row.name
         }
         if (newPass) data.newPass = newPass
-        console.log(data)
         res.status(code).json(data)
       })
       .catch(next)
@@ -74,12 +72,10 @@ class UserCont {
               name: row.name,
               email: row.email
             }
-            console.log(payload)
             let data = {
               'access-token': sign(payload, process.env.KUNCI),
               name: row.name
             }
-            console.log(data)
             res.status(200).json(data)
           }
           else next({ code: 422, message: 'Wrong email/password' })

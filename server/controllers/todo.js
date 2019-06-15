@@ -1,4 +1,6 @@
 const Todo = require('../models/todo')
+const mongoose = require('mongoose')
+const Obj = mongoose.Types.ObjectId
 
 class TodoCont {
   static create(req, res, next) {
@@ -46,7 +48,7 @@ class TodoCont {
     }
     else {
       Todo.schema.eachPath(path => {
-      if(path === 'user') {
+      if(path === 'user' || path === '_id' || path === '__v') {
         if(req.body['user'])
           obj['user'] = req.body['user']
       }
@@ -54,6 +56,7 @@ class TodoCont {
         obj[path] = req.body[path]
       })
     }
+    
     Todo.findByIdAndUpdate(req.params.id, obj, { new: true })
       .then(row => {
         res.json(row)
