@@ -7,6 +7,26 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class ControllerUser {
+  static update(req, res, next){
+    let userEmail = req.decode
+    let {name, password} = req.body
+    let input = {name, password} //user cannot change email
+
+    User.findOneAndUpdate({email: userEmail}, input, {new: true})
+    .then(updated => {
+      res.json(updated)
+    })
+    .catch(next)
+  }
+
+  static delete(req, res, next){
+    let userEmail = req.decode
+    User.findOneAndDelete({email: userEmail})
+    .then(deleted => {
+      res.json(deleted)
+    })
+    .catch(next)
+  }
 
   static findAll(req, res, next) {
     User.find()

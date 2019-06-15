@@ -3,11 +3,17 @@ const User = require('../models/').User
 
 class ControllerTodo {
 	static findAll(req, res, next){
-		// console.log("todo findall")
-		Todo.find()
-		.then(result => {
-			// console.log("todo findall result")
-			res.json(result)
+	    let userEmail = req.decode
+	    User.findOne({email: userEmail})
+	    .then(user => {
+	    	if (user){
+				return Todo.find({owner: user._id})
+	    	} else {
+	    		throw new Error("user not found")
+	    	}
+	    })
+		.then(todoList => {
+			res.json(todoList)
 		})
 		.catch(next)
 	}

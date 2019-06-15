@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id" content="308421336281-c3jncpnpa4rajngvu1s9vkvkaem9ic8o.apps.googleusercontent.com">
+  <!-- Link to CSS file -->
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <!-- Jquery -->
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <title>Music Events</title>
+  </head>
+<body>
+  <div id="outside">
+    <div id="title">Music Events</div>
+    <div id="subtitle">
+      Register for a new account / login to an existing account.
+    </div>
+    <div id="front-forms" style="display: flex; justify-content: center;">
+      <form id="register-form" class="form1" autocomplete="off">
+        <div class="form1title">Register</div>
+        <input class="input1" type="text" placeholder="New Email" name="email" required id="registrationEmail">
+        <br>
+        <input class="input1" type="password" placeholder="New Password" name="password" required id="registrationPassword">
+        <br>
+        <button class="button" type="submit">Register</button>
+      </form>
+      <form id="login-form" class="form1" action="/" method="POST" autocomplete="off">
+        <div class="form1title">Login</div>
+        <input class="input1" type="text" placeholder="Email" name="email" required id="loginEmail">
+        <br>
+        <input class="input1" type="password" placeholder="Password" name="password" required id="loginPassword">
+        <br>
+        <button class="button" type="submit">Login</button>
+      </form>
+    </div>
+    <div class= "goog" style="display: flex; justify-content: center;margin-top: 1rem;">
+      <div class="g-signin2" data-onsuccess="onSignIn" style="text-align: center;"></div>
+    </div>
+    <div class= "goog" style="display: flex; justify-content: center;margin-top: 0.5rem;">
+        <a href="#" onclick="signOut();">Sign out</a>
+    </div>
+    <div id="reg-message">
+      <p>Successfully Registered</p>
+      <button id="ok1" class="button">Return</button>
+    </div>
+  </div>
+  <div id="inside">
+    <nav class="navbar">
+      <a id="toplogo" class="navlink">Music Events</a>
+      <div>
+        <a id="username" class="navlink">User</a>
+        <a id="logout" class="navlink" onclick="logout()">Log Out</a>
+      </div>
+    </nav>
+    <div style="display: flex; justify-content: center; border-bottom: 1px solid black; padding-bottom: 1rem;">
+      <form id="search1" action="/" method="POST">
+        <span>Search&nbsp;</span>
+        <input type="text" placeholder="Enter city" name="city" autocomplete="off" required>
+        <input type="text" placeholder="Enter country" name="country" autocomplete="off" required>
+        <button class="button" type="submit">Search</button><span id="search-status"></span>
+      </form>
+    </div>
+    <div id="grid">
+      <section id="holidays">
+        <div class="pad">
+            <p class="heading-md">Currency</p>
+            <hr>
+            <!-- Currency info -->
+            <div id="currencyinfo"></div>
+            <!-- -------------------------------- -->
+            <p class="heading-md" style="margin-top: 1.5rem;">Public Holidays</p>
+            <hr>
+            <!-- Holiday List -->
+            <div class="content_list pub-holiday">
+              <ul id="list1"></ul>
+            </div>
+        </div>
+      </section>
+      <section id="events">
+        <div class="pad">
+          <p class="heading-lg">Upcoming events</p>
+          <hr>
+        </div>
+        <!-- Events list -->
+        <div class="pad content_list">
+          <ul id="list2"></ul>
+        </div>
+      </section>
+      <section id="favorites">
+        <div class="pad">
+          <p class="heading-lg" style="margin-bottom: 0.5em;">My Favorites</p>
+          <hr style="margin-bottom: 0.5rem;">
+          <!-- Favorites list -->
+          <div class="content_list">
+            <ul id="list3"></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script src="index.js"></script>
+  <script>
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+        });
+      }
+    </script>
+</body>
+</html>
