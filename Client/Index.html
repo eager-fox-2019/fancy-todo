@@ -16,8 +16,6 @@
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <title>Fancy Todo</title>
-    <style>
-    </style>
     <!-- font-awesome icons -->
     <link href="./bundles/css/font-awesome.min.css" rel="stylesheet">
     <!-- //font-awesome icons -->
@@ -28,6 +26,11 @@
     <!-- Web-Fonts -->
 
     <!-- //Web-Fonts -->
+    <style>
+        .button:hover{
+            background-color:#312636;
+        }
+    </style>
 </head>
 
 <body>
@@ -126,25 +129,22 @@
                             </div>
                         </div>
                         <div id="homePage">
-                            <h4>Home Page</h4>
                             <button class="button" id="listTodoBtn" class="btn" data-selector="a.btn, button.btn"
                                 style="outline: none; cursor: inherit;">To-Do List
                             </button>
                             <button class="button" id="archiveBtn" class="btn" data-selector="a.btn, button.btn"
-                                style="outline: none; cursor: inherit;">Archive
+                            style="outline: none; cursor: inherit;">Finished To-Do
                             </button>
                             <button class="button" id="createTodoBtn" class="btn" data-selector="a.btn, button.btn"
                                 style="outline: none; cursor: inherit;">Create To-Do </button>
                             <button class="button" id="pieChartBtn" class="btn" data-selector="a.btn, button.btn"
-                                style="outline: none; cursor: inherit;">Pie Chart </button>
-                            <button class="button" id="dateChartBtn" class="btn" data-selector="a.btn, button.btn"
-                                style="outline: none; cursor: inherit;">Day Statistic </button>
+                                style="outline: none; cursor: inherit;">To-Do Tags </button>
                             <button class="button" id="signoutButton" class="btn" data-selector="a.btn, button.btn"
-                                style="outline: none; cursor: inherit;">Sign
+                                style="outline: none; cursor: inherit;background-color: #D90225">Sign
                                 Out </button>
                         </div>
                     </div>
-                    <div class="img-right-side editContent" data-selector=".editContent" style="">
+                    <div class="img-right-side editContent" data-selector=".editContent">
                         <div id="signinRight">
                             <h3 class="editContent" data-selector=".editContent" style="">
                                 Welcome to Hacktiv <br> To-Do</h3>
@@ -154,10 +154,10 @@
                         </div>
                         <div id="listTodoRight" class="editContent" data-selector=".editContent" style="">
                             <div id="pieChart">
-                                <div id="container" style="width: 330px;height: 400px;"></div>
+                                <div id="container" style="width: 340px;height: 400px;"></div>
                             </div>
                             <div id="readTodo2">
-                                <p><strong>List Todo</strong></p>
+                                <h3>List Todo</h3>
                                 <div id="readTodo3">
 
                                 </div>
@@ -165,12 +165,12 @@
                                 </div>
                             </div>
                             <div id="archiveTodo">
-                                <p><strong>Archive</strong></p>
+                                <h3>Finished To-Do</h3>
                                 <div id="archiveList" style="flex-direction: column;">
                                 </div>
                             </div>
                             <div id="createTodo">
-                                <p><strong>Create Todo</strong></p>
+                                    <h3>Create To-Do</h3>
                                 <form style="text-align: left">
 
                                     <div class="form-group">

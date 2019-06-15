@@ -137,9 +137,9 @@ function readArchive() {
       response.forEach((value, index) => {
         $("#archiveList").append(
           `
-        <div class="card" style="width:auto;margin-bottom:10px">
-          <div class="card-header" id="atodo${value._id}" onclick="archiveToggle('${value._id}')" style="height:50px;width:auto;text-align:left">
-            ${index+1}. ${value.title} <p style="text-align:center;float: right;">${value.group}</p>
+        <div class="card" style="width:auto;margin-bottom:10px;">
+          <div class="card-header" id="atodo${value._id}" onclick="archiveToggle('${value._id}')" style="cursor:pointer;height:50px;width:auto;text-align:left">
+            ${index+1}. <strike>${value.title}</strike> <p style="text-align:center;float: right;">${value.group}</p>
           </div>
           <div id="a_todo${value._id}" style="display:none">
             <ul class="list-group list-group-flush">
@@ -163,10 +163,16 @@ function readArchive() {
     });
 }
 
-function readTodo(id, tag) {
+function readTodo(id, tag, find) {
+  let search = null
+  if (find){
+    search = $("#searchTodo").val()
+  }
   let link = null
   if (tag){
     link = `${url}/todo?tag=${tag}&name=false`
+  } else if (search){
+    link = `${url}/todo?search=${search}&name=false`
   } else {
     link = `${url}/todo?name=false`
   }
@@ -178,10 +184,18 @@ function readTodo(id, tag) {
     }
   })
     .done(function(response) {
+      $("#searchTodo").val("")
       $("#readTodo").empty();
-      if (!tag){
+      if (!tag && !search){
         $("#readTodo3").empty();
-        $("#readTodo3").html(' Tags: ')
+        $("#readTodo3").html(`
+        <input type="text" class="form-control" id="searchTodo">
+
+        <a href="#" class="btn btn-primary" id="searchTodoButton" onclick="readTodo(undefined,undefined, true)">Search Title</a><br>
+        <br><br>
+        
+        `)
+        $("#readTodo3").append(' Tags: ')
         let arr = []
         response.forEach((tag) => {
           if (arr.indexOf(tag.group) == -1){
@@ -198,7 +212,7 @@ function readTodo(id, tag) {
         $("#readTodo").append(
           `
           <div class="card" style="width:auto;margin-bottom:10px;">
-            <div class="card-header" id="todo${value._id}" onclick="toggleTodo('${value._id}')" style="height:50px;width:auto;text-align:left">
+            <div class="card-header" id="todo${value._id}" onclick="toggleTodo('${value._id}')" style="cursor:pointer;height:50px;width:auto;text-align:left">
               ${index+1}. ${value.title} <p style="text-align:center;float: right;">${value.group}</p>
             </div>
 
@@ -233,7 +247,11 @@ function readTodo(id, tag) {
         $(`#_todo${id}`).show()
       });
       if (response.length == 0){
-        $("#readTodo3").html(`<p>Your To-Do is empty</p>`)
+        if (search){
+          $("#readTodo").html(`<p>${search} not found</p><br> <a href="#" class="btn btn-primary" id="searchTodoButton2" onclick="readTodo()">Show all To-Do</a>`)
+        } else {
+          $("#readTodo3").html(`<p>Your To-Do is empty</p>`)
+        }
       }
 
     })
@@ -312,6 +330,7 @@ function readPieChart(){
     }
   })
     .done(function(response) {
+      console.log(response)
       let obj = {}
       response.forEach((x) => {
         if (obj[x.group] == undefined){
@@ -319,7 +338,6 @@ function readPieChart(){
         }
         obj[x.group].push(x)
       })
-      console.log(obj)
       let arr = []
       for (let keys in obj){
         let temp = {
@@ -328,7 +346,7 @@ function readPieChart(){
         }
         arr.push(temp)
       }
-
+      console.log(arr)
       Highcharts.chart('container', {
         chart: {
             plotBackgroundColor: null,
@@ -401,6 +419,7 @@ function showSignup(){
   $("#signupForm").show();
   $("#signinRight").show();
 
+  $("#calendar").hide();
   $("#errorSignup").hide();
   $("#signinForm").hide();
   $("#homePage").hide();
@@ -415,6 +434,7 @@ function showSignin(){
   $("#signinForm").show();
   $("#signinRight").show();
 
+  $("#calendar").hide();
   $("#errorSignin").hide();
   $("#homePage").hide();
   $("#listTodoRight").hide();
@@ -429,6 +449,7 @@ function showList(){
   $("#listTodoRight").show();
   $("#readTodo2").show();
 
+  $("#calendar").hide();
   $("#pieChart").hide();
   $("#archiveTodo").hide();
   $("#signinForm").hide();
@@ -443,6 +464,7 @@ function showArchive(){
   $("#listTodoRight").show();
   $("#archiveTodo").show();
 
+  $("#calendar").hide();
   $("#readTodo2").hide();
   $("#pieChart").hide();
   $("#signinForm").hide();
@@ -456,6 +478,7 @@ function showCreate(){
   $("#listTodoRight").show();
   $("#createTodo").show();
 
+  $("#calendar").hide();
   $("#readTodo2").hide();
   $("#archiveTodo").hide();
   $("#pieChart").hide();
@@ -470,6 +493,7 @@ function showPieChart(){
   $("#listTodoRight").show();
   $("#pieChart").show();
 
+  $("#calendar").hide();
   $("#readTodo2").hide();
   $("#archiveTodo").hide();
   $("#createTodo").hide();
@@ -482,7 +506,6 @@ $("#signupButton").click(function() {
   event.preventDefault();
   showSignup()
 });
-
 $("#signinButton2").click(function() {
   event.preventDefault();
   showSignin()
@@ -519,4 +542,5 @@ $("#pieChartBtn").click(function() {
   event.preventDefault();
   showPieChart()
 });
+
 

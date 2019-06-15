@@ -22,12 +22,15 @@ class TodoController {
     let id = req.decoded.id;
     let tag = req.query.tag;
     let status = req.query.name;
+    let search = req.query.search;
     let output = [];
     let userTodo = {
       UserId: id,
       status: status,
-      group: tag 
+      group: tag,
+      title: {$regex: `.*${search}.*`}
     }
+    if(!search) delete userTodo.title
     if(!tag) delete userTodo.group
     Todo.find(userTodo)
       .then(result => {
