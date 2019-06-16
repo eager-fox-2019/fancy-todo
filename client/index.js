@@ -10,10 +10,15 @@ function format(form) {
 }
 
 //------ user detail -----------
-function populateUser(){
-  $('#editUserForm').hide();
+function clearUser(){
+  $('#editUserFormContainer').hide();
   $('#theUser').empty()
   $('#theUser').append('Loading user...')
+
+}
+
+function populateUser(){
+  clearUser()
 
   $.ajax({
     method: "GET",
@@ -38,12 +43,12 @@ function populateUser(){
 }
 
 function showEditUserForm(){
-  $('#editUserForm').show();
+  $('#editUserFormContainer').show();
   $('#editDeleteUserLinks').hide();
 }
 
 function hideEditUserForm(){
-  $('#editUserForm').hide();
+  $('#editUserFormContainer').hide();
   $('#editDeleteUserLinks').show();
 }
 

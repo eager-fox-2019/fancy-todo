@@ -63,7 +63,7 @@
       </div>
       <br>
 
-      <div style="display: flex; justify-content: center;margin-top: 0.5rem;" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="true" data-use-continue-as="false" data-scope="email" onlogin="checkLoginState()"></div>
+      <div style="display: flex; justify-content: center;margin-top: 0.5rem;" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="true" data-use-continue-as="false" data-scope="email" data-onlogin="checkLoginState()"></div>
       <br>
 
       <div style="display: flex; justify-content: center;margin-top: 0.5rem;">
@@ -89,17 +89,19 @@
         <div id="theUser">
           
         </div>
-        <form id="editUserForm" class="form1" action="/" method="POST" autocomplete="off">
-          <div class="form1title">Editing User Detail</div>
-          <input class="input1" type="text" placeholder="Name" name="name" required>
-          <br>
-          <input class="input1" type="password" placeholder="Password" name="password" required>
-          <br>
-          <button class="button" type="submit">Edit</button>
-          <br>
-          <a href="#" onclick="hideEditUserForm();">cancel</a>|
-          <a href="#" onclick="deleteUser('${user._id}')">delete</a>
-        </form>
+        <div id="editUserFormContainer">
+          <form id="editUserForm" class="form1" action="/" method="POST" autocomplete="off">
+            <div class="form1title">Editing User Detail</div>
+            <input class="input1" type="text" placeholder="Name" name="name" required>
+            <br>
+            <input class="input1" type="password" placeholder="Password" name="password" required>
+            <br>
+            <button class="button" type="submit">Edit</button>
+            <br>
+            <a href="#" onclick="hideEditUserForm();">cancel</a> | 
+            <a href="#" onclick="deleteUser('${user._id}')">delete</a>
+          </form>
+        </div>
       </div>
 
       <div class="todolist">
@@ -110,7 +112,7 @@
           <br>
           <input class="input1" type="text" placeholder="Description" name="todoDescription" required id="todoDescription">
           <br>
-          <input class="input1" type="Date" placeholder="Due Date" name="todoDueDate" id="todoDueDate">
+          <input class="input1" type="Date" name="todoDueDate" id="todoDueDate">
           <br>
           <button class="button" type="submit">add Todo</button>
           <a href="#" onclick="hideAddTodoForm();">cancel</a>
