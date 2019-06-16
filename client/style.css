@@ -150,30 +150,6 @@ a.navlink:hover {
   font-size: 1.6rem;
 }
 
-.modal {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  width: 100%;
-  height: 100%;
-  z-index: 7;
-  background-color: #14141486;
-}
-
-.modalcontent {
-  text-align: center;
-  min-width: 19rem;
-  margin: auto;
-  padding: 1.5rem;
-  background-color: #e3e3e3;
-  border: 0.3rem solid #333;
-  box-shadow: 0 0 1.5rem #333;
-}
-
-.modalcontent > p {
-  margin-bottom: 0.6rem;
-}
 
 #grid {
   width: 100%;
@@ -182,200 +158,28 @@ a.navlink:hover {
   grid-template-columns: 2fr 3fr 3fr;
 }
 
-section {
-  padding: 0.6rem 0;
-}
-
-.pad {
-  padding-left: 0.8rem;
-  padding-right: 0.8rem;
-}
-
-.padcards {
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
-}
-
-#holidays {
-  border-right: 1px solid black;
-}
-
-#events {
-  border-right: 1px solid black;
-}
-
-#search-status {
-  margin-left: 0.7rem; 
-  font-size: 0.9rem;
-  color: #eb9461;
-}
-
-#clear {
-  display: none;
-  margin-left: 0.2rem;
-}
-
-#list2 {
-  margin-top: 1rem;
-}
-
-.card {
-  position: relative;
-  padding: 0;
-  width: 182px;
-  border: 1px solid black;
-  box-shadow: 0 0 0.7rem -0.4rem;
-  margin: 0 0.3rem 1rem 0.3rem;
-}
-
-.card-lg {
-  width: 280px;
-  display: flex;
-  flex-direction: column;
-}
-
-.albumart {
-  display: block;
-  width: 100%;
+.navbar ul{
+  list-style-type: none;
   margin: 0;
-}
-
-.plus {
-  cursor: pointer;
-  position: absolute;
-  transform: translate(8rem, -0.8rem);
-  width: 2.9rem;
-  height: 1.6rem;
-  line-height: 1.6rem;
-  font-size: 0.9rem;
-  text-align: center;
-  color: #fff;
-  background-color: #d8805d;
-  border-radius: 0.4rem;
-  box-shadow: 0 0 0.7rem -0.3rem black;
-  z-index: 3;
-}
-
-.plus:hover {
-  background-color: #bb603c;
-}
-
-.cardcontent {
-  padding: 0.8rem 0.8rem 0.7rem 0.8rem;
-  border-top: 1px solid black;
-  font-size: 0.9rem;
-}
-
-.cardcontent-lg {
-  padding: 0.7rem 1rem;
-  font-size: 1.1rem;
-}
-
-.album-buttons {
-  margin-top: auto;
-  padding: 0 1rem 0.6rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  color: #eb9461;
-  font-size: 0.9rem;
-}
-
-.detail-content {
-  display: none;
-}
-
-.detail-title {
-  font-size: 1.6rem;
-  margin-bottom: 0.8rem;
-}
-
-.tracklist-heading {
-  font-size: 1.2rem;
-}
-
-.tracklist {
-  margin-top: 0.4rem;
-  margin-bottom: 0.4rem;
   padding: 0;
-  border: 1px solid black;
-  line-height: 2rem;
+  overflow: hidden;
+  background-color: #333;
 }
 
-.tracklist > li {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 0.5rem;
+.navbar li{
+  float: left;
 }
 
-.tracklist > li:nth-child(odd) {
-  background-color: #eaeaea;
-}
 
-.vidlink {
-  color: #eb9461;
+.navbar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
   text-decoration: none;
 }
 
-.vidlink:visited {
-  color: #eb9461;
-}
-
-.vidlink:hover {
-  color: #ce713c;
-}
-
-.event {
-  margin-bottom: 0.8rem;
-  padding: 0.5rem;
-  background-color: #eee;
-  border: 1px solid black;
-}
-
-.holiday {
-  margin-bottom: 0.7rem;
-  padding: 0.4rem;
-  background-color: #eee;
-  border: 1px solid black;
-}
-
-.fav {
-  border: 2px solid black;
-  margin-top: 20px;
-  padding: 0.5rem;
-}
-
-.content_list {
-  overflow-y: auto;
-  height: 600px;
-  max-height: 100vh;
-}
-
-.false {
-  margin-top: 10px;
-  color: white;
-  background-color: rgb(172, 37, 37);
-  border-radius: 8px;
-  padding: 8px;
-  width: 100px;
-}
-
-.false::before {
-  content: "Not ";
-}
-
-.true {
-  color: white;
-  margin-top: 10px;
-  background-color: green;
-  border-radius: 8px;
-  padding: 8px;
-  width: 70px;
-}
-
-.holidayStatus {
-  margin-left: 300px;
-}
-
-.pub-holiday {
-  height: 400px
+/* Change the link color to #111 (black) on hover */
+.navbar li a:hover {
+  background-color: #111;
 }

@@ -6,6 +6,17 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="google-signin-client_id" content="1008185134786-p6j8sbckfabsdg357rtvghkpkrc7uj8r.apps.googleusercontent.com">
   <script src="https://apis.google.com/js/platform.js" defer></script>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '857945794540372',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v3.3'
+      });
+    };
+  </script>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
   <!-- Link to CSS file -->
   <link rel="stylesheet" type="text/css" href="./style.css">
   <!-- Jquery -->
@@ -16,6 +27,9 @@
     <title>Todo List</title>
   </head>
 <body>
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.3"></script>
+
   <div id="outside">
     <div id="title">Todo List</div>
     <div id="subtitle">
@@ -39,23 +53,55 @@
         <button class="button" type="submit">Login</button>
       </form>
     </div>
-    <div class= "goog" style="display: flex; justify-content: center;margin-top: 1rem;">
-      <div class="g-signin2" data-onsuccess="onSignIn" style="text-align: center;"></div>
+
+    <div class="otherLogins">
+      <div class= "goog" style="display: flex; justify-content: center;margin-top: 1rem;">
+        <div class="g-signin2" data-onsuccess="onSignIn" style="text-align: center;"></div>
+      </div>
+      <br>
+      <div style="display: flex; justify-content: center;margin-top: 0.5rem;" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="true" data-use-continue-as="false" scope="public_profile,email" onlogin="checkLoginState()"></div>
+      <br>
+      <div style="display: flex; justify-content: center;margin-top: 0.5rem;">
+          <a href="#" onclick="logout();">Sign out</a>
+      </div>
     </div>
-    <div class= "goog" style="display: flex; justify-content: center;margin-top: 0.5rem;">
-        <a href="#" class="googleSignOutButton" onclick="logout();">Sign out</a>
-    </div>
+
     <div id="reg-message">
       <p>Successfully Registered</p>
-      <button id="ok1" class="button">Return</button>
+      <button id="successRegisterReturnButton" class="button">Return</button>
     </div>
   </div>
+
   <div id="inside">
-    <h2>Welcome, you are logged in</h2>
-       <div class= "goog" style="display: flex; justify-content: center;margin-top: 0.5rem;">
-        <a href="#" class="googleSignOutButton" onclick="logout();">Sign out</a>
+    <div class="navbar">
+      <ul>
+        <li><a href="#" onclick="logout();">Sign out</a></li>
+      </ul>
     </div>
-    <div></div>
+
+    <div class="content">
+      <div class="user"></div>
+      <div class="todolist">
+
+        <form id="addTodoForm" class="form1" action="/" method="POST" autocomplete="off">
+          <div class="form1title">Add a Todo</div>
+          <input class="input1" type="text" placeholder="Name" name="todoName" required id="todoName">
+          <br>
+          <input class="input1" type="text" placeholder="Description" name="todoDescription" required id="todoDescription">
+          <br>
+          <input class="input1" type="Date" placeholder="Due Date" name="todoDueDate" id="todoDueDate">
+          <br>
+          <button class="button" type="submit">add Todo</button>
+          <a href="#" onclick="hideAddTodoForm();">cancel</a>
+        </form>
+
+        <button id="showAddTodoFormButton" onclick="addTodoForm()" class="button" type="submit">add Todo</button>
+
+        <div id="theTodoList">
+        </div>
+      </div>
+    </div>
+
   </div>
   <script src="index.js"></script>
 </body>
