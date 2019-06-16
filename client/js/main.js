@@ -299,7 +299,7 @@ $('#todoForm').submit(function() {
                         </div>
                       </div>
                       <div id="collapse${length+1}" class="panel-collapse collapse in">
-                        <div class="panel-body">${newTask.description} <img src="${imgurLink}"></div>
+                        <div class="panel-body">${newTask.description} <br> <img style="height:150px;width:128px;" src="${imgurLink}"></div>
                         <a href="#" class="editTodo">Edit Todo</a>
                       </div>
                     </div>`)
@@ -455,12 +455,22 @@ function showTodos() {
             <a href="#" onclick="checkedTodo('${list[i]._id}')"><img src="img/checked.svg" class="checkedImg"></a>
             </div>
           </div>
-        </div>
-        <div id="collapse${i+1}" class="panel-collapse collapse in">
-          <div class="panel-body">${description}</div>
-          <a href="#" class="editTodo" onclick="editTodo('${list[i]._id}')">Edit Todo</a>
-        </div>
-      </div>`
+        </div>`
+
+        if(list[i].image) {
+          listTodos += `<div id="collapse${i+1}" class="panel-collapse collapse in">
+            <div class="panel-body">${description} <br> <img style="height:150px;width:128px;" src="${list[i].image}"></div>
+            <a href="#" class="editTodo" onclick="editTodo('${list[i]._id}')">Edit Todo</a>
+          </div>
+        </div>`
+        }
+        else{
+         listTodos += `<div id="collapse${i+1}" class="panel-collapse collapse in">
+            <div class="panel-body">${description}</div>
+            <a href="#" class="editTodo" onclick="editTodo('${list[i]._id}')">Edit Todo</a>
+          </div>
+        </div>`
+        }
       }
 
       $('#accordion').append(listTodos)

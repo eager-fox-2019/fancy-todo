@@ -6,11 +6,20 @@ const TodoSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  task: String,
+  task: {
+    type: String,
+    required: [true, 'Task is required']
+  },
   description: String,
   status: Boolean,
-  dueDate: String,
-  time: String,
+  dueDate: {
+    type: String,
+    required: [true, 'Date is required']
+  },
+  time: {
+    type: String,
+    required: [true, 'Time is required']
+  },
   image: String
 })
 

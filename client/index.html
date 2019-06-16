@@ -20,7 +20,7 @@
     <header>
        <!-- NAVBAR START-->
        <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
-          <h2 class="navbar-brand" href="#" style="font-size:30px;margin-left:5%;"><span style="color:#F3DE8A;font-weight:bold">Life</span>Sync</h2>
+          <h2 class="navbar-brand" style="font-size:30px;margin-left:5%;"><span style="color:#F3DE8A;font-weight:bold">Life</span>Sync</h2>
 
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -65,14 +65,14 @@
     <div id="logreg-forms">
         <!-- sign in -->
         <div id ="signinForm">
-            <form class="form-signin" id="signinForm">
+            <form class="form-signin">
                 <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Sign in</h1>
                 <div class="social-login">
                     <button class="btn google-btn social-btn" type="button" id="googleSignin"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
                 </div>
                 <p style="text-align:center">—————————— OR ——————————</p>
                 <label>Email</label>
-                <input type="email" id="signinEmail" class="form-control" placeholder="example@mail.com" required="" autofocus="">
+                <input type="email" id="signinEmail" class="form-control" placeholder="example@mail.com" required="">
                 <label>Password</label>
                 <input type="password" id="signinPass" class="form-control" placeholder="Password" required="">
                 
@@ -87,9 +87,9 @@
         <div id="signupForm">
             <form action="/signup/" class="form-signup">
                 <label>Email</label>
-                <input type="email" id="signupEmail" class="form-control" placeholder="example@mail.com" required autofocus="">
+                <input type="email" id="signupEmail" class="form-control" placeholder="example@mail.com" required>
                 <label>Password</label>
-                <input type="password" id="signupPass" class="form-control" placeholder="Password" required autofocus="">
+                <input type="password" id="signupPass" class="form-control" placeholder="Password" required>
     
                 <button class="btn btn-primary btn-block" type="submit"><i class="fas fa-user-plus"></i> Sign Up</button>
             </form>
@@ -102,7 +102,7 @@
     <main>
       <div id="todolist">
           <div class="todoHeader">
-            <h2><img src="img/list.svg" class="headerImg"> Current Tasks</h2>
+            <h2><img src="img/list.svg" alt="list image" class="headerImg"> Current Tasks</h2>
           </div>
 
             <form id="todoForm">
@@ -112,7 +112,7 @@
               <div id="todoFormMain">
                 <div id="todo-1">
                     <h4>Add description</h4>
-                    <textarea rows="4" cols="32" id="description" wrap="physical"></textarea>
+                    <textarea rows="4" cols="32" id="description" wrap="hard"></textarea>
                     <br>
                     <input id="addImg" type='file'>
                   </div>
@@ -127,7 +127,7 @@
                     <input type="date" id="calendar">
                   </div>
                   <label class="todo-2-label">Time: </label>
-                  <input type="time" id="time" required autofocus=""><br>
+                  <input type="time" id="time" required><br>
                   <button class="btn btn-outline-secondary" type="submit" id="todo-add">Add Todo</button>
                 </div> 
               </div>
@@ -135,24 +135,22 @@
             </form>
           
         
-          <ul class="list-group">
+          <div class="list-group">
             <div class="panel-group" id="accordion">
   
             </div>
-            </ul>
           </div>
-        </div>
-      </div>
+          </div>
   
       <div id="checkedList">
         <div class="todoHeader">
-          <h2><img src="img/done.svg" class="headerImg"> Finished Tasks</h2>
+          <h2><img src="img/done.svg" alt="checkmark image" class="headerImg"> Finished Tasks</h2>
         </div>
-        <ul class="list-group">
+        <div class="list-group">
             <div class="panel-group" id="accordionChecked">
   
             </div>
-          </ul>
+          </div>
       </div>
     </main>
 
