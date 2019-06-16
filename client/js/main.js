@@ -1,4 +1,4 @@
-const serverUrl = 'http://localhost:3000';
+const serverUrl = 'http://fancytodo2-server.sukmaranggapradeta.com';
 
 function login(email, password) {
     $.ajax({
