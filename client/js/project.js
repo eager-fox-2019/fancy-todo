@@ -19,11 +19,11 @@ function read_projects(){
 
         $('#listProject').empty()
         $('#loading').hide()
-        $('#countProjects').empty()
-        $('#countProjects').addClass("new badge")
-        $('#countProjects').append(`
-            ${projects.length}
-        `)
+        // $('#countProjects').empty()
+        // $('#countProjects').addClass("new badge")
+        // $('#countProjects').append(`
+        //     ${projects.length}
+        // `)
         if (projects.length == 0){
             $('#search_project_form').hide()
             $('#listProject').append(`

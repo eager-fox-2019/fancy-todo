@@ -5,7 +5,7 @@ const port = process.env.PORT || 3000
 const cors = require('cors')
 const mongoose = require('mongoose')
 // const url = `mongodb://localhost/Eager-fancyTodo`
-const url = `mongodb+srv://admin:${process.env.ATLAS_PASSWORD}@cluster0-nkgn9.gcp.mongodb.net/test?retryWrites=true&w=majority`
+const url = process.env.ATLAS_PASSWORD
 const myRoute = require('./routes/index')
 const errHandling = require('./middlewares/errHandling')
 

@@ -8,7 +8,7 @@ module.exports = function (req, res, next) {
             email: decoded.email
         })
             .then(user => {
-                console.log(user,"masuk user")
+                // console.log(user,"masuk user")
                 return Project.findById(req.params.id)
                     .then((project) => {
                         if (user.id == project.owner) {

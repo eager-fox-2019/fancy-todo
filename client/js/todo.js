@@ -70,11 +70,11 @@ function showMyTodo(owner){
         $('#search_form').show()    
         $('#listTodo').empty()
         $('#loading').hide()
-        $('#countMyTodo').empty()
-        $('#countMyTodo').addClass("new badge")
-        $('#countMyTodo').append(`
-            ${newTodos.length}
-        `)
+        // $('#countMyTodo').empty()
+        // $('#countMyTodo').addClass("new badge")
+        // $('#countMyTodo').append(`
+        //     ${newTodos.length}
+        // `)
 
         if (newTodos.length === 0){
             $('#search_form').hide()
@@ -154,15 +154,17 @@ function delete_todo(id){
                 }
             })
             .done((deleted) => {
-                Swal.fire({
-                    position: 'center',
-                    type: 'success',
-                    title: `${deleted.name} success deleted`,
-                    showConfirmButton: false,
-                    timer: 1500
-                })
                 $("li").remove(`#${id}`);
-                showMyTodo(localStorage.getItem('id'))
+                M.toast({html: `${deleted.name} success deleted`})
+
+                // Swal.fire({
+                //     position: 'center',
+                //     type: 'success',
+                //     title: `${deleted.name} success deleted`,
+                //     showConfirmButton: false,
+                //     timer: 1500
+                // })
+                // showMyTodo(localStorage.getItem('id'))
             })
             .fail((jqXHR, textStatus)=>{
                 $('#loading').hide()
@@ -201,7 +203,6 @@ function delete_todoProject(id, projectId){
             timer: 1500
         })
         $("div").remove(`#${id}`);
-
     })
     .fail((jqXHR, textStatus)=>{
         $('#loading').hide()

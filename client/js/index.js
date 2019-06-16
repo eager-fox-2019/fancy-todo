@@ -159,6 +159,7 @@ $(()=>{
     })
 
     $('#done_project_button').on('click', () => {
+        $('#loading').show()
         read_projects()
     })
 

@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
             .then(user => {
                 return Todo.findById(req.params.id)
                     .then((todos) => {
-                        console.log('masuk auth todo')
+                        // console.log('masuk auth todo')
                         if (user.id == todos.owner) {
                             next()
                         } else {
