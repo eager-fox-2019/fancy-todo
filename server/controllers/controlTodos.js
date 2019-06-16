@@ -18,15 +18,43 @@ class ControllerTodo {
 		.catch(next)
 	}
 
-	static uploadImage(req, res, next){
-		let files = req.body
-		console.log("req body:")
-		console.log(req)
-		console.log(req.body)
-		console.log("uploadImage at ControllerTodo")
-		res.json(body)
-
+	static readTest(req, res, next){
+		console.log("readTest")
+		next()
 	}
+
+	static read(req, res, next){
+		let userEmail = req.decode
+		let todoId = req.params.id
+		let readStr
+
+		User.findOne({email: userEmail})
+		.then(user => {
+			readStr = user.name
+			return Todo.findOne({_id: todoId})
+		})
+		.then(todo => {
+			//http://api.voicerss.org/?key=<API key>&hl=en-us&src=Hello, world!
+			readStr += ` needs to do ${todo.name}. 
+			It is currently ${todo.status} and is due on ${new Date(todo.dueDate).toDateString()}.
+			The detail is as follows. ${todo.description}.`
+
+			let link = `https://api.voicerss.org?key=${process.env.VOICE_API}&hl=en-us&src=${readStr}`
+			console.log("result",[process.env.VOICE_API, readStr])
+			res.json([process.env.VOICE_API, readStr])
+		})
+		.catch(next)
+	}
+
+	// static uploadImage(req, res, next){
+	// 	let files = req.body
+	// 	console.log("req body:")
+	// 	console.log(req)
+	// 	console.log(req.body)
+	// 	console.log("uploadImage at ControllerTodo")
+	// 	res.json(body)
+
+	// }
 
 	static update(req, res, next){
 		let userId = req.params.userId

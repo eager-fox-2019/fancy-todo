@@ -155,7 +155,7 @@ function appendTodoEditForm(todo){
     </form>
   </div>`
   $('#theTodoList').append(htmlTodoEditForm)
-  appendUploadImageForm(todo)
+  //appendUploadImageForm(todo)
 }
 
 function appendTodo(todo){
@@ -168,12 +168,43 @@ function appendTodo(todo){
       <li>Due Date: ${new Date(todo.dueDate).toDateString()}</li>
       <li><a href="#" onclick="showEditTodoForm('${todo._id}')">edit</a>|
       <a href="#" onclick="delTodo('${todo.owner},${todo._id}')">delete</a></li>
+      <li><a class="read" href="#" onclick="readTodo('${todo.owner},${todo._id}')">Read the Todo</a></li>
     </ul>
   </div>
   `
   $('#theTodoList').append(htmlTodo)
   appendTodoEditForm(todo)
   $('.editTodoForm').hide()
+}
+
+function readTodo(inputStr){
+  let [userId, todoId] = inputStr.split(',')
+
+  $.ajax({
+      method: "GET",
+      url: `${baseUrl}/todos/read/${userId}/${todoId}`,
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
+    })
+    .done(result => {
+      console.log("read a todo", result)
+      let [api_key, readStr] = result
+
+      $.speech({
+            key: api_key,
+            src: readStr,
+            hl: 'en-us',
+            r: 0, 
+            c: 'mp3',
+            f: '44khz_16bit_stereo',
+            ssml: false
+        });
+
+    })
+    .fail(err => {
+      console.log(err)
+    })
 }
 
 // ---------- editing a todo -------------

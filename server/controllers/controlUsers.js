@@ -39,12 +39,11 @@ class ControllerUser {
     .catch(next)
   }
 
-  static currentUser(req, res, next){
+  static current(req, res, next){
     let userEmail = req.decode
+    User.findOne({email: userEmail})
     .then(found => {
       if (found) {
-        console.log("currentUser ControllerUser")
-        console.log(found)
         res.json(found)
       } else {
         throw new Error('no user logged in')

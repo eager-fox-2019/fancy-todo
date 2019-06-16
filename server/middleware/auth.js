@@ -26,6 +26,7 @@ const authentication = (req, res, next) => {
 const authorization = (req, res, next) => {
 	let userId = req.params.userId
 	let payload = verifyToken(req.headers.access_token).input
+	req.decode = payload
 	if (userId){
 		User.findOne({_id: userId})
 			.then(found => {

@@ -1,10 +1,7 @@
 const axios = require('axios')
-let ax = axios.create({
-	baseURL:'https://api.github.com',
-    headers: {
-        "Authorization": `token ${process.env.GITHUB_APIKEY}`,
-        "Accept": "application/vnd.github.v3.star+json"
-    }
+let ax = {}
+ax.voice = axios.create({
+	baseURL:`http://api.voicerss.org?key=${process.env.VOICE_API}`
 })
 
 module.exports = ax
