@@ -27,6 +27,7 @@ function populateTodo(){
     todoList.forEach(todo => {
       appendTodo(todo)
     })
+    $(`.loading`).hide()
   })
   .fail(err => {
     console.log(err)
@@ -168,7 +169,7 @@ function appendTodo(todo){
       <li>Due Date: ${new Date(todo.dueDate).toDateString()}</li>
       <li><a href="#" onclick="showEditTodoForm('${todo._id}')">edit</a>|
       <a href="#" onclick="delTodo('${todo.owner},${todo._id}')">delete</a></li>
-      <li><a class="read" href="#" onclick="readTodo('${todo.owner},${todo._id}')">Read the Todo</a></li>
+      <li><label class="loading">loading..</label><a class="read" href="#" onclick="readTodo('${todo.owner},${todo._id}')">Read the Todo</a></li>
     </ul>
   </div>
   `
@@ -179,6 +180,9 @@ function appendTodo(todo){
 
 function readTodo(inputStr){
   let [userId, todoId] = inputStr.split(',')
+  $(`.read`).hide()
+  $(`.loading`).show()
+
 
   $.ajax({
       method: "GET",
@@ -200,6 +204,9 @@ function readTodo(inputStr){
             f: '44khz_16bit_stereo',
             ssml: false
         });
+
+    $(`.read`).show()
+    $(`.loading`).hide()
 
     })
     .fail(err => {
