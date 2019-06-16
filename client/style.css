@@ -1,0 +1,38 @@
+img.bg {
+    /* Set rules to fill background */
+    content:url('https://c.pxhere.com/photos/9a/ff/clouds_hd_wallpaper_nature_sky-1366189.jpg!d');
+    min-width: 100vw;
+    min-height: 100vh;
+    z-index: -5;
+    position: fixed;
+    top: 0;
+    left: 0;    
+    /* filter: blur(2px); */
+    /* -webkit-filter: blur(8px); */
+}
+img.bg.blurred{
+    filter: blur(6px);
+
+}
+img.logo{
+    content:url('https://dewey.tailorbrands.com/production/brand_version_mockup_image/905/2059622905_c2550ef6-aedf-4dae-a00f-6a5396fc47ef.png?cb=1559740701')
+}
+.form-signin-signup{
+    background:rgba(14, 139, 52);
+    text-align:center
+}
+.collection-item {
+    cursor: pointer;
+    -o-transition: color .1s ease-out, background .3s ease-in;
+    -ms-transition: color .1s ease-out, background .3s ease-in;
+    -moz-transition: color .1s ease-out, background .3s ease-in;
+    -webkit-transition: color .1s ease-out, background 1s ease-in;
+    transition: color .1s ease-out, background .3s ease-in;
+
+}
+.collection-item:hover {
+    background: #eeeeee;
+}
+.collection-item:active {
+    background: #b6b6b6;
+}  
