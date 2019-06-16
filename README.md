@@ -1,4 +1,21 @@
 #Fancy Todo
+
+API documentation (via postman)
+https://documenter.getpostman.com/view/6691212/S1Zw9BS2
+
+environment variables:
+- JWT_SECRET
+- GOOGLE_CLIENT_ID
+- FB_CLIENT_ID=857945794540372
+- VOICE_API
+
+kendala saat mengerjakan:
+Saat membuat client progress sangat lambat. Banyak waktu dipakai untuk membaca dokumentasi jQuery, mencari contoh code untuk memilih dan mengubah DOM di html, dan mencoba-coba code yang ditemukan hingga client berjalan sesuai rencana.
+
+Selain itu, saat membuat 3rd party api feature image uploading, menemukan kendala FormData() tidak memberikan return value setelah di append dengan file object. Setelah mencoba banyak cara lain seperti dari object, array, dan fetch, masih tidak menemukan kenapa body tidak bisa menerima kiriman file dari client ke server. Rencana untuk mengubah file ke uri dan di upload via 3rd party api cloudinary tidak jadi.
+
+--- 
+#Readme
 Aplikasi Todo menggunakan Client-server model dengan spesifikasi sebagai berikut:
 
 - API Documentation yang meliputi : URLs, HTTP method, request, response (success dan error case)
@@ -39,4 +56,3 @@ Kompetensi Client:
 
 
 Tambahkan comment yang berisi environment variables yang dipakai (beserta valuenya), link deploy (jika ada), fitur uniknya dan kendala saat mengerjakan.
-
