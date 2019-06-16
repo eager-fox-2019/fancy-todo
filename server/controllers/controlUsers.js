@@ -14,6 +14,7 @@ class ControllerUser {
 
     User.findOneAndUpdate({email: userEmail}, input, {new: true})
     .then(updated => {
+      console.log(updated)
       res.json(updated)
     })
     .catch(next)
@@ -24,6 +25,30 @@ class ControllerUser {
     User.findOneAndDelete({email: userEmail})
     .then(deleted => {
       res.json(deleted)
+    })
+    .catch(next)
+  }
+
+  static delById(req, res, next){
+    let userId = req.params.userId //5d04beb3c477da27a86114c9
+    
+    User.findOneAndDelete({_id: userId})
+    .then(deleted => {
+      res.json(deleted)
+    })
+    .catch(next)
+  }
+
+  static currentUser(req, res, next){
+    let userEmail = req.decode
+    .then(found => {
+      if (found) {
+        console.log("currentUser ControllerUser")
+        console.log(found)
+        res.json(found)
+      } else {
+        throw new Error('no user logged in')
+      }
     })
     .catch(next)
   }

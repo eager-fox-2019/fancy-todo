@@ -36,6 +36,19 @@ form input, textarea {
   padding: 0.2rem 0.3rem;
 }
 
+#addTodoForm{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  clear: both;
+}
+
+.nonEditTodoDiv, .editTodoForm{
+  padding: 1em;
+  margin: 1em;
+  border-style: solid;
+  border-color: brown;
+}
+
 #title {
   text-align: center;
   font-size: 3rem;

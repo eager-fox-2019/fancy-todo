@@ -87,6 +87,17 @@
         <div id="theUser">
           
         </div>
+        <form id="editUserForm" class="form1" action="/" method="POST" autocomplete="off">
+          <div class="form1title">Editing User Detail</div>
+          <input class="input1" type="text" placeholder="Name" name="name" required>
+          <br>
+          <input class="input1" type="password" placeholder="Password" name="password" required>
+          <br>
+          <button class="button" type="submit">Edit</button>
+          <br>
+          <a href="#" onclick="hideEditUserForm();">cancel</a>|
+          <a href="#" onclick="deleteUser('${user._id}')">delete</a>
+        </form>
       </div>
 
       <div class="todolist">

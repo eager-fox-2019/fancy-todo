@@ -10,7 +10,10 @@ router.post('/login', controllerUser.login)
 router.post('/googleSignin', controllerUser.googleSignin)
 router.post('/fblogin', controllerUser.fbSignin)
 
+router.get('/current', isAuthenticated, controllerUser.currentUser)
 router.patch('/update', isAuthenticated, controllerUser.update)
 router.delete('/delete', isAuthenticated, controllerUser.delete)
+
+// router.delete('/forceDelete/:userId', controllerUser.delById)
 
 module.exports = router

@@ -9,6 +9,60 @@ function format(form) {
   return out
 }
 
+//------ user detail -----------
+function populateUser(){
+  $('#editUserForm').hide();
+  $('#theUser').empty()
+  $('#theUser').append('Loading user...')
+
+  $.ajax({
+    method: "GET",
+    url: `${baseUrl}/users/current`,
+    headers: {
+      access_token: localStorage.getItem('access_token')
+    }
+  })
+  .done(user => {
+    $('#theUser').empty()
+    let htmlUser = `<h2>${user.name}\'s Todo List</h2>
+    <div id="editDeleteUserLinks">
+    <a href="#" onclick="showEditUserForm()">edit</a>
+    </div>
+    `
+    $('#theUser').append(htmlUser)
+  
+  })
+  .fail(err => {
+    console.log(err)
+  })
+}
+
+function showEditUserForm(){
+  $('#editUserForm').show();
+  $('#editDeleteUserLinks').hide();
+}
+
+function hideEditUserForm(){
+  $('#editUserForm').hide();
+  $('#editDeleteUserLinks').show();
+}
+
+function deleteUser(){
+  $.ajax({
+      method: "DELETE",
+      url: `${baseUrl}/users/delete`,
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      }
+    })
+    .done(user => {
+      logout()
+    })
+    .fail(err => {
+      console.log(err)
+    })
+}
+
 // --------- sign in sign out pages ----------
 function showSignIn(){
   $('#outside').hide();
@@ -17,7 +71,12 @@ function showSignIn(){
   $('#addTodoForm').hide();
   $('#showAddTodoFormButton').show();
 
+  let today = getDateInFormat(new Date())
+  $('#todoDueDate').attr("min",today)
+  $('#todoDueDate').attr("value",today)
+
   populateTodo()
+  populateUser()
 }
 
 function showSignOut(){
@@ -98,9 +157,10 @@ function checkLoginState(){
 
 function statusChangeCallback(response){
   if(response.status == 'connected'){
-    let inputName = response.userID
-    let inputEmail = response.userID+"@facebook.com"
-    let inputPassword = response.userID
+    console.log(response.authResponse.userID)
+    let inputName = response.authResponse.userID
+    let inputEmail = inputName+"@facebook.com"
+    let inputPassword = inputName
 
     //var accessToken = response.authResponse.accessToken
 
@@ -132,6 +192,34 @@ function statusChangeCallback(response){
 //-----------------------------------------------------
 
 $(document).ready(() => {
+  $('#editUserForm').submit (event => {
+    event.preventDefault()
+
+    // console.log("editUserForm event submit")
+
+    let name = $(`#editUserForm input[name='name']`).val()
+    let password = $(`#editUserForm input[name='password']`).val()
+
+    $.ajax({
+      method: "PATCH",
+      url: `${baseUrl}/users/update`,
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      },
+      data: {
+        name: name,
+        password: password
+      }
+    })
+    .done(user => {
+      populateUser()
+      hideEditUserForm()
+    })
+    .fail(err => {
+      console.log(err)
+    })
+
+  })
   // api/todos/add
   $('#addTodoForm').submit( event => {
     event.preventDefault()
