@@ -395,7 +395,7 @@ function showRepo() {
       for (let i = 0; i < response.length; i++) {
         $('#repo-list').append(`
           <div class="repo-list-border">
-            <a class="repo-list" onclick="appendRepoToTodo('${response[i].url}')" href="">${i+1}. ${response[i].name}</a><br>
+            <a class="repo-list" onclick="appendRepoToTodo('${response[i].html_url}')" href="">${i+1}. ${response[i].name}</a><br>
           </div>
         `);
       }
@@ -420,7 +420,7 @@ function searchRepo() {
         for (let i = 0; i < response.length; i++) {
           $('#repo-list').append(`
             <div class="repo-list-border">
-              <a class="repo-list" onclick="appendRepoToTodo('${response[i].url}')" href="">${i+1}. ${response[i].name}</a><br>
+              <a class="repo-list" onclick="appendRepoToTodo('${response[i].html_url}')" href="">${i+1}. ${response[i].name}</a><br>
             </div>
           `);
         }
@@ -429,7 +429,7 @@ function searchRepo() {
           if (response[i].name == $('#search-repo').val()) {
             $('#repo-list').append(`
               <div class="repo-list-border">
-                <a class="repo-list" onclick="appendRepoToTodo('${response[i].url}')" href="">${i+1}. ${response[i].name}</a><br>
+                <a class="repo-list" onclick="appendRepoToTodo('${response[i].html_url}')" href="">${i+1}. ${response[i].name}</a><br>
               </div>
             `);
           }
