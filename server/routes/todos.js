@@ -7,6 +7,7 @@ const isAuthorized = require('../middleware/auth.js').authorization
 router.get('/', isAuthenticated, ControllerTodos.findAll)
 router.post('/add', isAuthenticated, ControllerTodos.create)
 router.patch('/update/:userId/:id', isAuthorized, ControllerTodos.update)
+router.post('/uploadImage', isAuthenticated, ControllerTodos.uploadImage)
 router.delete('/del/:userId/:id', isAuthorized, ControllerTodos.delete)
 
 module.exports = router

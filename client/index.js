@@ -124,6 +124,7 @@ function populateTodo(){
   })
   .done(todoList => {
     $('#theTodoList').empty()
+    $('#theTodoList').append("<h2>My Todo List</h2>")
     todoList.forEach(todo => {
       appendTodo(todo)
     })
@@ -131,6 +132,74 @@ function populateTodo(){
   .fail(err => {
     console.log(err)
   })
+}
+
+// ------------ image upload --------------
+function testImg(strInput){
+  let [userId, todoId] = strInput.split(',')
+  console.log("image upload todoId is:", todoId)
+
+  const files = document.querySelector(`#image${todoId} [type=file]`).files
+
+  console.log(files)
+  console.log("that was files")
+  if(files.length >0 ){
+
+    for (let i=0; i<files.length; i++){
+      getDataUri(imgUrl, function(dataUri) {
+      
+      })
+    }
+
+    //1 or more files submitted
+    // const formData = new FormData()
+
+    // for (let i=0; i<files.length; i++){
+    //   formData.append('filesToUpload', files[i])
+    // }
+    // console.log("formData")
+    // console.log(formData)
+    // console.log(JSON.stringify(formData))
+
+    // fetch(`${baseUrl}/todos/uploadImage`, {
+    //   method: 'POST',
+    //   body: formData,
+    //   headers: {
+    //     access_token: localStorage.getItem('access_token')
+    //   },
+    // }).then(response => {
+    //   console.log(response)
+    // }).fail(err => {
+    //   console.log("error at uploadImageForm", err)
+    // })
+
+    $.ajax({
+      method: "POST",
+      url: `${baseUrl}/todos/uploadImage`,
+      headers: {
+        access_token: localStorage.getItem('access_token')
+      },
+      data: formData
+    })
+    .done(result => {
+      console.log("uploaded images to todo", result)
+      populateTodo()
+    })
+    .fail(err => {
+      console.log(err)
+    })
+  }
+}
+
+//<input type="submit" value="Upload File" name="submit" />
+function appendUploadImageForm(todo){
+  let htmlUploadImageForm = 
+  `<form id="image${todo._id}" class="uploadImageForm" method="post" enctype="multipart/form-data">
+      <input type="file" name="files[]" multiple />
+      <a href="#" onclick="testImg('${todo.owner},${todo._id}')">submit</a>
+    </form>`
+
+  $(`#editTodoDiv${todo._id}`).append(htmlUploadImageForm)
 }
 
 // -------------- appending todo ---------
@@ -146,7 +215,7 @@ function getDateInFormat(date){
 
 function appendTodoEditForm(todo){
   let htmlTodoEditForm = `
-  <div id="editTodoForm${todo._id}" class="editTodoForm">
+  <div id="editTodoDiv${todo._id}" class="editTodoForm">
     <form id="editTodo${todo._id}" class="form1" action="/" method="PATCH" autocomplete="off">
       <div class="form1title">Edit a Todo</div>
       <input class="input1" type="text" value="${todo.name}" name="name">
@@ -187,11 +256,12 @@ function appendTodoEditForm(todo){
     </form>
   </div>`
   $('#theTodoList').append(htmlTodoEditForm)
+  appendUploadImageForm(todo)
 }
 
 function appendTodo(todo){
   let htmlTodo = `
-  <div id="nonEditTodoDiv${todo._id}">
+  <div id="nonEditTodoDiv${todo._id}" class="nonEditTodoDiv">
     <ul>
       <li>Name: ${todo.name}</li>
       <li>Description: ${todo.description}</li>
@@ -201,7 +271,7 @@ function appendTodo(todo){
       <a href="#" onclick="delTodo('${todo.owner},${todo._id}')">delete</a></li>
     </ul>
   </div>
-`
+  `
   $('#theTodoList').append(htmlTodo)
   appendTodoEditForm(todo)
   $('.editTodoForm').hide()
@@ -209,12 +279,14 @@ function appendTodo(todo){
 
 // ---------- editing a todo -------------
 function showEditTodoForm(todoId){
-  $(`#nonEditTodoDiv${todoId}`).hide()
-  $(`#editTodoForm${todoId}`).show()
+  $('.editTodoForm').hide() //hide all other edit todo forms
+  $('.nonEditTodoDiv').show()//show all todos
+  $(`#nonEditTodoDiv${todoId}`).hide() //and hide the todo itself
+  $(`#editTodoDiv${todoId}`).show() //then open the todo's edit form
 }
 
 function hideEditTodoForm(todoId){
-  $(`#editTodoForm${todoId}`).hide()
+  $(`#editTodoDiv${todoId}`).hide()
   $(`#nonEditTodoDiv${todoId}`).show()
 }
 
@@ -293,7 +365,7 @@ $(document).ready(() => {
       }
     })
     .done(result => {
-      appendTodo(result)
+      populateTodo()
       hideAddTodoForm()
     })
     .fail(err => {

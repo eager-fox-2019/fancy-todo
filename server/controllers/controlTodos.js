@@ -18,6 +18,16 @@ class ControllerTodo {
 		.catch(next)
 	}
 
+	static uploadImage(req, res, next){
+		let files = req.body
+		console.log("req body:")
+		console.log(req)
+		console.log(req.body)
+		console.log("uploadImage at ControllerTodo")
+		res.json(body)
+
+	}
+
 	static update(req, res, next){
 		let userId = req.params.userId
 		Todo.findOneAndUpdate({_id:req.params.id, owner:userId}, req.body, {new: true})
