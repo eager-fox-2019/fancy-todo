@@ -30,6 +30,7 @@ function date(input){
     } else if (month == 11){
         monthName = 'December'
     }
+
     if (month < 10){
         month = `0${month+1}`
     }
@@ -49,7 +50,6 @@ function date(input){
         due_date: `${year}-${month}-${day}`,
         showDue_date: `${day} ${monthName} ${year}`
     }
-
     return output
 }
 

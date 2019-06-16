@@ -37,7 +37,7 @@ class TodoController {
         result.forEach(x => {
           output.push(date(x));
         });
-        res.status(201).json(output);
+        res.status(200).json(output);
       })
       .catch(next);
   }

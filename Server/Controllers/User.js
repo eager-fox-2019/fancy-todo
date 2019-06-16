@@ -78,7 +78,7 @@ class UserController{
     }
     static signout(req,res,next){
         req.headers = null
-        res.status(200).json('You have signed out!')
+        res.status(200).json('User signed out.')
     }
 }
 

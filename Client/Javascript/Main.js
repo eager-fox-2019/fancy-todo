@@ -39,6 +39,7 @@ function signup() {
     }
   })
     .done(function(response) {
+      console.log("User created.");
       showSignin()
     })
     .fail(function(jqXHR, textStatus) {
@@ -64,6 +65,7 @@ function signin() {
   })
     .done(function(response) {
       localStorage.setItem("token", response.token);
+      console.log("User signed in.");
       currentPage()
     })
     .fail(function(jqXHR, textStatus) {
@@ -88,6 +90,7 @@ function onSignIn(googleUser) {
   })
   .done(function(response){
       localStorage.setItem('token', response.token)
+      console.log("User signed in via Google.");
       currentPage()
   })
   .fail(function(jqXHR, textStatus){
@@ -137,7 +140,8 @@ function createTodo() {
     }
   })
     .done(function(response) {
-     showList()
+      console.log("Todo created.");
+      showList()
     })
     .fail(function(jqXHR, textStatus) {
       console.log(jqXHR);
@@ -153,6 +157,7 @@ function readArchive() {
     }
   })
     .done(function(response) {
+      console.log("Reading archive.");
       $("#archiveList").empty();
       response.forEach((value, index) => {
         $("#archiveList").append(
@@ -204,6 +209,7 @@ function readTodo(id, tag, find) {
     }
   })
     .done(function(response) {
+      console.log("Reading To-Do.");
       $("#searchTodo").val("")
       $("#readTodo").empty();
       if (!tag && !search){
@@ -213,7 +219,6 @@ function readTodo(id, tag, find) {
 
         <a href="#" class="btn btn-primary" style="padding:3px 10px 3px 10px;margin-top:10px;background-color:#505397;border-color:#505397" id="searchTodoButton" onclick="readTodo(undefined,undefined, true)">Search</a>
         <br><br>
-        
         `)
         $("#readTodo3").append(' Tags: ')
         let arr = []
@@ -223,12 +228,15 @@ function readTodo(id, tag, find) {
           }
         })
         arr.forEach((tag, i) => {
-          $("#readTodo3").append(`
-          <a href="#" class="btn btn-primary" id="tag${i}${tag}" onclick="readTodo(undefined, '${tag}')" style="border-color:#505397;background-color:#505397;padding:2px;padding-left:4px;padding-right:4px;height:25px;font-size: 13px;margin-bottom: 6px">${tag}</a>
-          `)
+          if (tag != ""){
+            $("#readTodo3").append(`
+            <a href="#" class="btn btn-primary" id="tag${i}${tag}" onclick="readTodo(undefined, '${tag}')" style="border-color:#505397;background-color:#505397;padding:2px;padding-left:4px;padding-right:4px;height:25px;font-size: 13px;margin-bottom: 6px">${tag}</a>
+            `)
+          }
         })
       }
       if (search){
+        console.log("Search loaded.");
         $("#readTodo").append(`<p>Search result for "${search}"</p>`)
       }
       response.forEach((value, index) => {
@@ -270,10 +278,12 @@ function readTodo(id, tag, find) {
         $(`#_todo${id}`).show()
       });
       if (tag){
+        console.log("Tag loaded.");
         $("#readTodo").append(`<a href="#" class="btn btn-primary" id="searchTodoButton2" style="margin-top:15px;background-color:#505397;border-color:#505397" onclick="readTodo()">Show all To-Do</a>`)
       }
       if (response.length == 0){
         if (search){
+          console.log("Search 404.");
           $("#readTodo").html(`<p>To-Do with title "${search}" not found!</p>`)
         } else {
           $("#readTodo3").html(`<p>Your To-Do is empty</p>`)
@@ -297,7 +307,8 @@ function deleteTodo(id) {
     }
   })
     .done(function(response) {
-      readTodo();
+      console.log(`${id} deleted.`);
+      showList()
     })
     .fail(function(jqXHR, textStatus) {
       console.log(jqXHR);
@@ -319,6 +330,7 @@ function editTodo(id) {
     }
   })
     .done(function(response) {
+      console.log(`${id} updated.`);
       readTodo(id);
     })
     .fail(function(jqXHR, textStatus) {
@@ -338,6 +350,7 @@ function doneTodo(id, value) {
     }
   })
     .done(function(response) {
+      console.log(`${id} completed.`);
       if (value == 0){
         readArchive();
       } else if (value == 1){
@@ -358,12 +371,16 @@ function readPieChart(){
     }
   })
     .done(function(response) {
-      console.log(response)
+      console.log(`Pie chart loaded.`)
+      console.log(`If you read this and pie chart is not loaded, its probably in the page below.`)
       let obj = {}
       response.forEach((x) => {
+        if (x.group == ""){
+          x.group = 'No Tag'
+        }
         if (obj[x.group] == undefined){
           obj[x.group] = []
-        }
+        } 
         obj[x.group].push(x)
       })
       let arr = []
@@ -374,7 +391,6 @@ function readPieChart(){
         }
         arr.push(temp)
       }
-      console.log(arr)
       Highcharts.chart('container', {
         chart: {
             plotBackgroundColor: null,
@@ -507,6 +523,10 @@ function showArchive(){
 
 function showCreate(){
   localStorage.setItem("currentPage", 'create');
+  $("#createTodoTitle").val("");
+  $("#createTodoDescription").val("");
+  $("#createTodoGroup").val("");
+  $("#createTodoDue_date").val("");
   $("#homePage").show();
   $("#listTodoRight").show();
   $("#createTodo").show();
