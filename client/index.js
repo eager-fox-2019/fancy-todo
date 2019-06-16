@@ -26,7 +26,7 @@ function populateUser(){
     $('#theUser').empty()
     let htmlUser = `<h2>${user.name}\'s Todo List</h2>
     <div id="editDeleteUserLinks">
-    <a href="#" onclick="showEditUserForm()">edit</a>
+    <a href="#" onclick="showEditUserForm()">edit user info</a>
     </div>
     `
     $('#theUser').append(htmlUser)

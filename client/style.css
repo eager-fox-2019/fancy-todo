@@ -9,6 +9,7 @@ html {
 }
 
 body {
+  font-family: Calibri, Sans;
   display: flex;
   height: 100%;
 }
@@ -36,10 +37,21 @@ form input, textarea {
   padding: 0.2rem 0.3rem;
 }
 
-#addTodoForm{
-  margin-top: 1em;
-  margin-bottom: 1em;
+#addTodoForm, #showAddTodoFormButton{
+  margin: 1em auto;
   clear: both;
+  width: 50%;
+}
+
+#theTodoList button{
+  font-weight: bold;
+  color: brown;
+  padding: 1em;
+  border-radius: 1em;
+  border-width: 2px;
+  margin-left: 35%;
+  margin-right: : 35%;
+  width: 30%;
 }
 
 .nonEditTodoDiv, .editTodoForm{
@@ -187,6 +199,41 @@ a.navlink:hover {
   height: 100%;
 }
 
+/* On mouse-over, add a deeper shadow */
+.nonEditTodoDiv:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+.nonEditTodoDiv, .editTodoForm {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 1em; /* 1em rounded corners */
+}
+.nonEditTodoDiv label, .editTodoForm label{
+  font-weight: bold;
+}
+.editTodoForm{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.editTodoForm form{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Add rounded corners to the top left and the top right corner of the image */
+img {
+  border-radius: 5px 5px 0 0;
+}
 
 .navbar li a {
   display: block;
@@ -204,4 +251,14 @@ li a:hover {
 /* Change the link color to #111 (black) on hover */
 .navbar li a:hover {
   background-color: #111;
+}
+
+#theUser {
+  border-bottom-style: dashed;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
 }

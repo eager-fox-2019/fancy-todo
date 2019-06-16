@@ -10,6 +10,11 @@ function hideAddTodoForm(){
   $('#showAddTodoFormButton').show();
 }
 //------------ populate todo list ----------
+function addTodoButton(){
+  let htmlAddTodoButton=`
+  <button id="showAddTodoFormButton" onclick="addTodoForm()" class="button" type="submit">add Todo</button>`
+  $('#theTodoList').append(htmlAddTodoButton)
+}
 
 function populateTodo(){
   $('#theTodoList').empty()
@@ -23,7 +28,12 @@ function populateTodo(){
   })
   .done(todoList => {
     $('#theTodoList').empty()
-    $('#theTodoList').append("<h2>My Todo List</h2>")
+    addTodoButton()
+
+    todoList.sort(function(a,b){
+      return new Date(a.dueDate) - new Date(b.dueDate);
+    });
+
     todoList.forEach(todo => {
       appendTodo(todo)
     })
@@ -34,73 +44,7 @@ function populateTodo(){
   })
 }
 
-// ------------ image upload --------------
-function testImg(strInput){
-  let [userId, todoId] = strInput.split(',')
-  console.log("image upload todoId is:", todoId)
 
-  const files = document.querySelector(`#image${todoId} [type=file]`).files
-
-  console.log(files)
-  console.log("that was files")
-  if(files.length >0 ){
-
-    for (let i=0; i<files.length; i++){
-      getDataUri(imgUrl, function(dataUri) {
-      
-      })
-    }
-
-    //1 or more files submitted
-    // const formData = new FormData()
-
-    // for (let i=0; i<files.length; i++){
-    //   formData.append('filesToUpload', files[i])
-    // }
-    // console.log("formData")
-    // console.log(formData)
-    // console.log(JSON.stringify(formData))
-
-    // fetch(`${baseUrl}/todos/uploadImage`, {
-    //   method: 'POST',
-    //   body: formData,
-    //   headers: {
-    //     access_token: localStorage.getItem('access_token')
-    //   },
-    // }).then(response => {
-    //   console.log(response)
-    // }).fail(err => {
-    //   console.log("error at uploadImageForm", err)
-    // })
-
-    $.ajax({
-      method: "POST",
-      url: `${baseUrl}/todos/uploadImage`,
-      headers: {
-        access_token: localStorage.getItem('access_token')
-      },
-      data: formData
-    })
-    .done(result => {
-      console.log("uploaded images to todo", result)
-      populateTodo()
-    })
-    .fail(err => {
-      console.log(err)
-    })
-  }
-}
-
-//<input type="submit" value="Upload File" name="submit" />
-function appendUploadImageForm(todo){
-  let htmlUploadImageForm = 
-  `<form id="image${todo._id}" class="uploadImageForm" method="post" enctype="multipart/form-data">
-      <input type="file" name="files[]" multiple />
-      <a href="#" onclick="testImg('${todo.owner},${todo._id}')">submit</a>
-    </form>`
-
-  $(`#editTodoDiv${todo._id}`).append(htmlUploadImageForm)
-}
 
 // -------------- appending todo ---------
 function getDateInFormat(date){
@@ -151,7 +95,7 @@ function appendTodoEditForm(todo){
   htmlTodoEditForm +=
   `<input class="input1" type="Date" value="${dateYYYYMMDD}" name="dueDate">
       <br>
-      <a href="#" onclick="hideEditTodoForm('${todo._id}')">cancel edit</a>|
+      <a href="#" onclick="hideEditTodoForm('${todo._id}')">cancel edit</a> | 
       <a href="#" onclick="editTodo('${todo.owner},${todo._id}')">update todo</a>
     </form>
   </div>`
@@ -163,11 +107,11 @@ function appendTodo(todo){
   let htmlTodo = `
   <div id="nonEditTodoDiv${todo._id}" class="nonEditTodoDiv">
     <ul>
-      <li>Name: ${todo.name}</li>
-      <li>Description: ${todo.description}</li>
-      <li>Status: ${todo.status}</li>
-      <li>Due Date: ${new Date(todo.dueDate).toDateString()}</li>
-      <li><a href="#" onclick="showEditTodoForm('${todo._id}')">edit</a>|
+      <li><label>Name:</label> ${todo.name}</li>
+      <li><label>Description:</label> ${todo.description}</li>
+      <li><label>Status:</label> ${todo.status}</li>
+      <li><label>Due Date:</label> ${new Date(todo.dueDate).toDateString()}</li>
+      <li><a href="#" onclick="showEditTodoForm('${todo._id}')">edit</a> | 
       <a href="#" onclick="delTodo('${todo.owner},${todo._id}')">delete</a></li>
       <li><label class="loading">loading..</label><a class="read" href="#" onclick="readTodo('${todo.owner},${todo._id}')">Read the Todo</a></li>
     </ul>
@@ -192,7 +136,6 @@ function readTodo(inputStr){
       }
     })
     .done(result => {
-      console.log("read a todo", result)
       let [api_key, readStr] = result
 
       $.speech({
@@ -271,7 +214,7 @@ function delTodo(strInput){
       }
     })
     .done(result => {
-      console.log("deleted a todo", result)
+      console.log("deleted a todo")
       populateTodo()
     })
     .fail(err => {
