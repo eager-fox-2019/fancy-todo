@@ -13,9 +13,7 @@ class UserController {
       .then(newUser => {
         res.status(200).json(newUser)
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(next)
   }
 
   static signIn(req,res, next) {

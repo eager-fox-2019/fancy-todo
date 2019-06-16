@@ -1,8 +1,4 @@
 /* ================ REGISTER FUNCTION ================== */
-$
-
-
-
 $('#signupNav').click(function() {
   // event.preventDefault()
   // $('#logreg-forms .form-signin').toggle(); // display:block or none
@@ -36,6 +32,16 @@ $('.form-signup').submit(function () {
       )
       showSignin()
     })
+    .fail(function(err) {
+      let msg = err.responseJSON.message.split(':')
+
+      msg.splice(0,1)
+      Swal.fire({
+        type: 'error',
+        title: `${msg[1]}`,
+        text: `Please sign up with another email.`
+      })
+    })
 })
 
 
@@ -56,10 +62,6 @@ $('#signinNav').click( function() {
 
 $('#signupButton').click(function() {
   showSignup()
-  // $('#todolist').hide()
-  // $('#logreg-forms').show()
-  // $('#signinForm').show()
-  // $("#signupForm").hide()
 })
 
 $('#signinForm').submit(function() {
@@ -67,7 +69,6 @@ $('#signinForm').submit(function() {
   let email = $('#signinEmail').val()
   let password = $('#signinPass').val()
 
-  // console.log(email, password)
   $.ajax({
     method: "POST",
     url: "http://localhost:3000/user/signin",
@@ -83,6 +84,7 @@ $('#signinForm').submit(function() {
         type: 'success',
         title: 'Successfully signed in!'
       })
+      showLoggedIn()
       showMain()
     })
     .fail(function(err) {
@@ -108,11 +110,11 @@ var startApp = function() {
 }
 
   function attachSignin(element) {
-    // console.log(element.id);
+  
     auth2.attachClickHandler(element, {},
         function(googleUser) {
           const idToken = googleUser.getAuthResponse().id_token
-          // console.log(idToken)
+         
           $.ajax({
             method: "POST",
             url: 'http://localhost:3000/user/googlesign',
@@ -124,6 +126,7 @@ var startApp = function() {
                 type: 'success',
                 title: 'Successfully signed in!'
               })
+              showLoggedIn()
               showMain()
             })
             .fail(function(err) {
@@ -141,20 +144,29 @@ startApp()
 /*============================ DISPLAY FUNCTIONS ==========================*/
 function showMain() {
   $('#accordion').empty()
+  $('#accordionChecked').empty()
   $('#logreg-forms').hide()
   $('#todolist').fadeIn(200)
+  $('#checkedList').fadeIn(200)
   showTodos()
+  showChecked()
 }
 
 function showSignin() {
+  $('#signinEmail').val('')
+  $('#signinPass').val('')
   $('#todolist').hide()
+  $('#checkedList').hide()
   $('#logreg-forms').fadeIn(200)
   $('#signinForm').show()
   $("#signupForm").hide()
 }
 
 function showSignup() {
+  $('#signupEmail').val('')
+  $('#signupPass').val('')
   $('#todolist').hide()
+  $('#checkedList').hide()
   $('#logreg-forms').fadeIn(200)
   $('#signinForm').hide()
   $("#signupForm").show()
@@ -167,10 +179,33 @@ function emptyTodo() {
   $('#calendar').val('')
 }
 
+function showLoggedIn() {
+  $('#signupNav').hide()
+  $('#signinNav').hide()
+  $('#signoutNav').show()
+}
+
+function showLoggedOut() {
+  $('#signupNav').show()
+  $('#signinNav').show()
+  $('#signoutNav').hide()
+}
+
+let signinToken = localStorage.getItem('accessToken')
+
+if(signinToken) {
+  showLoggedIn()
+}
+else{
+  showLoggedOut()
+}
+
 /*======================= SIGN OUT FUNCTION ===========================*/
 $('#signoutNav').click(function () {
   localStorage.removeItem('accessToken')
   $('#accordion').empty()
+  $('#accordionChecked').empty()
+  showLoggedOut()
   Swal.fire({
     type: 'success',
     title: 'Successfully signed out'
@@ -531,7 +566,6 @@ function showChecked() {
       }
 
       $('#accordionChecked').append(listTasks)
-      // console.log(tasks)
     })
 }
 
@@ -545,7 +579,6 @@ function editTodo(taskId) {
     }
   })
     .done(function(foundTask) {
-      // console.log(task)
       Swal.fire({
         title: 'Edit Task',
         html:
