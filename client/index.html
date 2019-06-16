@@ -4,8 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="https://apis.google.com/js/platform.js" async defer></script>
-  <meta name="google-signin-client_id" content="308421336281-c3jncpnpa4rajngvu1s9vkvkaem9ic8o.apps.googleusercontent.com">
+  <meta name="google-signin-client_id" content="1008185134786-p6j8sbckfabsdg357rtvghkpkrc7uj8r.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" defer></script>
   <!-- Link to CSS file -->
   <link rel="stylesheet" type="text/css" href="./style.css">
   <!-- Jquery -->
@@ -13,11 +13,11 @@
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
-    <title>Music Events</title>
+    <title>Todo List</title>
   </head>
 <body>
   <div id="outside">
-    <div id="title">Music Events</div>
+    <div id="title">Todo List</div>
     <div id="subtitle">
       Register for a new account / login to an existing account.
     </div>
@@ -43,7 +43,7 @@
       <div class="g-signin2" data-onsuccess="onSignIn" style="text-align: center;"></div>
     </div>
     <div class= "goog" style="display: flex; justify-content: center;margin-top: 0.5rem;">
-        <a href="#" onclick="signOut();">Sign out</a>
+        <a href="#" class="googleSignOutButton" onclick="logout();">Sign out</a>
     </div>
     <div id="reg-message">
       <p>Successfully Registered</p>
@@ -51,67 +51,12 @@
     </div>
   </div>
   <div id="inside">
-    <nav class="navbar">
-      <a id="toplogo" class="navlink">Music Events</a>
-      <div>
-        <a id="username" class="navlink">User</a>
-        <a id="logout" class="navlink" onclick="logout()">Log Out</a>
-      </div>
-    </nav>
-    <div style="display: flex; justify-content: center; border-bottom: 1px solid black; padding-bottom: 1rem;">
-      <form id="search1" action="/" method="POST">
-        <span>Search&nbsp;</span>
-        <input type="text" placeholder="Enter city" name="city" autocomplete="off" required>
-        <input type="text" placeholder="Enter country" name="country" autocomplete="off" required>
-        <button class="button" type="submit">Search</button><span id="search-status"></span>
-      </form>
+    <h2>Welcome, you are logged in</h2>
+       <div class= "goog" style="display: flex; justify-content: center;margin-top: 0.5rem;">
+        <a href="#" class="googleSignOutButton" onclick="logout();">Sign out</a>
     </div>
-    <div id="grid">
-      <section id="holidays">
-        <div class="pad">
-            <p class="heading-md">Currency</p>
-            <hr>
-            <!-- Currency info -->
-            <div id="currencyinfo"></div>
-            <!-- -------------------------------- -->
-            <p class="heading-md" style="margin-top: 1.5rem;">Public Holidays</p>
-            <hr>
-            <!-- Holiday List -->
-            <div class="content_list pub-holiday">
-              <ul id="list1"></ul>
-            </div>
-        </div>
-      </section>
-      <section id="events">
-        <div class="pad">
-          <p class="heading-lg">Upcoming events</p>
-          <hr>
-        </div>
-        <!-- Events list -->
-        <div class="pad content_list">
-          <ul id="list2"></ul>
-        </div>
-      </section>
-      <section id="favorites">
-        <div class="pad">
-          <p class="heading-lg" style="margin-bottom: 0.5em;">My Favorites</p>
-          <hr style="margin-bottom: 0.5rem;">
-          <!-- Favorites list -->
-          <div class="content_list">
-            <ul id="list3"></ul>
-          </div>
-        </div>
-      </section>
-    </div>
+    <div></div>
   </div>
   <script src="index.js"></script>
-  <script>
-      function signOut() {
-        var auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(function () {
-          console.log('User signed out.');
-        });
-      }
-    </script>
 </body>
 </html>

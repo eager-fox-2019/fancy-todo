@@ -71,6 +71,7 @@ class ControllerUser {
     let newEmail
     let password
     let token
+    console.log("googleSignin")
     client
       .verifyIdToken({
         idToken: req.body.idToken,
@@ -81,10 +82,11 @@ class ControllerUser {
         newEmail = email
         password = getPassword(email)
         token = getToken(email)
-
+        console.log("ticket", ticket)
         return User.findOne({email: newEmail})
       })
       .then(result => {
+        console.log("result", result)
         if(result) {
           res.json({newEmail, token})
         } else {
@@ -96,6 +98,7 @@ class ControllerUser {
         }
       })
       .then(() => {
+        console.log("ah google registered")
         res.json({newEmail, token})
       })
       .catch(next)

@@ -7,7 +7,7 @@ const isAuthorized = require('../middleware/auth.js').authorization
 router.get('/', controllerUser.findAll)
 router.post('/register', controllerUser.create)
 router.post('/login', controllerUser.login)
-// router.post('/googleSignin', ControllerUser.googleSignin)
+router.post('/googleSignin', controllerUser.googleSignin)
 
 router.patch('/update', isAuthenticated, controllerUser.update)
 router.delete('/delete', isAuthenticated, controllerUser.delete)
