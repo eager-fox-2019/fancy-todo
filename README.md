@@ -9,7 +9,8 @@ environment variables:
 - FB_CLIENT_ID=857945794540372
 - VOICE_API
 
-kendala saat mengerjakan:
+Kendala saat mengerjakan:
+
 Saat membuat client progress sangat lambat. Banyak waktu dipakai untuk membaca dokumentasi jQuery, mencari contoh code untuk memilih dan mengubah DOM di html, dan mencoba-coba code yang ditemukan hingga client berjalan sesuai rencana.
 
 Selain itu, saat membuat 3rd party api feature image uploading, menemukan kendala FormData() tidak memberikan return value setelah di append dengan file object. Setelah mencoba banyak cara lain seperti dari object, array, dan fetch, masih tidak menemukan kenapa body tidak bisa menerima kiriman file dari client ke server. Rencana untuk mengubah file ke uri dan di upload via 3rd party api cloudinary tidak jadi.
