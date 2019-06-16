@@ -10,7 +10,8 @@ const TodoSchema = new Schema({
   description: String,
   status: Boolean,
   dueDate: String,
-  time: String
+  time: String,
+  image: String
 })
 
 const Todo = mongoose.model('Todo', TodoSchema)

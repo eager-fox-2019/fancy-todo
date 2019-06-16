@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <!-- google api-->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>  
+
     <meta name="google-signin-client_id" content="10161067710-5vlu9nls5863cc78l5mtsj2a6qjddv9k.apps.googleusercontent.com">
 
     
@@ -18,28 +19,45 @@
 <body>
     <header>
        <!-- NAVBAR START-->
-       <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="#" id="homeNav">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" id="registerNav">Sign up</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#" id="loginNav">Sign in</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" id="signoutNav" onclick="signOut();"">Sign Out</a>
-                </li>
-              </ul>
-            </div>
-          </nav>
+       <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark bg-dark">
+          <h2 class="navbar-brand" href="#" style="font-size:30px;margin-left:5%;"><span style="color:#F3DE8A;font-weight:bold">Life</span>Sync</h2>
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#" id="homeNav">
+                <i class="fa fa-home"></i>
+                Home
+                <span class="sr-only">(current)</span>
+                </a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ">
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="signupNav">
+                <i class="fa fa-user-plus"></i>
+                Sign Up
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#" id="signinNav">
+                <i class="fa fa-sign-in-alt"></i>
+                Sign In
+              </a>
+            </li>
+            <li class="nav-item" style="margin-right:55px;">
+              <a class="nav-link" href="#" id="signoutNav">
+                <i class="fa fa-sign-out-alt"></i>
+                Sign Out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
         <!-- NAVBAR END-->
     </header>
     
@@ -52,7 +70,7 @@
                 <div class="social-login">
                     <button class="btn google-btn social-btn" type="button" id="googleSignin"><span><i class="fab fa-google-plus-g"></i> Sign in with Google+</span> </button>
                 </div>
-                <p style="text-align:center"> OR  </p>
+                <p style="text-align:center">—————————— OR ——————————</p>
                 <label>Email</label>
                 <input type="email" id="signinEmail" class="form-control" placeholder="example@mail.com" required="" autofocus="">
                 <label>Password</label>
@@ -70,9 +88,8 @@
             <form action="/signup/" class="form-signup">
                 <div class="social-login">
                     <button class="btn google-btn social-btn" type="button"><span><i class="fab fa-google-plus-g"></i> Sign up with Google+</span> </button>
-                </div>
-                
-                <p style="text-align:center">OR</p>
+                </div>   
+                <p style="text-align:center">—————————— OR ——————————</p>
                 <label>Email</label>
                 <input type="email" id="signupEmail" class="form-control" placeholder="example@mail.com" required autofocus="">
                 <label>Password</label>
@@ -87,64 +104,66 @@
     <!-- REGISTER & LOGIN END-->
 
     <!-- TODO LIST START-->
-    <div id="todolist">
-      <div class="container animated fadeIn">
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h1 class="display-4">Todo List App</h1>
-            <p class="lead">Manage your tasks easily.</p>
+    <main>
+      <div id="todolist">
+          <div class="todoHeader">
+            <h2><img src="img/list.svg" class="headerImg"> Current Tasks</h2>
           </div>
-        </div>
-      
-        <div class="input-group mb-3">
-          <form id="todoForm">
-            <div id="todo-1">
-              <input type="text" id="task" class="form-control" placeholder="Type your task here...">
-              <div class="panel-group">
-                 <div class="panel panel-default">
-                   <div class="panel-heading">
-                     <h4 class="panel-title">
-                       <a data-toggle="collapse" href="#collapse0">Add description</a>
-                     </h4>
-                   </div>
-                   <div id="collapse0" class="panel-collapse collapse">
-                      <textarea rows="4" cols="30" id="description">
-                      </textarea>
-                   </div>
-                 </div>
-               </div> 
-            </div>
-            <div id="todo-2">
-              <div id="dateCheck">
-                <label>When is it due?</label>
-                <input type="checkbox" name="today" id="todayDate">Today
-                <label>Custom date:</label>
-                <input type="date" id="calendar">
+
+            <form id="todoForm">
+              
+                <input type="text" id="task" class="form-control" placeholder="Type your task here..." required autofocus="">
+
+              <div id="todoFormMain">
+                <div id="todo-1">
+                    <h4>Add description</h4>
+                    <textarea rows="4" cols="32" id="description" wrap="physical"></textarea>
+                    <br>
+                    <!-- <img id="taskImg" src="#" alt="your image"/>      -->
+                    <input id="addImg" type='file'>
+                    <!-- onchange="readURL(this);" -->
+                  </div>
+                  
+                <div id="todo-2">
+                  <h4>Configure date & time</h4>
+                  <div id="dateCheck">
+                    <label class="todo-2-label">Date: </label>
+                    <input type="checkbox" name="today" id="todayDate">
+                    <label for="todayDate" id="todayLabel">Today</label>
+                    <label class="todo-2-label"> or </label>
+                    <input type="date" id="calendar">
+                  </div>
+                  <label class="todo-2-label">Time: </label>
+                  <input type="time" id="time" required autofocus=""><br>
+                  <button class="btn btn-outline-secondary" type="submit" id="todo-add">Add Todo</button>
+                </div> 
               </div>
-              <label>What time is it due?</label>
-              <input type="time" id="time">
-            </div>
-
-            
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="submit" id="todo-add"">Add Todo</button>
-            </div>
-          </form>
-        </div>
-      
-        <ul class="list-group">
-          <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
-            Walk the dog this evening
-            <span class="badge badge-primary badge-pill">x</span>
-          </li> -->
-          <div class="panel-group" id="accordion">
-
-          </div>
-        </ul>
-      </div>
-    </div>
+              
+            </form>
+          
+        
+          <ul class="list-group">
+            <!-- <li class="list-group-item d-flex justify-content-between align-items-center">
+              Walk the dog this evening
+              <span class="badge badge-primary badge-pill">x</span>
+            </li> -->
+            <div class="panel-group" id="accordion">
   
-    <!-- TODO LIST END-->
+            </div>
+            </ul>
+          </div>
+        </div>
+      </div>
+  
+      <div id="checkedList">
+        <div class="todoHeader">
+          <h2><img src="img/done.svg" class="headerImg"> Finished Tasks</h2>
+        </div>
+      </div>
+    </main>
+
+  
+    <!-- TODO LIST END--> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>

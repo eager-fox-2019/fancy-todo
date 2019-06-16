@@ -1,12 +1,16 @@
 /* ================ REGISTER FUNCTION ================== */
+$
 
-$('#registerNav').click(function() {
+
+
+$('#signupNav').click(function() {
   // event.preventDefault()
   // $('#logreg-forms .form-signin').toggle(); // display:block or none
-  $('#logreg-forms').show()
-  $('#signinForm').hide()
-  $("#signupForm").show()
-  console.log('test')
+  // $('#logreg-forms').show()
+  // $('#signinForm').hide()
+  // $("#signupForm").show()
+  // console.log('test')
+  showSignup()
   // $('#logreg-forms .form-signup').show(); // display:block or none
 })
 
@@ -46,12 +50,16 @@ $(document).ready(function() {
 /* ========================= LOGIN FUNCTION  =======================================*/
 
 // normal login
-$('#loginNav').click( function() {
+$('#signinNav').click( function() {
   showSignin()
 })
 
 $('#signupButton').click(function() {
   showSignup()
+  // $('#todolist').hide()
+  // $('#logreg-forms').show()
+  // $('#signinForm').show()
+  // $("#signupForm").hide()
 })
 
 $('#signinForm').submit(function() {
@@ -132,21 +140,22 @@ startApp()
 
 /*============================ DISPLAY FUNCTIONS ==========================*/
 function showMain() {
+  $('#accordion').empty()
   $('#logreg-forms').hide()
-  $('#todolist').show()
+  $('#todolist').fadeIn(200)
   showTodos()
 }
 
 function showSignin() {
   $('#todolist').hide()
-  $('#logreg-forms').show()
+  $('#logreg-forms').fadeIn(200)
   $('#signinForm').show()
   $("#signupForm").hide()
 }
 
 function showSignup() {
   $('#todolist').hide()
-  $('#logreg-forms').show()
+  $('#logreg-forms').fadeIn(200)
   $('#signinForm').hide()
   $("#signupForm").show()
 }
@@ -162,6 +171,10 @@ function emptyTodo() {
 $('#signoutNav').click(function () {
   localStorage.removeItem('accessToken')
   $('#accordion').empty()
+  Swal.fire({
+    type: 'success',
+    title: 'Successfully signed out'
+  })
 })
 
 function signOut() {
@@ -181,6 +194,7 @@ $('#todoForm').submit(function() {
   let description = $('#description').val()
   let time = $('#time').val()
   let date;
+
   if ($('#todayDate').is(":checked")) {
     let temp = new Date()
     date = temp.toISOString().substr(0,10)
@@ -191,67 +205,181 @@ $('#todoForm').submit(function() {
 
   let token = localStorage.getItem('accessToken')
   
-  $.ajax({
-    method: "POST",
-    url: "http://localhost:3000/todo/add",
-    data: {
-      task: task,
-      description: description,
-      dueDate: date,
-      time: time
-    },
-    headers: {
-      accesstoken: token
-    }
-  })
-    .done(function(newTask) {
-      // console.log(newTask)
+  if($('#addImg').val()) {
+    var reader = new FileReader();
+      reader.onload = function (e) {
+        let img = e.target.result
+          let split = img.split(',')
 
-      let length = $('.list-group-item').length
-      // console.log('ACCORDION =====')
-
-      $('#accordion').append(`<div class="panel panel-default list-group-item">
-      <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapse${length+1}">
-            ${newTask.task}</a>
-          </h4>
-          <div class="taskDetail">
-            <div class="taskDate">
-              <p><span style="color:green">Due Date: </span>${newTask.dueDate}</p>
-              <p><span style="color:green">Time: </span>${newTask.time}</p>
-            </div>
-            <div class ="taskIcon">
-            <a href="#"><img src="img/delete.svg" class="deleteImg"></a>
-            <a href="#"><img src="img/checked.svg" class="checkedImg"></a>
-            </div>
-          </div>
-        </div>
-        <div id="collapse${length+1}" class="panel-collapse collapse in">
-          <div class="panel-body">${newTask.description}</div>
-        </div>
-      </div>`)
-
-      emptyTodo()
-    })
-    .fail(function(err) {
-      // if(err.)
-      if(err.status === 401) {
-        Swal.fire({
-          title: 'Sorry! You must sign in before procceeding',
-          // text: "Already have an account? Sign in to procceed",
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Sign in'
-        }).then((result) => {
-          if (result.value) {
-            showSignin()
+          split[0] = ""
+          let imgUrl = split.join(',')
+        
+          // let token = localStorage.getItem('accessToken')
+          $.ajax({
+            method: "POST",
+            url: "http://localhost:3000/todo/upload",
+            data: {
+              imgUrl: imgUrl
+            },
+            headers: {
+              accesstoken: token
+            }
+          })
+            .then(function(imgurLink) {
+              $.ajax({
+                  method: "POST",
+                  url: "http://localhost:3000/todo/add",
+                  data: {
+                    task: task,
+                    description: description,
+                    dueDate: date,
+                    time: time,
+                    image: imgurLink
+                  },
+                  headers: {
+                    accesstoken: token
+                  }
+                })
+                  .done(function(newTask) {
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Successfully added task',
+                    })
+                    let length = $('.list-group-item').length
+                    $('#accordion').append(`<div class="panel panel-default list-group-item">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapse${length+1}">
+                          ${newTask.task}</a>
+                        </h4>
+                        <div class="taskDetail">
+                          <div class="taskDate">
+                            <p><img src="img/calendar.svg" class="dateImg"> ${newTask.dueDate}</p>
+                            <p><img src="img/time.svg" class="dateImg"> ${newTask.time}</p>
+                          </div>
+                          <div class ="taskIcon">
+                          <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/delete.svg" class="deleteImg"></a>
+                          <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/checked.svg" class="checkedImg"></a>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="collapse${length+1}" class="panel-collapse collapse in">
+                        <div class="panel-body">${newTask.description} <img src="${imgurLink}"></div>
+                        <a href="#" class="editTodo">Edit Todo</a>
+                      </div>
+                    </div>`)
+              
+                    emptyTodo()
+                  })
+                  .fail(function(err) {
+                    // if(err.)
+                    if(err.status === 401) {
+                      Swal.fire({
+                        title: 'Sorry! You must sign in before procceeding',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sign in'
+                      }).then((result) => {
+                        if (result.value) {
+                          showSignin()
+                        }
+                      }) 
+                    }
+                  })
+            })
+            .fail(function(err) {
+              Swal.fire({
+                title: 'Sorry! You must sign in before procceeding',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sign in'
+              }).then((result) => {
+                if (result.value) {
+                  showSignin()
+                }
+              }) 
+            })
           }
-        }) 
+
+          let temp = $('#addImg')[0]
+          reader.readAsDataURL(temp.files[0]);
+    } else {
+      if ($('#todayDate').is(":checked")) {
+        let temp = new Date()
+        date = temp.toISOString().substr(0,10)
       }
-    })
+      else {
+        date = $('#calendar').val()
+      }
+
+      let token = localStorage.getItem('accessToken')
+  
+      $.ajax({
+        method: "POST",
+        url: "http://localhost:3000/todo/add",
+        data: {
+          task: task,
+          description: description,
+          dueDate: date,
+          time: time
+        },
+        headers: {
+          accesstoken: token
+        }
+      })
+        .done(function(newTask) {
+          let length = $('.list-group-item').length
+          Swal.fire({
+            type: 'success',
+            title: 'Successfully added task',
+          })
+
+          $('#accordion').append(`<div class="panel panel-default list-group-item">
+          <div class="panel-heading">
+              <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapse${length+1}">
+                ${newTask.task}</a>
+              </h4>
+              <div class="taskDetail">
+                <div class="taskDate">
+                  <p><img src="img/calendar.svg" class="dateImg"> ${newTask.dueDate}</p>
+                  <p><img src="img/time.svg" class="dateImg"> ${newTask.time}</p>
+                </div>
+                <div class ="taskIcon">
+                <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/delete.svg" class="deleteImg"></a>
+                <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/checked.svg" class="checkedImg"></a>
+                </div>
+              </div>
+            </div>
+            <div id="collapse${length+1}" class="panel-collapse collapse in">
+              <div class="panel-body">${newTask.description}</div>
+              <a href="#" class="editTodo">Edit Todo</a>
+            </div>
+          </div>`)
+
+          emptyTodo()
+        })
+        .fail(function(err) {
+          if(err.status === 401) {
+            Swal.fire({
+              title: 'Sorry! You must sign in before procceeding',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Sign in'
+            }).then((result) => {
+              if (result.value) {
+                showSignin()
+              }
+            }) 
+          }
+        })
+    }
 })
 
 
@@ -267,7 +395,6 @@ function showTodos() {
     }
   })
     .done(function(list) {
-      // console.log(list)
       let listTodos = ""
 
       for(let i = 0; i <= list.length-1; i++) {
@@ -285,17 +412,18 @@ function showTodos() {
           </h4>
           <div class="taskDetail">
             <div class="taskDate">
-              <p><span style="color:green">Due Date: </span>${list[i].dueDate}</p>
-              <p><span style="color:green">Time: </span>${list[i].time}</p>
+              <p><img src="img/calendar.svg" class="dateImg"> ${list[i].dueDate}</p>
+              <p><img src="img/time.svg" class="dateImg"> ${list[i].time}</p>
             </div>
             <div class ="taskIcon">
-            <a href="#"><img src="img/delete.svg" class="deleteImg"></a>
-            <a href="#"><img src="img/checked.svg" class="checkedImg"></a>
+            <a href="#" onclick="deleteTodo('${list[i]._id}')"><img src="img/delete.svg" class="deleteImg"></a>
+            <a href="#" onclick="checkedTodo('${list[i]._id}')"><img src="img/checked.svg" class="checkedImg"></a>
             </div>
           </div>
         </div>
         <div id="collapse${i+1}" class="panel-collapse collapse in">
           <div class="panel-body">${description}</div>
+          <a href="#" class="editTodo" onclick="editTodo('${list[i]._id}')">Edit Todo</a>
         </div>
       </div>`
       }
@@ -309,7 +437,8 @@ function showTodos() {
 
 //delete todo
 
-$('#accordion').on('click', '.deleteImg', function() {
+function deleteTodo(taskId) {
+  console.log(taskId)
   Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -320,62 +449,36 @@ $('#accordion').on('click', '.deleteImg', function() {
     confirmButtonText: 'Yes, delete it!'
   }).then((result) => {
     if (result.value) {
-      let value = $(this).parent()
-
-      let dates = value[0].nextSibling.parentElement.parentElement.firstElementChild.innerText.split(' ')
-
-      let task = value[0].offsetParent.firstElementChild.firstElementChild.innerText
-      let dueDate = dates[2].slice(0,10)
-      let time = dates[3]
-
       let token = localStorage.getItem('accessToken')
 
       $.ajax({
         method: "DELETE",
-        url: "http://localhost:3000/todo/delete",
-        data: {
-          task: task,
-          dueDate: dueDate,
-          time: time
-        },
+        url: `http://localhost:3000/todo/delete/${taskId}`,
         headers: {
           accesstoken: token 
         }
       })
-        .done(function() {
+        .done(function(data) {
           $('#accordion').empty()
           showMain()
+          console.log(data)
+          console.log('masukk')
         })
         .fail(function(err) {
           console.log('error')
         })
     }
   })
-  
-})
+}
 
 //check Todo
 
-$('#accordion').on('click', '.checkedImg', function() {
-  // console.log('test')
-  let value = $(this).parent()
-
-  let dates = value[0].nextSibling.parentElement.parentElement.firstElementChild.innerText.split(' ')
-
-  let task = value[0].offsetParent.firstElementChild.firstElementChild.innerText
-  let dueDate = dates[2].slice(0,10)
-  let time = dates[3]
-
+function checkedTodo(taskId) {
   let token = localStorage.getItem('accessToken')
 
   $.ajax({
     method: "PATCH",
-    url: "http://localhost:3000/todo/checked",
-    data: {
-      task: task,
-      dueDate: dueDate,
-      time: time
-    },
+    url: `http://localhost:3000/todo/checked/${taskId}`,
     headers: {
       accesstoken: token
     }
@@ -386,6 +489,165 @@ $('#accordion').on('click', '.checkedImg', function() {
     .fail(function(err) {
       console.log(err)
     })
+}
 
-})
 
+//upload imgur 
+function readURL(input) {
+  // return 'test'
+  // console.log(input.files)
+  if (input.files && input.files[0]) {
+      var reader = new FileReader();
+
+      reader.onload = function (e) {
+        let img = e.target.result
+        console.log(e.target.result)
+          $('#taskImg')
+              .attr('src', img)
+              .width(150)
+              .height(200);
+
+            let split = img.split(',')
+
+            split[0] = ""
+            let imgUrl = split.join(',')
+          
+            let token = localStorage.getItem('accessToken')
+            $.ajax({
+              method: "POST",
+              url: "http://localhost:3000/todo/upload",
+              data: {
+                imgUrl: imgUrl
+              },
+              headers: {
+                accesstoken: token
+              }
+            })
+              .then(function(data) {
+                console.log(data)
+              })
+              .fail(function(err) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Something went wrong with Imgur. Your file type or size might not be supported.',
+                  footer: '<a href>Why do I have this issue?</a>'
+                })
+              })
+        
+
+          // console.log(imgLink, 'insideee readurl')
+
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+function uploadImgur(link) {
+
+  // let split = link.split(',')
+  // split[0] = ""
+  // let imgUrl = split.join(',')
+
+  // let token = localStorage.getItem('accessToken')
+  // $.ajax({
+  //   method: "POST",
+  //   url: "http://localhost:3000/todo/upload",
+  //   data: {
+  //     imgUrl: imgUrl
+  //   },
+  //   headers: {
+  //     accesstoken: token
+  //   }
+  // })
+  //   .then(function(data) {
+  //     console.log(data)
+  //     // return data
+  //   })
+  //   .fail(function(err) {
+  //     Swal.fire({
+  //       type: 'error',
+  //       title: 'Oops...',
+  //       text: 'Something went wrong with Imgur. Your file type or size might not be supported.',
+  //       footer: '<a href>Why do I have this issue?</a>'
+  //     })
+  //   })
+}
+
+//edit todo
+
+function editTodo(taskId) {
+  let token = localStorage.getItem('accessToken')
+  $.ajax({
+    method: "GET",
+    url: `http://localhost:3000/todo/findone/${taskId}`,
+    headers: {  
+      accesstoken: token
+    }
+  })
+    .done(function(foundTask) {
+      // console.log(task)
+      Swal.fire({
+        title: 'Edit Task',
+        html:
+          `
+          —————————————————————————
+          <form class="editForm">
+              <h4>Task</h4>
+              <input type="text" id="editTask" style="padding:5px;width:70%;"value="${foundTask.task}">
+              <br><br>
+              <h4>Description</h4>
+              <textarea rows="4" cols="30" style="padding:10px;" id="editDesc" wrap="physical">${foundTask.description}</textarea>
+              <br><br>
+              <div style="display:flex;justify-content:space-evenly;">
+                <h4>Date</h4>
+                <input type="date" id="editDate" value="${foundTask.dueDate}" style="padding:5px;">
+                <h4>Time</h4>
+                <input type="time" id="editTime" value="${foundTask.time}" style="padding:5px;">
+              </div>
+
+          </form>
+          
+          `,
+        focusConfirm: false,
+        preConfirm: () => {
+          return new Promise((resolve, reject) => {
+            resolve({
+              task: $('#editTask').val(),
+              description: $('#editDesc').val(),
+              dueDate: $('#editDate').val(),
+              time: $('#editTime').val()
+            })
+          })
+        }
+      })
+      .then((data) => {
+        let edit = data.value
+
+        $.ajax({
+          method: "PATCH",
+          url: `http://localhost:3000/todo/update/${taskId}`,
+          headers: {
+            accesstoken: token
+          },
+          data: {
+            task: edit.task,
+            description: edit.description,
+            dueDate: edit.dueDate,
+            time: edit.time
+          }
+        })
+          .done(function(updatedTask) {
+            $('#accordion').empty()
+            Swal.fire({
+              type: 'success',
+              title: 'Successfully edited'
+            })
+            showMain()     
+          })
+          .fail(function(err) {
+            console.log(err)
+          })
+      })   
+    })
+}
