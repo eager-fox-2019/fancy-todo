@@ -8,6 +8,7 @@ router.get('/', controllerUser.findAll)
 router.post('/register', controllerUser.create)
 router.post('/login', controllerUser.login)
 router.post('/googleSignin', controllerUser.googleSignin)
+router.post('/fblogin', controllerUser.fbSignin)
 
 router.patch('/update', isAuthenticated, controllerUser.update)
 router.delete('/delete', isAuthenticated, controllerUser.delete)

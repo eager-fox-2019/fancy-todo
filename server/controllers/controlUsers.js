@@ -67,28 +67,49 @@ class ControllerUser {
     .catch(next)
   }
 
+  static fbSignin(req, res, next){
+    const { name, email, password } = req.body
+    const input = { name, email, password }
+    let token
+
+    User.findOne({email: input.email})
+    .then(found=> {
+      if (found){
+        //not firsttime login
+        return
+      } else {
+        console.log("new fb user")
+        return User.create(input)
+      }
+    })
+    .then(() => {
+      console.log("fb login")
+      token = generateToken(email)
+      res.json({email, token})
+    })
+    .catch(next)
+  }
+
   static googleSignin(req, res, next) {
     let newEmail
     let password
     let token
-    console.log("googleSignin")
     client
       .verifyIdToken({
         idToken: req.body.idToken,
         audience: process.env.GOOGLE_CLIENT
       })
       .then(ticket => {
-        const {email} = ticket.getPayload()
+
+        const {email, at_hash} = ticket.getPayload()
         newEmail = email
-        password = getPassword(email)
-        token = getToken(email)
-        console.log("ticket", ticket)
+        password = at_hash
+        token = generateToken(email)
         return User.findOne({email: newEmail})
       })
       .then(result => {
-        console.log("result", result)
         if(result) {
-          res.json({newEmail, token})
+          return 
         } else {
           return User.create({
             name: newEmail.split('@')[0],
@@ -98,7 +119,6 @@ class ControllerUser {
         }
       })
       .then(() => {
-        console.log("ah google registered")
         res.json({newEmail, token})
       })
       .catch(next)

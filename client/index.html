@@ -60,8 +60,10 @@
         <div class="g-signin2" data-onsuccess="onSignIn" style="text-align: center;"></div>
       </div>
       <br>
-      <div style="display: flex; justify-content: center;margin-top: 0.5rem;" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="true" data-use-continue-as="false" scope="public_profile,email" onlogin="checkLoginState()"></div>
+
+      <div style="display: flex; justify-content: center;margin-top: 0.5rem;" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="true" data-use-continue-as="false" data-scope="email" onlogin="checkLoginState()"></div>
       <br>
+
       <div style="display: flex; justify-content: center;margin-top: 0.5rem;">
           <a href="#" onclick="logout();">Sign out</a>
       </div>
@@ -112,5 +114,6 @@
 
   </div>
   <script src="index.js"></script>
+  <script src="todolist.js"></script>
 </body>
 </html>
