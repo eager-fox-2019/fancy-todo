@@ -5,6 +5,8 @@ Hayo ngintip2 gw laporin mba icha ntar
 ᕦ(ò_óˇ)ᕤ
 do you even lift bro?
 
+DOCUMENTATION
+
 ### Signup 
 
 - route:
@@ -101,9 +103,9 @@ Token is decoded via JWT to get UserId.
         status,
         group (tag),
         UserId,
-        dbDue_date (ex: 2015-03-25T12:00:00Z),
-        due_date: (ex:`${2015}-${03}-${25}`),
-        showDue_date: (ex: `${25} ${March} ${2015}`),
+        dbDue_date (format: 2015-03-25T12:00:00Z),
+        due_date: (format:`2015-03-25`),
+        showDue_date: (format: `25 March 2015`),
         __v
     }`
 ```
@@ -143,9 +145,9 @@ User can not delete To-Do that does not belongs to his/her, it is authorized in 
         status,
         group (tag),
         UserId,
-        dbDue_date (ex: 2015-03-25T12:00:00Z),
-        due_date: (ex:`${2015}-${03}-${25}`),
-        showDue_date: (ex: `${25} ${March} ${2015}`),
+        dbDue_date (format: 2015-03-25T12:00:00Z),
+        due_date: (format:`2015-03-25`),
+        showDue_date: (format: `25 March 2015`),
         __v
     }`
 ```
