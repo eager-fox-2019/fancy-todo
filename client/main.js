@@ -1,13 +1,16 @@
 let token = localStorage.getItem("token")
 const serverUrl = 'http://localhost:3000';
 $(document).ready(function(){
-    // if(token){
-    //     $('#login-form').hide()
-    //     $('#loggedUsername').append(`${localStorage.getItem("username")}`)
-    //     $('#hacktivGit').show()
-    //     let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signoutall()">Log out</a>`
-    //     $('#outButton').append(logout)
-    // }
+    if(token){
+        $('#userform').hide()
+        $('#loggedUsername').empty()
+        $('#loggedUsername').append(`Hi, ${localStorage.getItem("username")}!`)
+        $('#outButton').empty()
+        let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signoutall()">Log out</a>`
+        $('#outButton').append(logout)
+        $('#todolist').show()
+        updateList()            
+    }
 
     $('#to-register-form').on('click', function(event){
         event.preventDefault()
@@ -55,130 +58,232 @@ $(document).ready(function(){
         $.ajax({
             method: "POST",
             data: {email, password},
-            url: `${serverUrl}/user/signin`
+            url: `${serverUrl}/user/login`
         })
             .done(function(res) {
+                $('#outButton').empty()
+                $('#loggedUsername').empty()
+                console.log("Done Login: ", res)
                 localStorage.setItem("token", res.token)
-                localStorage.setItem("email", email)
+                localStorage.setItem("username", res.username)
                 let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signout()">Log out</a>`
                 $('#outButton').append(logout)
-                $('#login-form').hide()
+                $('#userform').hide()
                 $('#loggedUsername').append(`Hi, ${res.username}!`)
                 $('#todolist').show()
+                updateList()                
             })
             .fail(function(err) {
-                console.log(err.responseJSON.message)
+                console.log(err)
             })
             .always(function() {
                 console.log("Login Process Finished")
             })
     })
 
-    // $('.username').on('click', function(event){
-    //     event.preventDefault()
-    //     let user = $('.username').prevObject[0].activeElement.innerHTML
-    //     $.ajax({
-    //         method: 'GET',
-    //         url: `http://localhost:3000/api/github/${user}/repo`
-    //     })
-    //         .done(function(repos){
-    //             $("#repolist").empty();
-    //             let list = ``
-    //             for(let i = 0; i < repos.length; i++){
-    //                 console.log(repos[i])
-    //                 list += `<li class="repository">
-    //                     <a href="#" class="repodetail"><b>${repos[i].name}</b></a><br>
-    //                     Author: <a href="#" class="username">${repos[i].owner.login}</a><br>
-    //                     ${repos[i].language || ""}<br>
-    //                     <span class="border-bottom border-dark">
-    //                         <a href="${repos[i].html_url}" target="blank">View on Github</a>
-    //                     </span>
-    //                 </li>`
-    //             }
-    //             $('#repolist').append(list)
-    //         })
-    //         .fail(function(err) {
-    //             console.log(err)
-    //         })
-    //         .always(function() {
-    //             console.log("Process Finished")
-    //         });
-    // })
+    $('#add-form').on('click', '.addTask', function(event){
+        event.preventDefault()
+        const name = $("#name").val()
+        const description = $("#description").val()
+        const due_date = $("#due_date").val()
+        $.ajax({
+            method: "POST",
+            url: `${serverUrl}/todo/create`,
+            headers: {token: localStorage.getItem("token")},
+            data: {
+                name,
+                description,
+                due_date
+            }
+        })
+            .done(function(res) {
+                document.getElementById("add-form").reset(); 
+                updateList()
+            })
+            .fail(function(err) {
+                console.log(err)
+            })
+            .always(function() {
+                console.log("Create Task Process Finished")
+            })
+    })
 
-    // $('#search').submit(function(event) {
-    //     event.preventDefault()
-    //     const filter = $("#filter").val()
-    //     $.ajax({
-    //         method: "GET",
-    //         url: `http://localhost:3000/api/github/my-starred-repo`
-    //     })
-    //         .done(function(repos) {
-    //             let rgx = new RegExp(filter, 'i')
-    //             $("#repolist").empty()
-    //             for(let i = 0; i < repos.length; i++){
-    //                 if(rgx.test(repos[i].name) || rgx.test(repos[i].owner.login)){
-    //                     $("#repolist").append(`
-    //                         <li>
-    //                             <p><b><a href="#" class="repodetail">${repos[i].name}</a></b><br>
-    //                                 Author: <a href="#" class="username">${repos[i].owner.login}</a><br>
-    //                                 ${repos[i].language || ""}<br>
-    //                                 <span class="border-bottom border-dark">
-    //                                     <a href="${repos[i].html_url}">View on Github</a>
-    //                                 </span>
-    //                             </p>
-    //                         </li>
-    //                     `)
-    //                 }
-    //             }
-    //         })
-    //         .fail(function(err) {
-    //             console.log(err)
-    //         })
-    //         .always(function() {
-    //             console.log("Process Finished")
-    //         });
-    // })
+    $('#list').on('click', '.complete', function(event){
+        event.preventDefault()
+        let id = $("a").prevObject[0].activeElement.id.slice(9)
+        complete(id)
+    })
+
+    $('#list').on('click', '.delete', function(event){
+        event.preventDefault()
+        let id = $("a").prevObject[0].activeElement.id.slice(4)
+        deleteTodo(id)
+    })
+
+    $('#finished').on('click', '.incomplete', function(event){
+        event.preventDefault()
+        let id = $("a").prevObject[0].activeElement.id.slice(11)
+        incomplete(id)
+    })
+
+    $('#finished').on('click', '.delete', function(event){
+        event.preventDefault()
+        let id = $("a").prevObject[0].activeElement.id.slice(4)
+        deleteTodo(id)
+    })
 })
 
-// function signout() {
-//     event.preventDefault()
-//     console.log("Logging out")
-//     localStorage.removeItem("token")
-//     localStorage.removeItem("username")
-//     $('#loggedUsername').empty()
-//     $('#outButton').empty()
-//     $('#logform').show()
-//     $('#hacktivGit').hide()
-// }
+function signout() {
+    event.preventDefault()
+    console.log("Google logging out")
+    localStorage.removeItem("token")
+    localStorage.removeItem("username")
+    $('#loggedUsername').empty()
+    $('#outButton').empty()
+    $('#userform').show()
+    $('#login-form').show()
+    $('#todolist').hide()
+    $('#list').empty()
+}
 
-// function onSignIn(googleUser) {
-//     var idToken = googleUser.getAuthResponse().id_token;
-//     axios.post(`${serverUrl}/api/user/tokensignin`, { idToken:idToken })
-//         .then(function({ data }) {
-//             // IMPORTANT! Saves the accessToken from server
-//             let profile = googleUser.getBasicProfile();
-//             localStorage.setItem('token', data.token);
-//             localStorage.setItem("username", profile.getEmail())
-//             $('#logform').hide()
-//             $('#loggedUsername').append(`${localStorage.getItem("username")}`)
-//             $('#hacktivGit').show()
-//             let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signoutall()">Log out</a>`
-//             $('#outButton').append(logout)        
-//         })
-//         .catch(function(err) {
-//             console.log(err);
-//         });
-// }
+function onSignIn(googleUser) {
+    var idToken = googleUser.getAuthResponse().id_token;
+    axios.post(`${serverUrl}/user/google`, { idToken:idToken })
+        .then(function({ data }) {
+            // IMPORTANT! Saves the accessToken from server
+            $('#userform').hide()
+            $('#outButton').empty()
+            $('#loggedUsername').empty()            
+            let profile = googleUser.getBasicProfile();
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('username', profile.getName())
+            let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signoutall()">Log out</a>`
+            $('#outButton').append(logout)
+            $('#loggedUsername').append(`Hi, ${localStorage.getItem("username")}!`)
+            $('#todolist').show()
+            updateList()  
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+}
 
-// function googleSignOut() {
-//     var auth2 = gapi.auth2.getAuthInstance();
-//     auth2.signOut().then(function () {
-//       console.log('User (Google Account) signed out.');
-//     });
-// }
+function googleSignOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User (Google Account) signed out.');
+    });
+}
 
-// function signoutall() {
-//     signout()
-//     googleSignOut()
-// }
+function signoutall() {
+    signout()
+    googleSignOut()
+}
 
+function updateList() {
+    $.ajax({
+        method: "GET",
+        url: `${serverUrl}/todo`,
+        headers: { token: localStorage.getItem('token') }
+    })
+        .done(task => {
+            $('#list').empty()
+            $('#finished').empty()
+            for(let i = 0; i < task.length; i++){
+                if(task[i].status){
+                    $('#finished').append(`
+                    <div class="card" style="width: 100%;">
+                        <h5 class="card-header text-center">${task[i].name}</h5>
+                        <div class="card-body">
+                            Description:
+                            <br>${task[i].description}
+                            <br>Status: completed
+                            <br>Due Date: ${task[i].due_date.slice(0,10)}
+                            <div class="text-center">
+                                <a href="#" class="btn btn-primary incomplete mt" id="incomplete-${task[i]._id}">Incomplete</a>
+                                <a href="#" class="btn btn-danger delete mt" id="del-${task[i]._id}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                `)
+                } else {
+                    $('#list').append(`
+                        <div class="card" style="width: 100%;">
+                            <h5 class="card-header text-center">${task[i].name}</h5>
+                            <div class="card-body">
+                                Description:
+                                <br>${task[i].description}
+                                <br>Status: incomplete
+                                <br>Due Date: ${task[i].due_date.slice(0,10)}
+                                <div class="text-center">
+                                    <a href="#" class="btn btn-primary complete mt" id="complete-${task[i]._id}">Completed</a>
+                                    <a href="#" class="btn btn-danger delete mt" id="del-${task[i]._id}">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    `)
+                }
+            }
+        })
+        .fail(err=> {
+            console.log(err)
+        })
+        .always(function(){
+            console.log("Get Task Finished")
+        })
+}
+
+function complete(id){
+    $.ajax({
+        method: "PATCH",
+        url: `${serverUrl}/todo/edit/${id}`,
+        headers: { token: localStorage.getItem('token') },
+        data: {status: true}
+    })
+        .done(function(res) {
+            updateList()                
+        })
+        .fail(function(err) {
+            console.log(err)
+        })
+        .always(function() {
+            console.log("Complete Process Finished")
+        })
+}
+
+function incomplete(id){
+    $.ajax({
+        method: "PATCH",
+        url: `${serverUrl}/todo/edit/${id}`,
+        headers: { token: localStorage.getItem('token') },
+        data: {status: false}
+    })
+        .done(function(res) {
+            updateList()                
+        })
+        .fail(function(err) {
+            console.log(err)
+        })
+        .always(function() {
+            console.log("Incomplete Process Finished")
+        })
+}
+
+function deleteTodo(id){
+    $.ajax({
+        method: "DELETE",
+        url: `${serverUrl}/todo/delete/${id}`,
+        headers: { token: localStorage.getItem('token') }
+    })
+        .done(function(res) {
+            updateList()                
+        })
+        .fail(function(err) {
+            console.log(err)
+        })
+        .always(function() {
+            console.log("Delete Process Finished")
+        })
+}

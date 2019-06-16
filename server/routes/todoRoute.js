@@ -3,9 +3,10 @@ const todoController = require('../controllers/todoController')
 const {authentication} = require('../middlewares/auth')
 
 router.use(authentication)
-router.get('/', todoController.findAll)
+router.get('/', todoController.findPersonal)
 router.post('/create', todoController.create)
 router.patch('/edit/:todoId', todoController.update)
 router.delete('/delete/:todoId', todoController.delete)
+// router.get('/:userId', todoController.findPersonal)
 
 module.exports = router

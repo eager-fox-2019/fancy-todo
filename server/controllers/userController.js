@@ -63,69 +63,37 @@ class UserController{
             .catch(next)
     }
     
-    // static googleLogin(req, res, next){
-    //     const {OAuth2Client} = require('google-auth-library');
-    //     const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
-    //     let ticketPayload
-    //     async function verify(){
-    //         const ticket = await client.verifyIdToken({
-    //             idToken: req.body.idToken,
-    //             audience: process.env.GOOGLE_CLIENT_ID
-    //         })
-    //         const payload = ticket.getPayload()
-    //         let user = await User.findOne({email: payload.email})
-    //         if(!user){
-    //             console.log("New User")
-    //             const input = {
-    //                 username: ticketPayload.name,
-    //                 email: ticketPayload.email,
-    //                 password: `${Math.random().toString(36).substring(7)}`
-    //             }
-    //             user = await User.create(input)
-    //         }
-    //         const payload = {
-    //             username: user.username,
-    //             email: user.email,
-    //             id: user.id
-    //         }
-    //         let token = generateToken(payload)
-    //         res.json({ token })
-    //     }
-    //     verify()
-    //     .catch(next)
-
-    //     // client.verifyIdToken({
-    //     //     idToken: req.body.idToken,
-    //     //     audience: process.env.GOOGLE_CLIENT_ID
-    //     // })
-    //     //     .then(function(ticket){
-    //     //         ticketPayload = ticket.getPayload()
-    //     //         return User.findOne({email: ticketPayload.email})
-    //     //     })
-    //     //     .then(user => {
-    //     //         if(!user){
-    //     //             console.log("User not exist");
-    //     //             const input = {
-    //     //                 username: ticketPayload.name,
-    //     //                 email: ticketPayload.email,
-    //     //                 password: `${Math.random().toString(36).substring(7)}`
-    //     //             }
-    //     //             return User.create(input)
-    //     //         } else {
-    //     //             return user
-    //     //         }
-    //     //     })
-    //     //     .then(user => {
-    //     //         const payload = {
-    //     //             username: result.username,
-    //     //             email: result.username,
-    //     //             id: result.id
-    //     //         }
-    //     //         let token = geneerateToken(payload)
-    //     //         res.json({ token })
-    //     //     })
-    //     //     .catch(next)
-    // }
+    static googleLogin(req, res, next){
+        const {OAuth2Client} = require('google-auth-library');
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+        // let ticketPayload
+        async function verify(){
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.idToken,
+                audience: process.env.GOOGLE_CLIENT_ID
+            })
+            const ticketPayload = ticket.getPayload()
+            let user = await User.findOne({email: ticketPayload.email})
+            if(!user){
+                console.log("New User")
+                const input = {
+                    username: ticketPayload.name,
+                    email: ticketPayload.email,
+                    password: `${Math.random().toString(36).substring(7)}`
+                }
+                user = await User.create(input)
+            }
+            const payload = {
+                username: user.username,
+                email: user.email,
+                id: user.id
+            }
+            let token = generateToken(payload)
+            res.json({ token })
+        }
+        verify()
+        .catch(next)
+    }
 }
 
-module.exports = UserController // from class name
+module.exports = UserController

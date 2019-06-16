@@ -9,9 +9,8 @@ class TodoController{
             .catch(next)
     }
 
-    static findBy(req, res, next){
-        let query = Object.keys(req.query).reduce((acc, el) => Object.assign(acc, { [el]: new RegExp(req.query[el], "i")}), {})
-        Todo.find(query)
+    static findPersonal(req, res, next){
+        Todo.find({assign: req.decode.id})
             .then(todos => {
                 res.json(todos)
             })
