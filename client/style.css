@@ -1,0 +1,246 @@
+/* --------------------- Initial setup ---------------------  */
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Nunito', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+a {
+  text-decoration: none;
+  outline: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* --------------------- Login and Register Form setup ---------------------  */
+
+.login-register-container {
+  display: flex;
+  justify-content: center;
+}
+
+.login-register-form {
+  color: #0C3257;
+  background-color: #C0E0FF;
+  width: 30%;
+  margin-top: 100px;
+  padding: 50px 30px;
+  border-radius: 5%;
+}
+
+#login-button, #register-button {
+  margin-left: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#register-link {
+  color: #606F7F;
+  font-weight: bold;
+}
+
+#register-link:hover {
+  color: #0C3257;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+#back-login-button {
+  font-weight: bold;
+}
+
+#back-login-button:hover {
+  color: #0C3257;
+  text-transform: uppercase;
+  transition: 0.3s;
+}
+
+#github-link {
+  color: black;
+  margin-left: 10px;
+}
+
+#github-logo {
+  margin: 0 5px;
+  height: 38px;
+  width: 38px;
+}
+
+/* --------------------- Todo Container setup ---------------------  */
+
+#logout-link {
+  color: white;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#todo-container {
+  display: flex;
+}
+
+#brand {
+  color: white;
+  text-align: center;
+}
+
+#brand-text {
+  font-size: 2rem;
+  font-weight: bold;
+  padding: 10px;
+}
+
+#search-repo-container {
+  padding: 10px 10px 30px 10px;
+  border-bottom: 1px solid #777;
+}
+
+.repo-list-border {
+  padding: 10px 0px 10px 0px;
+  border-bottom: 1px solid #777;
+}
+
+.repo-list {
+  font-size: 1.2rem;
+  color: #ddd;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.repo-list:hover {
+  color: #428bca;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+#todo-header {
+  color: black;
+  text-align: left;
+}
+
+#todo-header-text {
+  font-size: 1.5rem;
+  padding: 20px 0px 20px 20px;
+}
+
+#add-todo-section {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #aaa;
+}
+
+#add-todo-section-button:hover {
+  background-color: blue;
+  color: white;
+  transition: 0.3s;
+}
+
+.todo {
+  padding: 20px 20px;
+  border-bottom: 1px solid #aaa;
+}
+
+.todo-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.todo-bottom-text {
+  color: black;
+}
+
+.todo-description {
+  margin-top: 20px;
+}
+
+.todo-status {
+  margin: 0;
+  color: #606F7F;
+}
+
+.todo-date {
+  color: #606F7F;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+#navigation {
+  min-height: 100vh;
+  width: 18%;
+  background-color: #222;
+}
+
+#list-of-todo {
+  min-height: 100vh;
+  width: 25%;
+  background-color: #eee;
+}
+
+#edit-section {
+  min-height: 100vh;
+  width: 57%;
+}
+
+#edit-section-name {
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #eee;
+  height: 80px;
+  padding: 20px;
+  font-size: 3rem;
+}
+
+#edit-section-name:focus,#edit-section-description:focus  {
+  outline: none;
+}
+
+#edit-section-name-header {
+  font-size: 2rem;
+  margin: 20px 0px 20px 20px;
+}
+
+#edit-section-description {
+  padding: 20px;
+  width: 100%;
+  height: 70vh;
+  border: none;
+}
+
+#due-date {
+  margin: 0px 0px 20px 20px;
+  border: 1px solid #aaa;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+#due-date:focus {
+  outline: none;
+}
+
+.btn {
+  margin-left: 20px;
+}
+
+#button-add{
+  display: none;
+}
+
+#button-edit{
+  display: none;
+}
+
+#button-delete{
+  display: none;
+}
+
+.repo-link {
+  color: black;
+}
