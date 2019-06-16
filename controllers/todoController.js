@@ -19,18 +19,19 @@ class TodoController{
     }
 
     static create(req, res, next){
-        const { name, description, status, due_date, assign } = req.body
-        const input = { name, description, status, due_date, assign }
+        const { name, description, due_date } = req.body
+        const input = { name, description, due_date }
+        input.assign = [req.decode.id]
         Todo.create(input)
-            .then(newTodo => {            
+            .then(newTodo => {        
                 res.status(201).json(newTodo)
             })
             .catch(next)
     }
 
-    static updatePatch(req, res, next){
+    static update(req, res, next){
         let searchObj = {
-            _id: ObjectId(req.params.id)
+            _id: req.params.todoId
         }
         let updateObj = {}
         let updateKeys = Object.keys(req.body)
@@ -43,7 +44,7 @@ class TodoController{
         Todo.updateOne(searchObj, setObj)
             .then(result => {
                 if(!result || result.n === 0){
-                    throw {code: 404}
+                    throw {code: 404, message: "Task not found"}
                 } else {
                     res.json(result)
                 }
@@ -53,12 +54,12 @@ class TodoController{
 
     static delete(req, res, next){
         let searchObj = {
-            _id: ObjectId(req.params.id)
+            _id: req.params.todoId
         }
         Todo.deleteOne(searchObj)
             .then(result => {
                 if(!result || result.n === 0){
-                    throw {code: 404}
+                    throw {code: 404, message: "Task not found"}
                 } else {
                     res.json(result)
                 }

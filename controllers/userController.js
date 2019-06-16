@@ -1,5 +1,5 @@
 const { User } = require('../models')
-const { verifyPassword } = require('../helpers/bcrypt')
+const { checkPassword } = require('../helpers/bcrypt')
 const { generateToken } = require('../helpers/jwt')
 
 class UserController{
@@ -42,7 +42,7 @@ class UserController{
         User.findOne({ email: input.email })
             .then(user => {
                 if(user){
-                    if(verifyPassword(input.password, user.password)){
+                    if(checkPassword(input.password, user.password)){
                         const payload = {
                             username: user.username,
                             email: user.email,
