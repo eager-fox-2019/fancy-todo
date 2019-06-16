@@ -259,7 +259,7 @@ $('#todoForm').submit(function() {
                           </div>
                           <div class ="taskIcon">
                           <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/delete.svg" class="deleteImg"></a>
-                          <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/checked.svg" class="checkedImg"></a>
+                          <a href="#" onclick="checkedTodo('${newTask._id}')"><img src="img/checked.svg" class="checkedImg"></a>
                           </div>
                         </div>
                       </div>
@@ -351,7 +351,7 @@ $('#todoForm').submit(function() {
                 </div>
                 <div class ="taskIcon">
                 <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/delete.svg" class="deleteImg"></a>
-                <a href="#" onclick="deleteTodo('${newTask._id}')"><img src="img/checked.svg" class="checkedImg"></a>
+                <a href="#" onclick="checkedTodo('${newTask._id}')"><img src="img/checked.svg" class="checkedImg"></a>
                 </div>
               </div>
             </div>
@@ -438,7 +438,6 @@ function showTodos() {
 //delete todo
 
 function deleteTodo(taskId) {
-  console.log(taskId)
   Swal.fire({
     title: 'Are you sure?',
     text: "You won't be able to revert this!",
@@ -460,12 +459,12 @@ function deleteTodo(taskId) {
       })
         .done(function(data) {
           $('#accordion').empty()
+          $('#accordionChecked').empty()
+          showChecked()
           showMain()
-          console.log(data)
-          console.log('masukk')
         })
         .fail(function(err) {
-          console.log('error')
+          console.log(err)
         })
     }
   })
@@ -484,97 +483,57 @@ function checkedTodo(taskId) {
     }
   })
     .done(function(updated) {
-      console.log(updated)
+      $('#accordion').empty()
+      showTodos()
+      $('#accordionChecked').empty()
+      showChecked()
+      Swal.fire({
+        type: 'success',
+        title: 'Added to your finished tasks'
+      })
     })
     .fail(function(err) {
       console.log(err)
     })
 }
 
+showChecked()
+function showChecked() {
+  let token = localStorage.getItem('accessToken')
+  $.ajax({
+    method: "GET",
+    url: "http://localhost:3000/todo/findtodos/checked",
+    headers: {
+      accessToken: token
+    }
+  })
+    .then(list => {
+      let listTasks = ''
 
-//upload imgur 
-function readURL(input) {
-  // return 'test'
-  // console.log(input.files)
-  if (input.files && input.files[0]) {
-      var reader = new FileReader();
+      for(let i=0; i<=list.length-1;i++) {
+        listTasks += `<div class="panel panel-default list-group-item">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a>
+            ${list[i].task}</a>
+          </h4>
+          <div class="taskDetail">
+            <div class="taskDate">
+              <p><img src="img/calendar.svg" class="dateImg"> ${list[i].dueDate}</p>
+              <p><img src="img/time.svg" class="dateImg"> ${list[i].time}</p>
+            </div>
+            <div class ="taskIcon">
+            <a href="#" onclick="deleteTodo('${list[i]._id}')"><img src="img/delete.svg" class="deleteImg"></a>
+            </div>
+          </div>
+        </div>
+      </div>`
+      }
 
-      reader.onload = function (e) {
-        let img = e.target.result
-        console.log(e.target.result)
-          $('#taskImg')
-              .attr('src', img)
-              .width(150)
-              .height(200);
-
-            let split = img.split(',')
-
-            split[0] = ""
-            let imgUrl = split.join(',')
-          
-            let token = localStorage.getItem('accessToken')
-            $.ajax({
-              method: "POST",
-              url: "http://localhost:3000/todo/upload",
-              data: {
-                imgUrl: imgUrl
-              },
-              headers: {
-                accesstoken: token
-              }
-            })
-              .then(function(data) {
-                console.log(data)
-              })
-              .fail(function(err) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops...',
-                  text: 'Something went wrong with Imgur. Your file type or size might not be supported.',
-                  footer: '<a href>Why do I have this issue?</a>'
-                })
-              })
-        
-
-          // console.log(imgLink, 'insideee readurl')
-
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
+      $('#accordionChecked').append(listTasks)
+      // console.log(tasks)
+    })
 }
-
-function uploadImgur(link) {
-
-  // let split = link.split(',')
-  // split[0] = ""
-  // let imgUrl = split.join(',')
-
-  // let token = localStorage.getItem('accessToken')
-  // $.ajax({
-  //   method: "POST",
-  //   url: "http://localhost:3000/todo/upload",
-  //   data: {
-  //     imgUrl: imgUrl
-  //   },
-  //   headers: {
-  //     accesstoken: token
-  //   }
-  // })
-  //   .then(function(data) {
-  //     console.log(data)
-  //     // return data
-  //   })
-  //   .fail(function(err) {
-  //     Swal.fire({
-  //       type: 'error',
-  //       title: 'Oops...',
-  //       text: 'Something went wrong with Imgur. Your file type or size might not be supported.',
-  //       footer: '<a href>Why do I have this issue?</a>'
-  //     })
-  //   })
-}
-
-//edit todo
 
 function editTodo(taskId) {
   let token = localStorage.getItem('accessToken')
@@ -610,6 +569,7 @@ function editTodo(taskId) {
           
           `,
         focusConfirm: false,
+        showCancelButton: true,
         preConfirm: () => {
           return new Promise((resolve, reject) => {
             resolve({

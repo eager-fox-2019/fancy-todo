@@ -3,6 +3,8 @@ const TodoController = require('../controllers/todocontroller')
 const {authentication} = require('../middlewares/authentication')
 
 router.get('/findtodos', authentication, TodoController.findTodos)
+router.get('/findtodos/checked', authentication, TodoController.findChecked)
+
 router.get('/findone/:id', authentication, TodoController.findOneTodo)
 router.post('/add', authentication, TodoController.addTodo)
 router.post('/upload', authentication, TodoController.uploadImgur)

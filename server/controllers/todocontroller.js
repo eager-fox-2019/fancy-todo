@@ -38,7 +38,19 @@ class TodoController {
 
     static findTodos(req,res,next){
         Todo.find({
-            user: ObjectID(req.decode.id)
+            user: ObjectID(req.decode.id),
+            status: false
+        })
+            .then(list => {
+                res.status(200).json(list)
+            })
+            .catch(next)
+    }
+
+    static findChecked(req,res,next) {
+        Todo.find({
+            user: ObjectID(req.decode.id),
+            status: true
         })
             .then(list => {
                 res.status(200).json(list)
