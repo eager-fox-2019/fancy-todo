@@ -31,6 +31,7 @@ function showEditDeleteButton() {
 
 if (localStorage.getItem('token') || localStorage.getItem('githubToken')) {
   showMainPage();
+  showAddButton();
 } else {
   showLogin();
 }
@@ -311,7 +312,7 @@ function editTodo() {
       .done((response) => {
         Swal.fire(
           'Seccesful',
-          'New todo is updated',
+          'The todo is updated',
           'success'
         )
         showTodo();
@@ -348,7 +349,7 @@ function deleteTodo() {
     .done((response) => {
       Swal.fire(
         'Seccesful',
-        'New todo is deleted',
+        'The todo is deleted',
         'success'
       )
       showTodo();
@@ -398,7 +399,6 @@ function showRepo() {
           </div>
         `);
       }
-      console.log(response);
     })
     .fail((err) => {
       console.log(err);
@@ -435,7 +435,6 @@ function searchRepo() {
           }
         }
       }
-      console.log('response');
     })
     .fail((err) => {
       console.log(err);
@@ -447,6 +446,4 @@ function appendRepoToTodo(link) {
   description += `${link}`;
   $('#edit-section-description').val(description);
 }
-
-showRepo();
-showAddButton();
+  showRepo();
