@@ -253,7 +253,7 @@ li a:hover {
   background-color: #111;
 }
 
-.user, .user div form {
+.user, .user div form{
   border-bottom-style: dashed;
   margin-left: auto;
   margin-right: auto;
@@ -261,6 +261,11 @@ li a:hover {
   text-align: center;
   padding-top: 1em;
   margin-top: 5px;
+}
+
+.user div form{
+  padding: 0;
+  border: none;
 }
 
 #editDeleteUserLinks{
