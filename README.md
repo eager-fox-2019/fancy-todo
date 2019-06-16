@@ -5,9 +5,9 @@ Hayo ngintip2 gw laporin mba icha ntar
 ᕦ(ò_óˇ)ᕤ
 do you even lift bro?
 
-DOCUMENTATION
+# DOCUMENTATION
 
-### Signup 
+## Signup 
 
 - route:
   - `POST /signup`
@@ -23,7 +23,7 @@ DOCUMENTATION
 - Password is hashed with bcryptjs.
 ```
 
-### Signin
+## Signin
 
 - route:
   - `POST /signin`
@@ -37,7 +37,7 @@ DOCUMENTATION
 Token is generated from JWT package.
 ```
 
-### Google Signin
+## Google Signin
 
 - route:
   - `POST /google`
@@ -53,7 +53,7 @@ Token is generated from JWT package.
 - If Google email is not present in database, Google email will be registered to database and password is randomly generated, then user automatically login and receive token that is generated from JWT package.
 ```
 
-### Signout
+## Signout
 
 - route:
   - `POST /signout`
