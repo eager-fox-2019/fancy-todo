@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-image: url('https://images.wallpaperscraft.com/image/color_background_surface_solid_18481_1920x1080.jpg');
+    font-family: 'Roboto Slab', serif;
+}
+
+.navbar-brand {
+    font-family: 'Lobster', cursive;
+    font-size: 30px;
+}
+
+.container-fluid {
+    color: whitesmoke
+}
+
+#regisform, #loginform{
+    margin-top: 100px
+}
