@@ -1,4 +1,3 @@
 # fancy-todo
-fancy-todo
 
-Todo app.
+Todo web app, with projects.
