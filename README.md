@@ -102,8 +102,8 @@ Token is decoded via JWT to get UserId.
         group (tag),
         UserId,
         dbDue_date (format: 2015-03-25T12:00:00Z),
-        due_date: (format:`2015-03-25`),
-        showDue_date: (format: `25 March 2015`),
+        due_date: (format:2015-03-25),
+        showDue_date: (format: 25 March 2015),
         __v
     }`
 ```
@@ -144,8 +144,8 @@ User can not delete To-Do that does not belongs to his/her, it is authorized in 
         group (tag),
         UserId,
         dbDue_date (format: 2015-03-25T12:00:00Z),
-        due_date: (format:`2015-03-25`),
-        showDue_date: (format: `25 March 2015`),
+        due_date: (format:2015-03-25),
+        showDue_date: (format: 25 March 2015),
         __v
     }`
 ```
