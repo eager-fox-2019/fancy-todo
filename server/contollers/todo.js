@@ -67,8 +67,9 @@ class todoController{
     }
 
     static getAll(req, res, next){
-        Todo.find({}).sort( { dueDate: -1 } )
-        .then(todos =>{
+        Todo.find({userId: req.decode.id})
+        .then(data =>{
+            let todos= data.sort(function(a,b){return new Date(a.dueDate) - new Date(b.dueDate);})
             res.status(200). json({ todos })
         })
         .catch(next)
@@ -76,7 +77,7 @@ class todoController{
 
     static getDeadline(req, res, next){
         console.log('masuk get deadline')
-        Todo.find({})
+        Todo.find({userId: req.decode.id})
         .then(todos =>{
             console.log(todos)
             let data=[]
@@ -103,8 +104,9 @@ class todoController{
     }
 
     static getWithStatus(req, res, next){
-        Todo.find({status: req.params.status})
-        .then(todos =>{
+        Todo.find({status: req.params.status, userId: req.decode.id})
+        .then(data =>{
+            let todos= data.sort(function(a,b){return new Date(a.dueDate) - new Date(b.dueDate);})
             res.status(200).json({ todos })
         })
         .catch(next)

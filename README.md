@@ -7,6 +7,13 @@
 - Run `nodemon app.js or npm run dev` to start the server.
 - Run `live-server --host=localhost` to start the client
 
+## Feature
+- View task based on status
+- Update status task
+- Add new task
+- Delete task
+- View task for tomorrow deadline
+
 ## Routes
 ### User Route
 | Route             | HTTP       | Description                              | Success Res        | Error Res  |
@@ -27,4 +34,5 @@
 | /todos/:id    | DELETE     | Delete a todo (Authenticated and authorizedusers only)               | 200: info of deleted todo's |403: not authorized, 404: todo not found, 500: internal server error
 | /todos/:id    | PATCH        | Update a todo to status complete (Authenticated and authorizedusers only) | 200: updated todos object | 403: not authorized, 404: todo not found, 500: internal server error
 | /todos/:id/:status    | PATCH      | Update a todo to status (Authenticated and authorizedusers only) | 200: updated todos object | 403: not authorized, 404: todo not found, 500: internal server error
+
 
