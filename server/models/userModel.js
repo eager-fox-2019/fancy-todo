@@ -4,15 +4,15 @@ const { hash } = require('../helpers/bcryptjs')
 let userSchema = new mongoose.Schema({
     name : {
         type : String,
-        required :[true,' Name is Required. ']
+        required :[true,'Name field can not be empty']
     },
     userName : {
         type : String,
-        required : [true, 'Username is required. ']
+        required : [true, 'Username can not be empty']
     },
     email : {
         type : String,
-        required : [true, 'Email is required. '],
+        required : [true, 'Email field can not be empty'],
         validate : [{
             validator : function (value) {
                 if (!/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) {
@@ -21,24 +21,19 @@ let userSchema = new mongoose.Schema({
             },
             validator : function(value) {
                 return new Promise (function(resolve, reject){
-                    // this.model('User',userSchema)
                         user.findOne({
-                            // _id : ({$en : this._id}),
                             email : value
                         })
-
                         .then (result=> {
                             if (result) {
                                 resolve(false)
-                            }
-                            else {
+                            } else {
                                 resolve(true)
                             }
                         })
                         .catch (err=> {
                             console.log (err)
                         })
-                        
                 })
             },
             message :'Email has been Used. '
@@ -46,11 +41,11 @@ let userSchema = new mongoose.Schema({
     },
     password : {
         type : String,
-        required : [true, 'Password is required. ']
+        required : [true, 'Password field can not be empty']
     }
 })
 
-userSchema.pre('save',function(next){
+userSchema.pre('save', function(next) {
     this.password = hash(this.password)
     next()
 })

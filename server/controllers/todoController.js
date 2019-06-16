@@ -1,5 +1,4 @@
-const todos = require('../models/todoM')
-// const  dateConvert  = require('../helpers/dateConverter')
+const todos = require('../models/todoModel')
 const moment = require('moment')
 
 class todoController {
@@ -11,19 +10,15 @@ class todoController {
             status : req.body.status,
             dueDate :req.body.dueDate || new Date()
         }
-        
         todos.create(input)
-            .then(result=> {
-                console.log (result,'berhasil')
-                res.status(201).json(result)
-            })
-            .catch(next)
+        .then( (newTask) => {
+            res.status(201).json(newTask)
+        })
+        .catch(next)
     }
     
     static update (req,res,next){
-        console.log('update doonggg')
         let update = {}
-
         if (req.body.name) {
             update.name = req.body.name
         }
@@ -36,16 +31,14 @@ class todoController {
         if (req.body.date) {
             update.dueDate = req.body.date
         }
-        console.log(update,'ini update')
+
         todos.findByIdAndUpdate({
             _id : req.params.taskId
         },update)
-
-            .then(result=> {
-                console.log (result)
-                res.json(result)
-            })
-            .catch(next)
+        .then( (updatedData)=> {
+            res.status(200).json(updatedData)
+        })
+        .catch(next)
     }
 
     static remove (req,res,next) {
@@ -53,36 +46,35 @@ class todoController {
         todos.findOneAndDelete({
             _id : req.params.taskId 
         })
-            .then(result=> {
-                res.status(200).json(result)
-            })
-            .catch(next)
+        .then( (deletedTask) => {
+            res.status(200).json(deletedTask)
+        })
+        .catch(next)
+
     }
 
     static allTodo(req,res,next) {
         todos.find({
             userId : req.logedUser._id
         })
-            .then(result=> {
-                result.forEach(el=> {
-                    let biasa = moment(el.dueDate).format("MMM Do YY")
-                    
-                    el.dueDate = biasa
-                })
-                
-                res.status(200).json(result)
+        .then( (tasks) => {
+            tasks.forEach( (task) => {
+                let biasa = moment(task.dueDate).format("MMM Do YY")
+                task.dueDate = biasa
             })
-            .catch(next)
+            res.status(200).json(tasks)
+        })
+        .catch(next)
     }
     
     static detail(req,res,next) {
         todos.findOne({
             _id : req.params.id
         })
-            .then(result=> {
-                res.json(result)
-            })
-            .catch(next)
+        .then( (task) => {
+            res.json(task)
+        })
+        .catch(next)
     }
 }
 

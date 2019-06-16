@@ -1,4 +1,3 @@
-const user = require('../models/userM')
 const jwt = require('jsonwebtoken')
 
 module.exports =  {
@@ -9,14 +8,9 @@ module.exports =  {
         }
         else {
             let decode = jwt.verify(token, process.env.JWT_SECRET)
-            req.logedUser = decode
-            console.log (req.logedUser)
+            req.loggedUser = decode
             next()
         }
-    },
-    authorization : function(req,res,next) {
-        
     }
-
 
 }
