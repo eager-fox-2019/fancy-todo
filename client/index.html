@@ -1,104 +1,261 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="google-signin-client_id" content="132166001773-nljl5umc0vmdlvodji12sfl1eqk051q7.apps.googleusercontent.com">
-
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="style.css">
-    <title>Todo</title>
-</head>
-<body>
-    <nav class="navbar navbar-light bg-light">
-        <span class="navbar-brand mb-0 h1">Amazing project</span>
-        <span class="navbar-brand mb-0 h1"><a href="#" onclick="onSignOut();" id="signout-link">Sign out</a></span>
-    </nav>
-    <div class="d-flex justify-content-center">
-            <button id="regist-button" onclick="registForm()"> register </button>
-            <button id="login-button" onclick="loginForm()"> login </button>
-            
-    </div>
-    <div class="d-flex justify-content-center">
-            <div id="register-form">
-                <form>
-                    name :<input type="text" > <br>
-                    username :<input type="text" > <br>
-                    password :<input type="password" > <br>
-                    email :<input type="email" > <br>
-                    <button type="submit"> submit </button>
-                </form>
-            </div>
-            <div id="login-form">
-                <form>
-                    email :<input type="email" > <br>
-                    password :<input type="password" > <br>
-                    <button type="submit"> submit </button>
-                </form>
-            </div>
-    </div>
-    <br>
-    <div class="d-flex justify-content-center">
-            <div id="google-sign-in">
-                <div class="g-signin2" data-onsuccess="onSignIn" id="google-button"></div>
-            </div>
-    </div>
-    <div class="the-world">
- 
-        <div id="login">
-    
-        </div>
-    
-        <div id="register">
-    
-        </div>
-            
-        <div class="container-fluid" id="main" style="width: 95%">
-            <div class="row">
-                <div class="col" id="user-menu">
-                    <h4> My Menu</h4>
-                    <button id="add-task" onclick="addTask()"> add new task</button>
-                    <div class="add-task-form">
-                        <form>
-                            <div class="form-group">
-                                <label for="name">Title :</label>
-                                <input type="text" class="form-control" id="todo-name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description :</label>
-                                <input type="text" class="form-control" id="todo-description">
-                            </div>
-                            <div class="form-group">
-                                <label for="dueDate">Due Date :</label>
-                                <input type="date" class="form-control" id="todo-dueDate">
-                            </div>
-                                <button type="submit" class="btn btn-primary" onclick="addData()"> Submit</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-6" id="todo-list" >
-                    <h4> My todo List </h4>
-                    <div id="all-todo">
-                        <!-- <input type="checkbox"> -->
-                    </div>
-                </div>
-                <div class="col-4" id="todo-detail">
-                    <h4> This Todo </h4>
-                    <div id="detailed">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
     <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
-    <script src="js/reg-log.js"></script>
-    <script src="js/openfile.js"></script>
-    <script src="js/script.js"></script>
-    <script src="js/axios.js"></script>
+    <meta name="google-signin-client_id"
+        content="751537333590-02npdja278qbkpg17pms837s0vkr0r0l.apps.googleusercontent.com">
+    <title>Fancy Todo</title>
+</head>
+
+<body>
+    <div class="ui middle aligned center aligned grid" id="loginForm">
+        <div class="column">
+            <h2 class="ui blue image header">
+                <img src="https://apprecs.org/gp/images/app-icons/300/8a/io.tinbits.memorigi.jpg" class="image"
+                    id="loginImg">
+                <div class="content">
+                    Awesome Todos
+                </div>
+            </h2>
+            <form class="ui large form">
+                <div class="ui stacked segment">
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="email" placeholder="E-mail address">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" name="password" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="ui fluid large blue submit button" id="btnSubmit">Login</div>
+                </div>
+
+                <div class="ui error message"></div>
+
+            </form>
+
+            <div class="ui icon negative message" id="errMessage">
+                <i class="exclamation icon"></i>
+                <div class="content" id="errMessageText">
+
+                </div>
+            </div>
+
+            <div class="ui message" style="text-align: center">
+                <span id="toggleText">New to us?</span>
+                <a href="" id="toggle">Register</a>
+                <div>or</div>
+                <div class="ui one column stackable center aligned page grid" style="margin-top: 1px">
+                    <div class="column twelve wide">
+                        <div id="g-signin2" data-onsuccess="onSignIn"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main">
+        <div class="ui pointing menu" id="navbar">
+            <a class="item">
+                <h2 class="ui blue small image header">
+                    <img src="https://apprecs.org/gp/images/app-icons/300/8a/io.tinbits.memorigi.jpg" class="image"
+                        id="loginImg">
+                    <div class="content">
+                        Awesome Todos
+                    </div>
+                </h2>
+            </a>
+            <a id="homeNav" class="item active" href="" onclick="showContent(event, 'home')">
+                Home
+            </a>
+            <a id="projectNav" class="item" href="" onclick="showContent(event, 'yourProjects')">
+                Your Projects
+            </a>
+            <a id="memberNav" class="item" href="" onclick="showContent(event, 'involvedProjects')">
+                Involved Projects
+            </a>
+            <div class="right menu">
+                <a class="ui item" id="loggedUser">
+
+                </a>
+                <a class="ui item" onclick="logout(event)" href="">
+                    Logout
+                </a>
+            </div>
+        </div>
+        <div class="ui container">
+            <div class="ui segment" id="home">
+                <div id="owned">
+                    <h2>Projects Owned</h2>
+                    <div class="ui attached segment">
+                        <div class="ui items" id="ownedItem">
+                            <div class="item" style="margin-bottom: 20px">
+                                <div class="content">
+                                    <a class="header" onclick="getProjectDetail('dasdfjiow8u3oikjf')">project eve</a>
+                                    <div class="description">
+                                        <div class="ui red progress" data-value="${project.progress}"
+                                            data-total="${project.todos.length}" id="progressOwned${project._id}"
+                                            style="margin-top: 10px">
+                                            <div class="bar">
+                                                <div class="progress"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="extra">
+                                        <span class="extraItem">
+                                            <i class="clock icon"></i>
+                                            ${project.deadline}
+                                        </span>
+                                        <span class="extraItem">
+                                            <i class="user icon"></i>
+                                            ${project.members.length} Members
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="noProjects">
+                            <div class="ui placeholder segment">
+                                <div class="ui icon header">
+                                    <i class="file outline icon"></i>
+                                    No projects yet
+                                </div>
+                                <div class="ui primary button" onclick="$('#modalNewProject').modal('show')">Create New
+                                    Project</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui bottom attached clearing segment">
+                        <div class="ui blue right floated button" onclick="$('#modalNewProject').modal('show')">
+                            <i class="ui add icon"></i>
+                            New Project
+                        </div>
+                    </div>
+                </div>
+                <div id="member">
+                    <h2>Projects Involved</h2>
+                    <div class="ui segment">
+                        <div class="ui items" id="memberItem">
+
+                        </div>
+                        <div id="noMember">
+                            <div class="ui placeholder segment">
+                                <div class="ui icon header">
+                                    <i class="file outline icon"></i>
+                                    You are not involved in any project
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="detail">
+                    <h2>Project Detail</h2>
+                    <div class="ui attached segment" id="projectDetail">
+                        <div class="ui basic clearing segment">
+                            <h3 id="projectDetailName" style="margin-bottom: 5px">Project Name</h3>
+                            <h5 id="projectDetailDuedate" style="margin: 0; color: orange">duedate</h5>
+                        </div>
+                        <div class="ui grid" id="todoDetail">
+                            <div class="ten wide column">
+                                <div class="ui top attached segment">
+                                    <h5>Todos</h5>
+                                </div>
+                                <div>
+                                    <div class="ui list" id="todoItems">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="six wide column" id="memberContainer">
+                                <h5>Members</h5>
+                                <div class="ui attached segment" id="memberDetail">
+                                    <div class="ui animated relaxed list" id="memberListProject">
+
+                                    </div>
+                                </div>
+                                <select multiple="" class="ui fluid search dropdown" id="dropdownUsers">
+
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ui bottom attached segment" id="progressContainer"></div>
+                    <div class="ui orange fluid button" onclick="back()">back</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui large modal" id="modalNewProject">
+            <div class="ui icon header">
+                <i class="add icon"></i>
+                Add Project
+            </div>
+            <div class="content">
+                <div class="ui container">
+                    <div class="ui form" id="formNewProject">
+                        <div class="ui fluid labeled input" style="margin-bottom: 20px">
+                            <div class="ui label">
+                                Title
+                            </div>
+                            <input type="text" placeholder="Project Name" id="newProjectName">
+                        </div>
+                        <div class="ui fluid labeled input" style="margin-bottom: 20px">
+                            <div class="ui label">Deadline</div>
+                            <input type="text" placeholder="Deadline..." id="newProjectDeadline">
+                        </div>
+                        <div class="ui fluid action input">
+                            <input type="text" placeholder="Todo Description..." id="addTodoInput">
+                            <button class="ui button" onclick="addNewTodo()">Add Todos</button>
+                        </div>
+                        <div class="ui divided items" id="listNewTodo">
+
+                        </div>
+                        <div class="field" style="margin-bottom: 20px">
+                            <label>Add Members</label>
+                            <select multiple="" class="ui search dropdown" id="dropdownUsersModal">
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="actions">
+                    <div class="ui center aligned container">
+                        <div class="ui red cancel button">
+                            <i class="remove icon"></i>
+                            Cancel
+                        </div>
+                        <div class="ui green ok inverted button" onclick="saveNewTodo()">
+                            <i class="checkmark icon"></i>
+                            Save
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ui large modal" id="modalEditProject">
+
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+        <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+        <script src="semantic/dist/semantic.min.js"></script>
+        <script src="./js/index.js"></script>
 </body>
+
 </html>

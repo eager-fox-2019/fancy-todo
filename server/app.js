@@ -1,29 +1,30 @@
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){
-    require('dotenv').config();
-}
-
+require('dotenv').config()
+const port = 3000
 const express = require('express')
-const cors = require('cors')
-const route = require('./routes')
-const mongoose = require('mongoose')
-const errHandler = require('./middleware/errHandler')
 const app = express()
+const cors = require('cors')
+const mongoose = require('mongoose')
+const errorHandler = require('./helpers/errorHandler')
 
-const port = process.env.PORT
-
-mongoose.connect('mongodb://localhost:27017/FancyTodo', {useNewUrlParser: true},(err)=> {
-    if (err) console.log (err) ,console.log ('Coonection error :(');
-    else console.log ('Success Connected :)')
+mongoose.connect(process.env.DB_PATH, {
+    useNewUrlParser: true
+}, (err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('connection successful');
+    }
 })
 
 app.use(cors())
-app.use(express.urlencoded({extended : false}))
 app.use(express.json())
+app.use(express.urlencoded({
+    extended: false
+}))
 
-app.use ('/',route)
+app.use('/', require('./routes'))
 
-app.use(errHandler)
-
-app.listen(port, ()=> {
-    console.log (`Connected on post : ${port}`)
+app.use(errorHandler)
+app.listen(port, () => {
+    console.log(`listening on port ${port}`)
 })

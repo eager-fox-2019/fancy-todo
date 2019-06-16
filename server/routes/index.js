@@ -1,12 +1,10 @@
 const router = require('express').Router()
-const userR = require('./userR')
-const todoR = require('./todoR')
+const userController = require('../controllers/userController.js')
 
-router.use('/users',userR)
-router.use('/todos',todoR)
+router.use('/users', require('./userRoutes'))
+router.use('/projects', require('./projectRoutes'))
+router.post('/login', userController.login)
+router.post('/register', userController.register)
+router.post('/google', userController.googleLogin)
 
-router.use('/*',(req,res)=> {
-    console.log ("Now in router/index.js")
-    res.status(404).json({message : 'Not Found :('})
-})
 module.exports = router
