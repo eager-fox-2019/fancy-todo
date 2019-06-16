@@ -435,7 +435,6 @@ $(document).ready(() => {
       headers: getHeaders(),
     })
     .done(data => {
-      console.log(data)
       $('#list').empty()
       fetchTodos()
     })
@@ -497,7 +496,6 @@ $(document).ready(() => {
   $('#newproject-form').on('submit', function(event) {
     event.preventDefault()
     let data = format(this)
-    console.log(data)
     $.ajax({
       method: 'POST',
       url: `${server}projects`,
