@@ -59,7 +59,7 @@ Token is generated from JWT package.
   - `201`: `{ headers: null }`
 
 ```
-Remove {headers: null} and token from localstorage.
+Remove headers and token from localstorage.
 ```
 ## Create To-Do
 
