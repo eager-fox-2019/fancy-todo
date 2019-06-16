@@ -7,20 +7,137 @@
   <!-- google sign in -->
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id" content="308421336281-c3jncpnpa4rajngvu1s9vkvkaem9ic8o.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <!-- css  -->
-  <link rel="stylesheet" type="text/css" href="./style.css">
-  <!-- jquery -->
-  <script
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>To DO list</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script src="sweetalert2.min.js"></script>
+  <link rel="stylesheet" href="sweetalert2.min.css">
+</head>
+<body>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <div class="alert alert-warning alert-dismissible fade show" role="alert" id="notification">
+      <strong id="isi-notif"></strong>
+      <button type="button" class="close" onclick="emptyNotif()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <section id="inside">
+    <nav class="navbar navbar-expand-lg navbar-light text-light">
+      <a class="navbar-brand text-light" href="#" id="homeNav" >Fancy Todo</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a id="userEmail" class="text-light nav-link">mantap</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#" onclick="signOut()" style="border-left: 1px solid white; margin-left: 50px;">Logout</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <form id="add-form">
+      <div>
+        <label for="create-name">Name :</label>
+        <input type="text" id="create-name" placeholder="Todo Name">
+      </div>
+      <div>
+        <label for="create-description">Description :</label>
+        <input type="text" id="create-description" placeholder="Todo Description">
+      </div>
+      <div> 
+        <label for="create-date">Due Date :</label>
+        <input type="text" id="create-date" placeholder="format: dd-mm-yyyy">
+      </div>
+      <button type="submit" class="btn btn-success">Add New Todo</button>
+    </form>
+    <h6 style="text-align: center; color: white; opacity: 0.8;">Click the Todo's name for more info</h6>
+    <!-- table -->
+    <div id="table-container">
+      <div id="todo-container">
+        <h3 style="text-align: center; color:white; opacity: 0.8;">Todo List</h3>
+        <div id="todo-table-container"></div>  
+      </div>
+      <div id="todo-updatedStatus">
+        <h3 style="text-align: center; color:white; opacity: 0.8;">Completed Todos</h3>
+        <div id="todo-updatedStatus-container"></div>
+      </div>
+    </div>
+    <!-- --------- -->
+  </section>
+  <section id="add-edit-page">
+    <form class="form-horizontal" id="edit-form-container">
+      <div id="edit-form">
+
+      </div>
+      <button type="submit">Edit</button>
+    </form>
+  </section>
+  <div id="fb-root"></div>
+  <section id="loginPage">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert" id="register-alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="login-form">
+      <div class="main-div">
+        <div class="panel">
+        <h2>Fancy Todo</h2>
+        <div id="login-text">
+          <p>Please login before enter</p>
+          <p>Don't have an account ? <a href="#" onclick="openRegister()" >Sign Up</a></p>
+        </div>
+        <div id="register-text">
+          <p>Enter your email and password</p>
+          <p>Already have an account ? <a href="#" onclick="openLogin()">Sign In</a></p>
+        </div>
+        </div>
+        <form id="login">
+          <div class="form-group">
+              <input type="email" class="form-control" id="loginEmail" placeholder="Email Address">
+          </div>
+          <div class="form-group">
+              <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-primary">Sign In</button>
+        </form>
+        <form id="register">
+            <div class="form-group">
+                <input type="email" class="form-control" id="registerEmail" placeholder="Email Address">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" id="registerPassword" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+        </br><p>Or login with facebook</p></br>
+        <div id="spinner"
+            style="
+                background: #4267b2;
+                border-radius: 5px;
+                color: white;
+                height: 30px;
+                margin: auto;
+                width: 200px;">
+            Loading
+        </div>
+        <div class="fb-login-button" data-width="" data-size="medium" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false" scope="email" onlogin="facebookLogin()"></div>
+        <p id="fail-alert"></p>
+      </div>
+    </div>
+  </section>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script 
     src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
     crossorigin="anonymous"></script>
-  <script src="./main.js" ></script>
-  <title>To DO list</title>
-</head>
-<body>
-  <header>
-
-  </header>
-  <sec
+  <script src="main.js"></script>
 </body>
 </html>

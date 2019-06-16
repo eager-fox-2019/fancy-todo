@@ -2,8 +2,6 @@ const User = require('../models/users')
 const comparePassword = require('../helpers/comparePassword')
 const getToken = require('../helpers/getToken')
 const getPassword = require('../helpers/getPassword')
-const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class ControllerUser {
 
@@ -35,7 +33,7 @@ class ControllerUser {
         let check = comparePassword(user.password, input.password)
         if(check) {
           let token = getToken(email)
-          res.json(token)
+          res.json({token, user})
         } else {
           throw {status: 400, message: 'Wrong email / password'}
         }
@@ -46,37 +44,25 @@ class ControllerUser {
     .catch(next)
   }
 
-  static googleSignin(req, res, next) {
-    let newEmail
-    let password
-    let token
-    client
-      .verifyIdToken({
-        idToken: req.body.idToken,
-        audience: process.env.GOOGLE_CLIENT
-      })
-      .then(ticket => {
-        const {email} = ticket.getPayload()
-        newEmail = email
-        password = getPassword(email)
-        token = getToken(email)
-
-        return User.findOne({email: newEmail})
-      })
-      .then(result => {
-        if(result) {
-          res.status(200).json({newEmail, token})
-        } else {
-          return User.create({
-            email: newEmail,
-            password: password
-          })
-        }
-      })
-      .then(() => {
-        res.status(200).json({newEmail, token})
-      })
-      .catch(next)
+  static facebookSignin (req, res, next) {
+    let newEmail = req.body.email
+    let password = getPassword(newEmail)
+    let token = getToken(newEmail)
+    User.findOne({email: newEmail})
+    .then(result => {
+      if(result) {
+        res.status(200).json(token)
+      } else {
+        return User.create({
+          email: newEmail,
+          password: password
+        })
+      }
+    })
+    .then(() => {
+      res.status(200).json(token)
+    })
+    .catch(next)
   }
 }
 

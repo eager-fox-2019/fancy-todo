@@ -4,8 +4,8 @@ const ControllerUser = require('../controllers/users')
 router.get('/', ControllerUser.findAll)
 router.post('/register', ControllerUser.create)
 router.post('/login', ControllerUser.login)
-router.post('/googleSignin', ControllerUser.googleSignin)
+router.post('/facebookSignin', ControllerUser.facebookSignin)
 
-const isAuthenticated = require('../middlewares/authentication')
+
 
 module.exports = router

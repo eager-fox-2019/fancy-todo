@@ -5,7 +5,10 @@ const todosSchema = new Schema({
   name: String,
   description: String,
   status: {type: Boolean, default: false},
-  due_date: Date
+  due_date: Date,
+  email: {
+    type: String
+  }
 })
 
 
