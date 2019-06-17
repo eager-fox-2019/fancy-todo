@@ -112,11 +112,11 @@ function register() {
       email,
       password
     },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done((data) => {
       showMessage(`Hai ${data.name}, kamu berhasil register, silahkan login dahulu`, 'success')
@@ -140,11 +140,11 @@ function login() {
       email,
       password
     },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done((data) => {
       localStorage.setItem('access-token', data['access-token'])
@@ -243,11 +243,11 @@ function addNewTodo() {
     // crossDomain: true, // kalau error HTTP 405 Method not Allowed
     headers: { 'access-token': localStorage.getItem('access-token') },
     data: obj,
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(function (todo) {
       $('#nav-todos-tab').tab('show')
@@ -285,11 +285,11 @@ function addNewProject() {
       duedate: $('#newProjectDuedate').val()
     },
     dataType: "json",
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(function (project) {
       $('#nav-projects-tab').tab('show')
@@ -498,11 +498,11 @@ function getAllTodos(todoId) {
     url: `${baseURL}/todo/${query}`,
     method: 'GET',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(todos => {
       $('#resultTodos').empty()
@@ -576,11 +576,11 @@ function getAllProjects() {
     url: `${baseURL}/project/${query}`,
     method: 'GET',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(projects => {
       $('#resultProjects').empty()
@@ -679,11 +679,11 @@ function updateTodo(todoId, userId) {
     method: 'PUT',
     headers: { 'access-token': localStorage.getItem('access-token') },
     data: obj,
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(todo => {
       $('#editTodoModal').modal('hide')
@@ -721,11 +721,11 @@ function updateProject(projectId, userId) {
     headers: { 'access-token': localStorage.getItem('access-token') },
     data: obj,
     dataType: 'json'
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(project => {
       $('#editProjectModal').modal('hide')
@@ -749,11 +749,11 @@ function deleteTodo(todoId) {
     url: `${baseURL}/todo/${todoId}`,
     method: 'DELETE',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(todo => {
       showMessage(`<p>
@@ -775,11 +775,11 @@ function deleteProject(projectId) {
     url: `${baseURL}/project/${projectId}`,
     method: 'DELETE',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(project => {
       showMessage(`<p>
@@ -939,11 +939,11 @@ function listAllUsers(projectUsers) {
     url: `${baseURL}/user`,
     method: 'GET',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    // statusCode: {
-    //   500: function () {
-    //     window.location = './http-500.html'
-    //   }
-    // }
+    statusCode: {
+      500: function () {
+        window.location = './http-500.html'
+      }
+    }
   })
     .done(users => {
       if(projectUsers)
