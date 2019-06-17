@@ -10,7 +10,6 @@ class UserController {
     let input = {
       email: req.body.email,
       password: req.body.password
-    //   password: Helper.hashPassword(req.body.password)
     }
 
     User
@@ -35,15 +34,15 @@ class UserController {
         let cekPass = false
         if (user) {
             console.log(user)
-        //   cekPass = Helper.comparePassword(req.body.password, user.password)
+          cekPass = Helper.comparePassword(req.body.password, user.password)
           console.log(cekPass)
-        //   if (!cekPass) {
-        //     res.status(400).json({ message: 'invalid username or password' })
-        //   } else {
+          if (!cekPass) {
+            res.status(400).json({ message: 'invalid username or password' })
+          } else {
             let token = Helper.generateJWT({ email: user.email, _id: user._id});
             console.log(token); 
             res.status(200).json({ token })
-        //   }
+          }
         } else {
             res.status(400).json({ err: "Username/Password wrong" });
         }
@@ -53,7 +52,7 @@ class UserController {
       })
   }
 
-  static loginGoogle(req, res) { // populate
+  static loginGoogle(req, res) { 
     var newEmail = ''
     client.verifyIdToken({
       idToken: req.headers.token,

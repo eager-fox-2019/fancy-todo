@@ -1,4 +1,4 @@
-const TodoModel = require('../models/todo')
+const Todo = require('../models/todo')
 const ObjectId = require('mongoose').Types.ObjectId
 const axios = require('axios')
 
@@ -31,7 +31,7 @@ class TodoController {
   }
 
   static readAll(req, res) {
-    TodoModel.find({ userId: req.user._id })
+    Todo.find({ userId: req.user._id })
       .then(todo => {
         todo = todo.reverse()
         res.status(200).json(todo)
@@ -42,7 +42,7 @@ class TodoController {
   }
 
   static findTodoByUser(req, res) {
-    TodoModel.find({ user_id: req.user.id })
+    Todo.find({ user_id: req.user.id })
       .then(function (todos) {
         res.status(200).json(todos)
       })
@@ -52,7 +52,7 @@ class TodoController {
   }
 
   static readOne(req, res) {
-    TodoModel.findById(req.params.id)
+    Todo.findById(req.params.id)
       .then(function (todo) {
         res.status(200).json({ todo })
       })
@@ -63,13 +63,14 @@ class TodoController {
 
   static create(req, res) {
     const { name, description , dueDate} = req.body
-    TodoModel.create({
+    Todo.create({
       name: name,
       userId: req.user._id,
       description: description,
       dueDate : dueDate
     })
       .then(todo => {
+        console.log(todo)
         res.status(201).json(todo)
       })
       .catch(err=>{
@@ -80,7 +81,7 @@ class TodoController {
   static update(req, res) {
     let update = filterFunction(req.body)
 
-    TodoModel
+    Todo
       .findOneAndUpdate(
         { _id: req.params.id },
         update,
@@ -95,7 +96,7 @@ class TodoController {
   }
 
   static delete(req, res) {
-    TodoModel.findByIdAndDelete({ _id: req.params.id })
+    Todo.findByIdAndDelete({ _id: req.params.id })
       .then(todo => {
         res.status(200).json(todo)
       })

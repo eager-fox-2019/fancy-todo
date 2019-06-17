@@ -40,10 +40,10 @@ const userSchema = new Schema({
     }
 });
 
-// userSchema.pre('save', function(next, done) {
-//     this.password = Helper.hashPassword(this.password)
-//     next()
-// });
+userSchema.pre('save', function(next, done) {
+    this.password = Helper.hashPassword(this.password)
+    next()
+});
 
 const User = mongoose.model('User', userSchema);
 

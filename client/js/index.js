@@ -4,30 +4,30 @@ var showTipsYoutube = ''
 var statusTodo = ''
 var userId = ''
 
-function onSignIn(googleUser) {
-  const idToken = googleUser.getAuthResponse().id_token;
-  $.ajax({
-    url: `http://localhost:3333/users/loginGoogle`,
-    method: `POST`,
-    headers: {
-      token: idToken
-    }
-  })
-    .done(function (response) {
-      localStorage.setItem('token', response.token)
-      todoList()
-      $("#col-todo-append").show()
-      $("#add-form").show()
-      $("#register-form").hide()
-      $("#login-form").hide()
-      $('#register').hide()
-      $('#login').hide()
-      $('#logout').show()
-    })
-    .fail(function (jqXHR, textStatus) {
-      console.log(jqXHR.responseText, '====');
-    })
-}
+// function onSignIn(googleUser) {
+//   const idToken = googleUser.getAuthResponse().id_token;
+//   $.ajax({
+//     url: `http://localhost:3333/users/loginGoogle`,
+//     method: `POST`,
+//     headers: {
+//       token: idToken
+//     }
+//   })
+//     .done(function (response) {
+//       localStorage.setItem('token', response.token)
+//       todoList()
+//       $("#col-todo-append").show()
+//       $("#add-form").show()
+//       $("#register-form").hide()
+//       $("#login-form").hide()
+//       $('#register').hide()
+//       $('#login').hide()
+//       $('#logout').show()
+//     })
+//     .fail(function (jqXHR, textStatus) {
+//       console.log(jqXHR.responseText, '====');
+//     })
+// }
 
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();
@@ -86,11 +86,10 @@ function todoList() {
     headers: { token: localStorage.getItem('token') }
   })
     .done(function (response) {
-      console.log(response, '====')
-
       response.forEach(el => {
 
         if (el.status === "false") {
+          console.log('---ini false----')
           $('#col-todo-append').append(`
           <br>
           <div class="card">  
@@ -108,6 +107,7 @@ function todoList() {
             </div>
            </div>`);
         } else {
+          console.log('---ini true---')
           $('#col-todo-append').append(`
           <br>
           <div class="card">  
@@ -282,11 +282,16 @@ $(document).ready(function () {
     $("#register-form").hide()
     $("#login-form").hide()
     $("#edit-button").hide()
+    $('#register').hide()
+    $('#login').hide()
+    $('#logout').show()
     todoList()
   } else {
     $("#col-todo-append").hide()
     $("#add-form").hide()
     $('#logout').hide()
+    $('#register').show()
+    $('#login').show()
   }
 
   $("#register").on('click', function () {
