@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Infinite Todos</title>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-signin-client_id" content="132143355476-lhc3d94hl5jkukl1n5lb8v6j2oco85g9.apps.googleusercontent.com">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme|Roboto+Slab&display=swap" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav id="navbar" class="navbar navbar-expand-md  fixed-top ">  
+        <a class="navbar-brand mb-0 h1" href="/"><img height="40px" width="40px" src="https://img.icons8.com/ios/50/000000/infinity-large-filled.png"> Infinite Todos</a>
+
+        <div class="collapse navbar-collapse " id="navbarSupportedContent">     
+            <ul class="navbar-nav mr-auto">       
+                <li class="nav-item"> 
+                        <a class="nav-link " id="logoutbtn">Logout</a>       
+                </li>
+            </ul> 
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="search by title" aria-label="Search" id="searching">
+                <!-- <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> -->
+            </form>
+        </div>
+    </nav>
+             
+    
+    <main class="container">
+
+        <div class="content">
+
+            <div class="row" >
+        
+                <div class="col-sm-4 offset-sm-4">
+                    <!--login form-->
+                    <div id="loginForm">
+                        <form class="text-center border border-light p-5">
+                            <h1><img src="https://img.icons8.com/ios/60/000000/infinity-large-filled.png"></h1>
+                            <p class="h4 mb-4">Sign in</p>
+                        
+                            <input type="email" id="email" class="form-control mb-4" placeholder="E-mail">
+                        
+                            <input type="password" id="password" class="form-control mb-4" placeholder="Password">
+                        
+                            <button class="btn btn-info btn-block my-4" type="submit" id="login">Sign in</button>
+                        
+                            <p>Not a member?
+                                <a href="" id="regisButton">Register</a>
+                            </p>
+                        
+                            <p>or sign in with:</p>
+                        
+                            <div class="g-signin2 center" data-onsuccess="onSignIn"></div>
+                        </form>
+                    </div>
+                    <!--End login form-->
+    
+                    <!--register form-->
+                    <div id="regisForm">
+
+                        <form class="text-center border border-light p-5">
+    
+                            <p class="h4 mb-4">Sign up</p>
+                            <input type="email" id="Email1" class="form-control mb-4" placeholder="E-mail">
+                        
+                            <input type="password" id="Password1" class="form-control mb-4" placeholder="Password" aria-describedby="defaultRegisterFormPasswordHelpBlock">
+                        
+                            <input type="text" id="Username1" class="form-control" placeholder="Username">
+                        
+                            <button class="btn btn-info my-4 btn-block" type="submit" id="register">Sign Up</button>
+    
+                            <hr>
+        
+                            <p>By clicking
+                            <em>Sign up</em> you agree to our
+                            <a href="" target="_blank">terms of service</a>
+        
+                        </form>
+    
+                    </div>
+                    <!--End register form-->
+                </div>
+            </div>
+
+            <div id="modalCreate" class="row margin-15px">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-warning button-right" data-toggle="modal" data-target="#addTodoModal" data-whatever="@mdo">Create New Todo</button>
+                </div>
+            </div>
+
+            <div clas="row">
+                <div class="col-sm-12">
+
+                    <!--To To List And Button Dialog To DO-->
+                    <div id="todolist" class="list-group">
+                        
+                    </div>
+                    <!-- End to To List And Button Dialog To DO-->
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+
+    <div class="modal fade" id="addTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Todo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formAddToDo">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Title</label>
+                            <input type="text" class="form-control" id="title" placeholder="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                                <label for="exampleFormControlInput1">Due Date</label>
+                                <input type="date" class="form-control" id="duedate">
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning" id="submitAdd">Add To Do</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Todo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formEditToDo">
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Title</label>
+                            <input type="text" class="form-control" id="title1" placeholder="title">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleFormControlTextarea1">Description</label>
+                            <textarea class="form-control" id="description1" rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                                <label for="exampleFormControlInput1">Due Date</label>
+                                <input type="date" class="form-control" id="duedate1">
+                        </div>
+                        <input type="hidden" class="form-control" id="uid" placeholder="title">
+                    </form>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-warning" id="submitEdit">Change To Do</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="//code.responsivevoice.org/responsivevoice.js?key=GoUVOjjN"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
