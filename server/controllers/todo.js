@@ -3,7 +3,9 @@ const Todo = require('../models/todo')
 class ControllerTodo {
     static findAll(req, res, next) {
         Todo
-            .find()
+            .find({
+                userId: req.decoded.id
+            })
             .then(resp => {
                 res.status(200).json(resp)
             })
@@ -69,6 +71,16 @@ class ControllerTodo {
                 res.status(200).json({
                     id: req.params.id
                 })
+            })
+            .catch(next)
+    }
+    static navStatus(req, res, next) {
+        Todo
+            .find({
+                status: req.params.status
+            })
+            .then(resp => {
+                res.status(200).json(resp)
             })
             .catch(next)
     }
