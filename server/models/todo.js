@@ -33,7 +33,15 @@ let todo = new Schema({
 })
 
 todo.pre('save', function (next) {
-  next()
+  let now = new Date()
+  if ( this.dueDate > now ){
+    next()
+  }else{
+    throw({
+      status: 400,
+      msg: "You Cannot Set Due Date Before This Day"
+    })
+  }
 })
 
 let Todo = mongoose.model('Todo', todo)

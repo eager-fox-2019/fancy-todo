@@ -25,11 +25,11 @@ function newTodo() {
             })
             todo()
             $('#todo-name').val(''),
-                $('#todo-desc').val(''),
-                $('#todo-date').val('')
+            $('#todo-desc').val(''),
+            $('#todo-date').val('')
         })
         .fail((jqXHR, textStatus) => {
-            console.log(textStatus)
+            console.log(textStatus, jqXHR)
             swal({
                 icon: "warning",
                 text: "Add Todo Failed, Check The Format"
@@ -48,21 +48,19 @@ function onSignIn(googleUser) {
             }
         })
         .done(resp => {
-            swal({
-                icon: "success",
-                text: "Success Login!"
-            })
             $('#loginform').hide()
             $('.nb').show()
             $('#main').show()
-            $('#user').empty()
-            $('#user').append(`
-            <b style="color: white" onclick="userName('${resp.userName}')">${resp.userName}</b>
-            `)
-
+            
             localStorage.setItem("token", resp.token)
             localStorage.setItem("userName", resp.userName)
             todo()
+            swal({
+                icon: "success",
+                title: "Success Login!",
+                text: "Welcome, " + localStorage.getItem('userName')
+            })
+            fetchuserName()
         })
         .fail((jqXHR, textStatus) => {
             console.log(textStatus)
@@ -238,10 +236,11 @@ function submitedittodo(id) {
             $('#edit-date').val('')
         })
         .fail((jqXHR, textStatus) => {
-            console.log(textStatus)
+            console.log(textStatus, jqXHR)
             swal({
                 icon: "warning",
-                text: "Edit Todo Failed"
+                title: "Edit Todo Failed",
+                text: jqXHR.responseJSON.message
             })
         })
 }
@@ -250,6 +249,14 @@ function userName(name) {
     swal({
         title: "Hi, " + name
     })
+}
+
+function fetchuserName(){
+    let user = localStorage.getItem('userName')
+    $('#user').empty()
+    $('#user').append(`
+        <b style="color: white" onclick="userName('${user}')">${user}</b>
+    `)
 }
 
 function status(status) {
@@ -288,8 +295,11 @@ function status(status) {
         })
 }
 
+
+
 $(document).ready(function () {
     if (localStorage.token) {
+        fetchuserName()
         todo()
         $('#regisform').hide()
         $('#loginform').hide()
@@ -364,14 +374,6 @@ $('#loginbtn').click(function () {
                 }
             })
             .done(resp => {
-                swal({
-                    icon: "success",
-                    text: "Success Login!"
-                })
-                $('#user').empty()
-                $('#user').append(`
-                    <b style="color: white" onclick="userName('${resp.userName}')">${resp.userName}</b>
-                    `)
                 $('#loginform').hide()
                 $('.nb').show()
                 $('#main').show()
@@ -385,6 +387,12 @@ $('#loginbtn').click(function () {
                 localStorage.setItem("token", resp.token)
                 localStorage.setItem("userName", resp.userName)
                 todo()
+                swal({
+                    icon: "success",
+                    title: "Success Login!",
+                    text: "Welcome, " + localStorage.getItem('userName')
+                })
+                fetchuserName()
             })
             .fail((jqXHR, textStatus) => {
                 console.log(textStatus)

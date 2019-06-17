@@ -77,7 +77,8 @@ class ControllerTodo {
     static navStatus(req, res, next) {
         Todo
             .find({
-                status: req.params.status
+                status: req.params.status,
+                userId: req.decoded.id
             })
             .then(resp => {
                 res.status(200).json(resp)
