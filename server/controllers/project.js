@@ -4,7 +4,10 @@ class ControllerProject {
     static findAll(req, res, next) {
         Project
             .find()
+            .populate('owner')
+            .populate('members')
             .then(resp => {
+                
                 res.status(200).json(resp)
             })
             .catch(next)
@@ -22,8 +25,9 @@ class ControllerProject {
             name: req.body.name,
             description: req.body.description,
             owner: req.decoded.id,
-            members: req.body.members,
-            todos: req.body.todos
+            members: req.body.members || [],
+            pending: req.body.pending || [],
+            todos: req.body.todos || []
         }
         Project
             .create(data)

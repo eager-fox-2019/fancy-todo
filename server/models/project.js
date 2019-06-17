@@ -5,6 +5,7 @@ let Schema = mongoose.Schema
 let project = new Schema({
   name: {
     type: String,
+    maxlength: [15, 'Please Enter Title Max 15 Character'],
     required: [true,'Todo Title Cannot Be Empty']
   },
   description: {
@@ -19,12 +20,21 @@ let project = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   }],
+  pending: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   todos: [{
     type: Schema.Types.ObjectId,
     ref: 'Todo'
   }]
 }, {
   timestamps:true
+})
+
+project.pre('save', function(next){
+  this.members.push(this.owner)
+  next()
 })
 
 let Project = mongoose.model('Project', project)

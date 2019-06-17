@@ -1,14 +1,27 @@
 let baseUrl = 'http://localhost:3000'
 
+let projectId = null
+
 function newTodo() {
     let datearr = $('#todo-date').val().split('/')
     let date = datearr[2] + '-' + datearr[0] + '-' +datearr[1]
+    let data = {}
 
-    let data = {
-        name: $('#todo-name').val(),
-        description: $('#todo-desc').val(),
-        dueDate: date
+    if (projectId){
+        data = {
+            name: $('#todo-name').val(),
+            description: $('#todo-desc').val(),
+            dueDate: date,
+            projectId: projectId
+        }
+    }else{
+        data = {
+            name: $('#todo-name').val(),
+            description: $('#todo-desc').val(),
+            dueDate: date
+        }
     }
+
     $.ajax({
             method: "POST",
             url: `${baseUrl}/todos`,
@@ -51,6 +64,8 @@ function onSignIn(googleUser) {
             $('#loginform').hide()
             $('.nb').show()
             $('#main').show()
+            $('#todomain').show()
+            $('#projectmain').hide()
             
             localStorage.setItem("token", resp.token)
             localStorage.setItem("userName", resp.userName)
@@ -97,7 +112,7 @@ function todo() {
             resp.forEach(resp => {
                 let date = resp.dueDate.substr(0, 10).split('-').reverse().join('-')
                 $('#todolist').append(`
-                <div class="card" style="width: 15rem; height:16rem; margin-right:15px; margin-top:15px; color: white; text-align: center; background-color:#373C42">
+                <div class="card" style="width: 15rem; height:16rem; margin-right:15px; margin-top:50px; color: white; text-align: center; background-color:#373C42">
                     <div class="card-body">
                     <h5 class="card-title"><b>${resp.name}</b></h5>
                     <h6 class="card-subtitle mb-2">===========</h6>
@@ -295,7 +310,70 @@ function status(status) {
         })
 }
 
+function project() {
+    $.ajax({
+            method: "GET",
+            url: `${baseUrl}/projects`,
+            headers: {
+                token: localStorage.getItem('token')
+            }
+        })
+        .done(resp => {
+            console.log(resp)
+            $('#projectlist').empty()
+            resp.forEach(resp => {
+                $('#projectlist').append(`
+                <div class="card" style="width: 15rem; height:16rem; margin-right:15px; margin-top:15px; color: white; text-align: center; background-color:#373C42">
+                    <div class="card-body">
+                    <h5 class="card-title"><b>${resp.name}</b></h5>
+                    <h6 class="card-subtitle mb-2">===========</h6>
+                    <p class="card-text">Owner: ${resp.owner.userName}</p>
+                    <button type="button" class="btn btn-outline-primary" style="margin-bottom:10px;" onclick="">Detail</button><br>
+                    <button type="button" class="btn btn-outline-warning" style="margin-right:5px;" data-target="#edittodomodal" data-toggle="modal" onclick="edittodo('${resp._id}')">Edit</button>
+                    <button type="button" class="btn btn-outline-danger" onclick="deletetodo('${resp._id}')">Delete</button>
+                    </div>
+                </div>
+                `)
+            });
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus)
+            swal({
+                icon: "warning",
+                text: "Cannot Get Projects"
+            })
+        })
+}
 
+function newProject(){
+    let data = {
+        name: $('#project-name').val(),
+        description: $('#project-desc').val()
+    }
+    $.ajax({
+            method: "POST",
+            url: `${baseUrl}/projects`,
+            headers: {
+                token: localStorage.getItem('token')
+            },
+            data: data
+        })
+        .done(resp => {
+            console.log(resp, 'add project')
+            swal({
+                icon: "success",
+                text: "Success Add Project"
+            })
+            project()
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus, jqXHR)
+            swal({
+                icon: "warning",
+                text: "Add Project Failed"
+            })
+        })
+}
 
 $(document).ready(function () {
     if (localStorage.token) {
@@ -306,6 +384,7 @@ $(document).ready(function () {
         $('#clickhere').hide()
         $('.nb').show()
         $('#main').show()
+        $('#projectmain').hide()
     } else {
         $('#regisform').hide()
         $('#loginform').hide()
@@ -377,6 +456,8 @@ $('#loginbtn').click(function () {
                 $('#loginform').hide()
                 $('.nb').show()
                 $('#main').show()
+                $('#todomain').show()
+                $('#projectmain').hide()
 
                 $('#regisuser').val('')
                 $('#regisemail').val('')
@@ -461,4 +542,17 @@ $('#logoutbtn').click(function () {
                 });
             }
         });
+})
+
+$('#todo').click(function(){
+    projectId = null
+    todo()
+    $('#projectmain').hide()
+    $('#todomain').show()
+})
+
+$('#project').click(function(){
+    project()
+    $('#todomain').hide()
+    $('#projectmain').show()
 })
