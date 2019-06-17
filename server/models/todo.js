@@ -5,11 +5,12 @@ let Schema = mongoose.Schema
 let todo = new Schema({
   name: {
     type: String,
-    required: [true,'Todo Title Cannot Be Empty']
+    maxlength: [15, 'Please Enter Title Max 15 Character'],
+    required: [true, 'Todo Title Cannot Be Empty']
   },
   description: {
     type: String,
-    required: [true,'Todo Description Cannot Be Empty']
+    required: [true, 'Todo Description Cannot Be Empty']
   },
   dueDate: {
     type: Date,
@@ -23,7 +24,16 @@ let todo = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  
+  projectId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Project'
+  }
+}, {
+  timestamps: true
+})
+
+todo.pre('save', function (next) {
+  next()
 })
 
 let Todo = mongoose.model('Todo', todo)

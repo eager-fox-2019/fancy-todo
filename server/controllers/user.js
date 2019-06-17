@@ -48,7 +48,8 @@ class ControllerUser {
                         }
                         let token = sign(payload)
                         res.status(200).json({
-                            token
+                            token,
+                            userName: resp.userName
                         })
                     } else {
                         throw ({
@@ -79,7 +80,7 @@ class ControllerUser {
                     email: ticketpayload.email,
                     password: "hehe"
                 }
-                
+
                 User
                     .findOne({
                         email: ticketpayload.email
@@ -94,7 +95,8 @@ class ControllerUser {
                                 }
                                 let token = sign(payload)
                                 res.status(200).json({
-                                    token
+                                    token,
+                                    userName: resp.userName
                                 })
                             } else {
                                 throw ({

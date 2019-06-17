@@ -1,39 +1,77 @@
 let baseUrl = 'http://localhost:3000'
 
-function onSignIn(googleUser) {
-    var idToken = googleUser.getAuthResponse().id_token;
-
+function newTodo(){
+    let data = {
+        name : $('#todo-name').val(),
+        description : $('#todo-desc').val(),
+        dueDate : $('#todo-date').val()
+    }
     $.ajax({
         method: "POST",
-        url: `${baseUrl}/users/googlesignin`,
-        data: {
-            idToken
-        }
+        url: `${baseUrl}/todos`,
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        data: data
     })
     .done(resp => {
+        console.log(resp, 'add todo')
         swal({
             icon: "success",
-            text: "Success Login!"
+            text: "Success Add Todo"
         })
-        $('#loginform').hide()
-        $('#logoutbtn').show()
-        $('#main').show()
-
-        localStorage.setItem("token", resp.token)
+        todo()
+        $('#todo-name').val(''),
+        $('#todo-desc').val(''),
+        $('#todo-date').val('')
     })
     .fail((jqXHR, textStatus) => {
         console.log(textStatus)
         swal({
-            icon:"warning",
-            text: "Email/Password Wrong"
+            icon: "warning",
+            text: "Cannot Get Todos"
         })
     })
+}
+
+function onSignIn(googleUser) {
+    var idToken = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+            method: "POST",
+            url: `${baseUrl}/users/googlesignin`,
+            data: {
+                idToken
+            }
+        })
+        .done(resp => {
+            swal({
+                icon: "success",
+                text: "Success Login!"
+            })
+            $('#loginform').hide()
+            $('.nb').show()
+            $('#main').show()
+            $('#user').append(`
+                <b style="color: white">${resp.userName}</b>
+            `)
+
+            localStorage.setItem("token", resp.token)
+            localStorage.setItem("userName", resp.userName)
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus)
+            swal({
+                icon: "warning",
+                text: "Email/Password Wrong"
+            })
+        })
 }
 
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
 
-    $('#logoutbtn').hide()
+    $('.nb').hide()
     $('#clickhere').show()
     $('#main').hide()
 
@@ -43,105 +81,163 @@ function signOut() {
     });
 }
 
+function todo() {
+    $.ajax({
+            method: "GET",
+            url: `${baseUrl}/todos`,
+            headers: {
+                token: localStorage.getItem('token')
+            }
+        })
+        .done(resp => {
+            console.log(resp)
+            $('#todolist').empty()
+            resp.forEach(resp => {
+                let date = resp.dueDate.substr(0, 10).split('-').reverse().join('-')
+                $('#todolist').append(`
+                <div class="card" style="width: 15rem; height:16rem; margin-right:15px; margin-top:15px; color: black; text-align: center">
+                    <div class="card-body">
+                    <h5 class="card-title"><b>${resp.name}</b></h5>
+                    <h6 class="card-subtitle mb-2">===========</h6>
+                    <p class="card-text">Status: ${resp.status}</p>
+                    <p class="card-text">Due Date: ${date}</p>
+                    <button type="button" class="btn btn-outline-primary" style="margin-bottom:10px;" onclick="detailtodo('${resp.name}','${resp.description}','${resp.status}','${date}')">Detail</button><br>
+                    <button type="button" class="btn btn-outline-warning" style="margin-right:5px;">Edit</button>
+                    <button type="button" class="btn btn-outline-danger">Delete</button>
+                    </div>
+                </div>
+                `)
+            });
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus)
+            swal({
+                icon: "warning",
+                text: "Cannot Get Todos"
+            })
+        })
+}
+
+function detailtodo(title, desc, status, date) {
+    swal({
+        title: title,
+        text: `
+
+        Description: 
+        
+        ${desc}
+
+        Status: ${status}
+
+        Due Date: ${date}
+        `
+    })
+}
+
 $(document).ready(function () {
     if (localStorage.token) {
         $('#regisform').hide()
         $('#loginform').hide()
         $('#clickhere').hide()
-        $('#logoutbtn').show()
+        $('.nb').show()
         $('#main').show()
+        todo()
     } else {
         $('#regisform').hide()
         $('#loginform').hide()
         $('#clickhere').show()
-        $('#logoutbtn').hide()
+        $('.nb').hide()
         $('#main').hide()
     }
 })
 
-$('#regisbtn').click(function(){
+$('#regisbtn').click(function () {
     event.preventDefault()
     let userName = $('#regisuser').val()
     let email = $('#regisemail').val()
     let password = $('#regispassword').val()
-    
-    if (email != '' && password != '' && userName != ''){
+
+    if (email != '' && password != '' && userName != '') {
         $.ajax({
-            method: "POST",
-            url: `${baseUrl}/users/signup`,
-            data: {
-                userName,
-                email,
-                password
-            }
-        })
-        .done(resp => {
-            swal({
-                icon: "success",
-                text: "Success Register, Please Login"
+                method: "POST",
+                url: `${baseUrl}/users/signup`,
+                data: {
+                    userName,
+                    email,
+                    password
+                }
             })
-            $('#regisform').hide()
-            $('#loginform').show()
-            
-            $('#regisuser').val('')
-            $('#regisemail').val('')
-            $('#regispassword').val('')
-            $('#loginemail').val('')
-            $('#loginpassword').val('')
-        })
-        .fail((jqXHR, textStatus) => {
-            console.log(textStatus)
-            swal({
-                icon:"warning",
-                text: "Email Already Used"
+            .done(resp => {
+                swal({
+                    icon: "success",
+                    text: "Success Register, Please Login"
+                })
+                $('#regisform').hide()
+                $('#loginform').show()
+
+                $('#regisuser').val('')
+                $('#regisemail').val('')
+                $('#regispassword').val('')
+                $('#loginemail').val('')
+                $('#loginpassword').val('')
             })
-        })
-    }else{
+            .fail((jqXHR, textStatus) => {
+                console.log(textStatus)
+                swal({
+                    icon: "warning",
+                    text: "Email Already Used"
+                })
+            })
+    } else {
         swal({
             text: "Email/Password cannot be empty"
         })
     }
 })
 
-$('#loginbtn').click(function(){
+$('#loginbtn').click(function () {
     event.preventDefault()
     let email = $('#loginemail').val()
     let password = $('#loginpassword').val()
-    
-    if (email != '' && password != ''){
+
+    if (email != '' && password != '') {
         $.ajax({
-            method: "POST",
-            url: `${baseUrl}/users/signin`,
-            data: {
-                email,
-                password
-            }
-        })
-        .done(resp => {
-            swal({
-                icon: "success",
-                text: "Success Login!"
+                method: "POST",
+                url: `${baseUrl}/users/signin`,
+                data: {
+                    email,
+                    password
+                }
             })
-            $('#loginform').hide()
-            $('#logoutbtn').show()
-            $('#main').show()
+            .done(resp => {
+                swal({
+                    icon: "success",
+                    text: "Success Login!"
+                })
+                $('#user').append(`
+                    <b style="color: white">${resp.userName}</b>
+                `)
+                $('#loginform').hide()
+                $('.nb').show()
+                $('#main').show()
 
-            $('#regisuser').val('')
-            $('#regisemail').val('')
-            $('#regispassword').val('')
-            $('#loginemail').val('')
-            $('#loginpassword').val('')
+                $('#regisuser').val('')
+                $('#regisemail').val('')
+                $('#regispassword').val('')
+                $('#loginemail').val('')
+                $('#loginpassword').val('')
 
-            localStorage.setItem("token", resp.token)
-        })
-        .fail((jqXHR, textStatus) => {
-            console.log(textStatus)
-            swal({
-                icon:"warning",
-                text: "Email/Password Wrong"
+                localStorage.setItem("token", resp.token)
+                localStorage.setItem("userName", resp.userName)
             })
-        })
-    }else{
+            .fail((jqXHR, textStatus) => {
+                console.log(textStatus)
+                swal({
+                    icon: "warning",
+                    text: "Email/Password Wrong"
+                })
+            })
+    } else {
         swal({
             text: "Email/Password cannot be empty"
         })

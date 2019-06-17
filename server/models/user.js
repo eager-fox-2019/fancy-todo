@@ -48,6 +48,8 @@ let user = new Schema({
       type: String,
       required: [true,'Password Cannot Be Empty']
   }
+}, {
+  timestamps:true
 })
 
 user.pre('save', function(next){

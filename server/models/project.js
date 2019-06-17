@@ -15,10 +15,16 @@ let project = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'User'
   },
-  member: [{
+  members: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
+  }],
+  todos: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Todo'
   }]
+}, {
+  timestamps:true
 })
 
 let Project = mongoose.model('Project', project)

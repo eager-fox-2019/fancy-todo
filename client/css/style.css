@@ -6,6 +6,9 @@
 body {
     background-image: url('https://images.wallpaperscraft.com/image/color_background_surface_solid_18481_1920x1080.jpg');
     font-family: 'Roboto Slab', serif;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
 }
 
 .navbar-brand {
@@ -17,6 +20,21 @@ body {
     color: whitesmoke
 }
 
-#regisform, #loginform{
+#regisform,
+#loginform {
     margin-top: 100px
+}
+
+#todotitle,
+#projecttitle {
+    font-family: 'Lobster', cursive;
+    font-size: 50px;
+    margin-top: 10px;
+}
+
+.card-text{
+    font-size:15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
