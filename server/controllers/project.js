@@ -26,8 +26,15 @@ class ProjectController{
         .catch(next)
     }
 
-    static getMembers(req, res, next) {
-
+    static invite(req, res, next) {
+        Project
+        .findById(req.params.id)
+        .populate('projectMembers')
+        .then(project =>{
+            console.log(project)
+            res.status(200).json(project)
+        })
+        .catch(next)
     }
 
     static create(req,res,next){

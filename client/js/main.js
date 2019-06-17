@@ -488,7 +488,7 @@ function done (id) {
 function goToProject(id) {
   event.preventDefault()
   $('#personal').hide()
-  $('#project').show()
+  $('#project').fadeIn()
   console.log(id)
   fetchProjectDetail(id)
 }
@@ -512,12 +512,12 @@ function fetchProject () {
     response.forEach(project => {
       $('#projectList').append(`
       <div class="col s12">
-        <div class="card">
-          <div class="card-content" style="font-size:20px; text-align:left">
-            <span>${project.projectName}</span>
-            <a onclick="goToProject('${project._id}')" href=""><i class="fas fa-caret-right right" style="font-size:2em; margin-top:-6px"></i></a>
+          <div class="card">
+            <div class="card-content" style="font-size:20px; text-align:left">
+              <span>${project.projectName}</span>
+              <a onclick="goToProject('${project._id}')" href=""><i class="fas fa-caret-right right" style="font-size:2em; margin-top:-6px"></i></a>
+            </div>
           </div>
-        </div>
       </div>
       `)
     })
@@ -586,26 +586,34 @@ function newProject () {
       'Cancel'
   })
   .then(result => {
-    console.log($('#projectNameInput').val())
-    $.ajax({
-      url: `${baseUrl}/projects`,
-      method: 'post',
-      data: {
-        projectName: $('#projectNameInput').val()
-      },
-      headers: {
-        token: localStorage.token
-      }
-    })
-    .done(response => {
-      console.log(response)
-      $('#projectNameInput').val('')
-      fetchProject()
-    })
-    .fail((jxHQR,status)=>{
-      console.log(status);
-    })
+    if (result.value) {
+      console.log($('#projectNameInput').val())
+      $.ajax({
+        url: `${baseUrl}/projects`,
+        method: 'post',
+        data: {
+          projectName: $('#projectNameInput').val()
+        },
+        headers: {
+          token: localStorage.token
+        }
+      })
+      .done(response => {
+        console.log(response)
+        $('#projectNameInput').val('')
+        fetchProject()
+      })
+      .fail((jxHQR,status)=>{
+        console.log(status);
+      })
+    }
   })
+  
+}
+
+function invite (id, index) {
+  console.log(id, index)
+  $(`#invite-${index}`).addClass('disabled')
 }
 
 $(document).ready(function() {
@@ -672,7 +680,7 @@ $(document).ready(function() {
     $('#project').hide()
     fetchProject()
     fetchTodo()
-    $('#personal').show()
+    $('#personal').fadeIn()
   })
 
   $('#addMembers').click(() => {
@@ -685,20 +693,21 @@ $(document).ready(function() {
       }
     })
     .done(response => {
+      $('#userList').empty()
       console.log(response)
-      // response.forEach(user => {
-      //   $('#userList').append(`
-      //   <li style="border:1px solid black; margin-bottom: 5px">
-      //     <div class="left">
-      //       <p>Name :</p>
-      //       <p>Email:</p>
-      //     </div>
-      //     <div class="right">
-      //       <a id="invite" class="waves-effect waves-light btn-small right" style="margin-top:20px">Invite</a>                    
-      //     </div>
-      //   </li>
-      //   `)
-      // })
+      response.forEach((user, index) => {
+        $('#userList').append(`
+        <div style="display:flex; justify-content: space-around; border-bottom:1px solid black;">
+          <div class="">
+            <p>Name : ${user.name}</p>
+            <p>Email: ${user.email}</p>
+          </div>
+          <div class="">
+            <a id="invite-${index}" onclick="invite('${user._id}', '${index}')" class="waves-effect waves-light btn-small" style="margin-top:25px">Invite</a>                    
+          </div>
+        </div>
+        `)
+      })
     })
   })
 })

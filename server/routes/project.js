@@ -7,6 +7,7 @@ router.get('/',ProjectController.getAll)
 router.post('/',ProjectController.create)
 router.get('/:id',ProjectController.getOne)
 router.get('/:id/todos',TodoController.getAllInProject)
+router.get('/:id/invite',ProjectController.invite)
 
 router.patch('/:id',ProjectController.update)
 router.delete('/:id',ProjectController.delete)
