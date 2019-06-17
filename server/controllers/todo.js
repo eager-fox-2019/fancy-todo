@@ -15,7 +15,7 @@ class TodoCont {
         }
       }
     })
-    
+
     Todo.create(obj)
       .then(row => {
         if (obj['project']) {
@@ -82,7 +82,11 @@ class TodoCont {
     console.log(obj)
     Todo.findByIdAndUpdate(req.params.id, obj/* , { new: true } */)
       .then(row => {
-        if (!row.project) {
+        console.log(row)
+        console.log(obj['project'])
+        if (!row.project.toString()) {
+          console.log('gak ada')
+          console.log(row._id)
           Project.findByIdAndUpdate(obj['project'], {
             $push: { todo: row._id },
           })
@@ -92,11 +96,13 @@ class TodoCont {
             .catch(next)
         }
         else if (!row.project.equals(obj['project'])) {
+          console.log('ada')
+          console.log(row._id)
           Promise.all([
             Project.findByIdAndUpdate(obj['project'], {
               $push: { todo: row._id },
             }),
-            Project.findByIdAndUpdate(obj['project'], {
+            Project.findByIdAndUpdate(row.project, {
               $pull: { todo: row._id },
             })])
             .then(rows => {

@@ -10,8 +10,10 @@ class UserCont {
     if(req.query.email)
       obj.email = { '$regex' : req.query.email, '$options' : 'i' }
     User.find(obj)
+      .select({ _id: 1, name: 1, email: 1 })
       .sort({ email: 1 })
       .then(rows => {
+        console.log(rows)
         // rows = rows.filter(row => !row._id.equals(req.decoded._id))
         res.json(rows)
       })

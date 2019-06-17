@@ -27,6 +27,7 @@ class ProjectCont {
     Project.find(obj)
       .populate('user')
       .populate('todo')
+      .sort({ status: 1 })
       .then(rows => {
         res.json(rows)
       })
@@ -46,7 +47,7 @@ class ProjectCont {
   static update(req, res, next) {
     let user = [req.decoded._id].concat(req.body['user[]'])
     let obj = { user }
-    let exclude = ['user','admin','_id', '__v', 'createdAt', 'updatedAt']
+    let exclude = ['user','todo','admin','_id', '__v', 'createdAt', 'updatedAt']
     if (req.method === "PATCH") {
       Project.schema.eachPath(path => {
         if (!exclude.includes(path)) {

@@ -96,6 +96,16 @@ function emptyNewProject() {
   $('#newProjectDuedate').val('')
   $('#selectListNewUsers').empty()
   $('#newProjectAddedUsers').empty()
+  $('#selectNewUser').val('')
+}
+
+function emptyEditProject() {
+  $('#editProjectTitle').val('')
+  $('#editProjectDesc').val('')
+  $('#editProjectDuedate').val('')
+  $('#selectListEditUsers').empty()
+  $('#editProjectAddedUsers').empty()
+  $('#selectEditUser').val('')
 }
 
 function register() {
@@ -112,11 +122,11 @@ function register() {
       email,
       password
     },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done((data) => {
       showMessage(`Hai ${data.name}, kamu berhasil register, silahkan login dahulu`, 'success')
@@ -140,11 +150,11 @@ function login() {
       email,
       password
     },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done((data) => {
       localStorage.setItem('access-token', data['access-token'])
@@ -243,11 +253,11 @@ function addNewTodo() {
     // crossDomain: true, // kalau error HTTP 405 Method not Allowed
     headers: { 'access-token': localStorage.getItem('access-token') },
     data: obj,
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(function (todo) {
       $('#nav-todos-tab').tab('show')
@@ -285,11 +295,11 @@ function addNewProject() {
       duedate: $('#newProjectDuedate').val()
     },
     dataType: "json",
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(function (project) {
       $('#nav-projects-tab').tab('show')
@@ -498,11 +508,11 @@ function getAllTodos(todoId) {
     url: `${baseURL}/todo/${query}`,
     method: 'GET',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(todos => {
       $('#resultTodos').empty()
@@ -576,15 +586,16 @@ function getAllProjects() {
     url: `${baseURL}/project/${query}`,
     method: 'GET',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(projects => {
       $('#resultProjects').empty()
       tempProjects = [...projects]
+      console.log(projects)
       for (let project of projects) {
         let badge, color, emails = '', todosTitle = ''
         if (project.status === 'unfinished')
@@ -679,11 +690,11 @@ function updateTodo(todoId, userId) {
     method: 'PUT',
     headers: { 'access-token': localStorage.getItem('access-token') },
     data: obj,
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(todo => {
       $('#editTodoModal').modal('hide')
@@ -692,6 +703,7 @@ function updateTodo(todoId, userId) {
       <strong>${todo.title}</strong> updated successfully
       </p>`, 'success')
       // dontRefresh()
+      emptyEditProject()
       getAllTodos()
     })
     .fail((err) => {
@@ -721,11 +733,11 @@ function updateProject(projectId, userId) {
     headers: { 'access-token': localStorage.getItem('access-token') },
     data: obj,
     dataType: 'json'
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(project => {
       $('#editProjectModal').modal('hide')
@@ -749,11 +761,11 @@ function deleteTodo(todoId) {
     url: `${baseURL}/todo/${todoId}`,
     method: 'DELETE',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(todo => {
       showMessage(`<p>
@@ -775,11 +787,11 @@ function deleteProject(projectId) {
     url: `${baseURL}/project/${projectId}`,
     method: 'DELETE',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(project => {
       showMessage(`<p>
@@ -834,8 +846,10 @@ function removeNewUsers() {
   // `)
 }
 
-function addEditUser(userFromTemp) {
-  let selected = userFromTemp || $('#selectEditUser').val()
+function addEditUser(userEmail) {
+  let selected = userEmail || $('#selectEditUser').val()
+  console.log(selected)
+  console.log(tempUsers)
   if(tempUsers.find(obj => obj.email === selected)) {
     $(`#selectListEditUsers option[value="${selected}"]`).remove()
     $('#selectEditUser').val('')
@@ -908,23 +922,34 @@ function showModalEditTodo(todo) {
 
 
 function showModalNewProject() {
+  emptyNewProject()
   listAllUsers()
   $('#newProjectAddedUsers').append(`
   <div class="form-check">
-  <input class="form-check-input" type="checkbox" value="${localStorage.getItem('email')}" id="${localStorage.getItem('email')}" disabled>
-  <label id="yourEmail" class="form-check-label" for="${localStorage.getItem('email')}">
+  <input class="form-check-input" type="checkbox" value="${localStorage.getItem('email')}" id="newProjectYourEmailCheckbox" disabled>
+  <label id="newProjectYourEmail" class="form-check-label" for="newProjectYourEmailCheckbox">
   ${localStorage.getItem('email')}
   </label>
   </div>
   `)
-  $('#yourEmail').text('(You) ' + localStorage.getItem('email'))
+  $('#newProjectYourEmail').text('(You) ' + localStorage.getItem('email'))
   $('#newProjectDuedate').val(moment().add(1, 'days').format().slice(0, 16))
 }
 
 function showModalEditProject(project) {
+  emptyEditProject()
+  project = JSON.parse(project)
   console.log(project.user)
   listAllUsers(project.user)
-  project = JSON.parse(project)
+  $('#editProjectAddedUsers').append(`
+  <div class="form-check">
+  <input class="form-check-input" type="checkbox" value="${localStorage.getItem('email')}" id="editProjectYourEmailCheckbox" disabled>
+  <label id="editProjectYourEmail" class="form-check-label" for="editProjectYourEmailCheckbox">
+  ${localStorage.getItem('email')}
+  </label>
+  </div>
+  `)
+  $('#editProjectYourEmail').text('(You) ' + localStorage.getItem('email'))
   $('#editProjectTitle').val(project.title)
   $('#editProjectDesc').val(project.description)
   $('#editProjectStatus').val(project.status)
@@ -939,28 +964,51 @@ function listAllUsers(projectUsers) {
     url: `${baseURL}/user`,
     method: 'GET',
     headers: { 'access-token': localStorage.getItem('access-token') },
-    statusCode: {
-      500: function () {
-        window.location = './http-500.html'
-      }
-    }
+    // statusCode: {
+    //   500: function () {
+    //     window.location = './http-500.html'
+    //   }
+    // }
   })
     .done(users => {
-      if(projectUsers)
-        tempUsers = [...projectUsers]
-      else
+      if(projectUsers) {
+        const excluded = users.filter((obj) => !projectUsers.find(({ _id }) => obj._id === _id));
         tempUsers = [...users]
-      console.log(tempUsers)
-      for (let user of tempUsers) {
-        if(user.email !== localStorage.getItem('email')) {
-          $('#selectListNewUsers').append(`
-            <option value="${user.email}">
-          `)
-          $('#selectListEditUsers').append(`
-            <option value="${user.email}">
-          `)
+        for (let user of excluded) {
+          if(user.email !== localStorage.getItem('email')) {
+            $('#selectListEditUsers').append(`
+              <option value="${user.email}">
+            `)
+          }
+        }
+        for (let user of projectUsers) {
+          if(user.email !== localStorage.getItem('email')) {
+            addEditUser(user.email)
+          }
         }
       }
+      else {
+        tempUsers = [...users]
+        for (let user of tempUsers) {
+          if(user.email !== localStorage.getItem('email')) {
+            $('#selectListNewUsers').append(`
+              <option value="${user.email}">
+            `)
+          }
+        }
+      }
+      // console.log(tempUsers)
+      // for (let user of tempUsers) {
+      //   if(user.email !== localStorage.getItem('email')) {
+      //     $('#selectListNewUsers').append(`
+      //       <option value="${user.email}">
+      //     `)
+      //     addEditUser(user.email)
+      //     $('#editProjectAddedUsers').append(`
+      //       <option value="${user.email}">
+      //     `)
+      //   }
+      // }
     })
     .fail((err) => {
       console.log(err)
