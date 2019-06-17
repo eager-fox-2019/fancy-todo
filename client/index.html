@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="272547739263-0c7l8s2pffvf5d0p4pihgc87f6hdb4mi.apps.googleusercontent.com">
+    
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script src="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
+<link href="http://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+<link rel="stylesheet" href="./style.css">
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <title>Fancy Todo</title>
+</head>
+<body>
+    <nav>What ToDo Today
+        <span class="userNav">
+                <div class="g-signin2" data-onsuccess="onSignIn" style="float: right; margin-top: 8px;"></div>
+                <button id= "loginButton" onclick="generateLogin()">Login</button>
+                <button id= "registerButton" onclick="generateRegister()">Register</button>                
+        </span>
+    </nav>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="box box-aqua">
+              <div class="box-header ui-sortable-handle" style="cursor: move;">
+                <i class="ion ion-clipboard"></i>
+                <h3 class="box-title">To Do List</h3>
+              </div>
+         
+              <div class="box-body">
+                  <h3>Morning</h3>
+                <ul class="todo-list ui-sortable" id="todoListMorning">
+                 
+                </ul>
+              </div>
+
+              <div class="box-body">
+                  <h3>Afternoon</h3>
+                <ul class="todo-list ui-sortable" id="todoListAfternoon">
+                 
+                </ul>
+              </div>
+
+              <div class="box-body">
+                  <h3>Evening</h3>
+                <ul class="todo-list ui-sortable" id="todoListEvening">
+                 
+                </ul>
+              </div>
+
+              <div class="box-footer clearfix no-border">
+              <button type="button" onclick="generateFormTodo()"><i class="fa fa-plus"></i> Add item</button>
+              <div id="createTodo">
+
+              </div>
+              </div>
+            </div>
+          </div> 
+
+
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    
+    <script src="./index.js"></script>
+    
+</body>
+</html>
