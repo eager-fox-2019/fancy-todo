@@ -1,4 +1,5 @@
-const server = 'http://localhost:3000/';
+// const server = 'http://localhost:3000/';
+const server = 'http://34.83.113.112:3001/';
 let currentSection = 0;
 let currentProject;
 // Google sign in
