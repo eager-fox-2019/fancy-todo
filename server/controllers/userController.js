@@ -11,20 +11,20 @@ class UserController{
             .catch(next)
     }
 
-    // static delete(req, res, next){
-    //     let searchObj = {
-    //         _id: ObjectId(req.params.id)
-    //     }
-    //     User.deleteOne(searchObj)
-    //         .then(result => {
-    //             if(!result || result.n === 0){
-    //                 throw {code: 404}
-    //             } else {
-    //                 res.json(result)
-    //             }
-    //         })
-    //         .catch(next)
-    // }
+    static delete(req, res, next){
+        let searchObj = {
+            _id: req.params.id
+        }
+        User.deleteOne(searchObj)
+            .then(result => {
+                if(!result || result.n === 0){
+                    throw {code: 404}
+                } else {
+                    res.json(result)
+                }
+            })
+            .catch(next)
+    }
 
     static register(req, res, next){
         const { username, email, password } = req.body
@@ -75,7 +75,7 @@ class UserController{
             const ticketPayload = ticket.getPayload()
             let user = await User.findOne({email: ticketPayload.email})
             if(!user){
-                console.log("New User")
+                console.log("New user added")
                 const input = {
                     username: ticketPayload.name,
                     email: ticketPayload.email,

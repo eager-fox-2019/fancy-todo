@@ -12,6 +12,9 @@ class TodoController{
     static findPersonal(req, res, next){
         Todo.find({assign: req.decode.id})
             .then(todos => {
+                todos.sort(function(a,b){
+                    return new Date(a.due_date) - new Date(b.due_date);
+                });
                 res.json(todos)
             })
             .catch(next)

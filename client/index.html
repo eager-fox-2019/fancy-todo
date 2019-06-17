@@ -9,6 +9,9 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <link href="./style.css" type="text/css" rel="stylesheet">
         <title>Fancy Todo!</title>
+        <link rel="stylesheet" href="./compiled/flipclock.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="./compiled/flipclock.js"></script> 
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
 
@@ -83,7 +86,7 @@
                 <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
                     <a class="navbar-brand" style="color:white">Fancy Todo</a>
                     <div id="acc">
-                        <a id="loggedUsername" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                        <a id="loggedUsername" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white"></a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 0; left: auto;">
                             <div id="outButton"></div>
                         </div>
@@ -92,29 +95,40 @@
                 <div class="row">
                     <div class="col-sm" style="padding: 20px">
                         <div class="h-100 shadow mb-5 bg-white rounded floatingbox">
-                            <h1>Weather/Google Calendar</h1>
+                            <h1>Clock</h1>
+                            <div class="clock" style="align-items: center"></div>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-sm" style="padding: 20px">
                         <div class="h-100 shadow mb-5 rounded floatingbox">
                             <h1>Your Task</h1>
-                            <form class="center" id="add-form" style="padding-bottom: 20px">
-                                <div class="form-group">
-                                    <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" placeholder="Enter Task Name" required>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%">
+                                    Add Task
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <form class="center" id="add-form" style="padding: 10px 20px">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Enter Task Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <textarea rows="5" cols="50" class="form-control" id="description" placeholder="Enter Description" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="due_date">Due Date</label>
+                                            <input type="date" class="form-control" id="due_date" required>
+                                        </div>
+                                        <div class="col text-center">
+                                            <button type="submit" class="btn btn-success center addTask" style="width:100%">Add Task</button>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea rows="5" cols="50" class="form-control" id="description" placeholder="Enter Description" required></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="due_date">Due Date</label>
-                                    <input type="date" class="form-control" id="due_date" required>
-                                </div>
-                                <div class="col text-center">
-                                    <button type="submit" class="btn btn-success center addTask" style="width:100%">Add Task</button>
-                                </div>
-                            </form>
+                            </div>
+                            <br>
                             <div id="list"></div>
                         </div>
                     </div>
@@ -138,6 +152,12 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
         <script src='./main.js'></script>
+        <script>
+            const el = document.querySelector('.clock');
+            const clock = new FlipClock(el, new Date, {
+                clockFace: 'TwentyFourHourClock'
+            });
+		</script>
         <script
             src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="

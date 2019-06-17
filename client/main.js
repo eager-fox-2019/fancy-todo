@@ -28,7 +28,6 @@ $(document).ready(function(){
 
     $('#register').on('click', function(event){
         event.preventDefault()
-        console.log("Create an account button clicked")
         let username = $('#username').val()
         let email = $('#reg-email').val()
         let password = $('#reg-psw').val()        
@@ -52,7 +51,6 @@ $(document).ready(function(){
 
     $('#login').on('click', function(event){
         event.preventDefault()
-        console.log("Login button clicked")
         let email = $('#log-email').val()
         let password = $('#log-psw').val()
         $.ajax({
@@ -63,7 +61,6 @@ $(document).ready(function(){
             .done(function(res) {
                 $('#outButton').empty()
                 $('#loggedUsername').empty()
-                console.log("Done Login: ", res)
                 localStorage.setItem("token", res.token)
                 localStorage.setItem("username", res.username)
                 let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signout()">Log out</a>`
