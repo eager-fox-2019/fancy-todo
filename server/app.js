@@ -11,7 +11,13 @@ mongoose.set('useCreateIndex', true)
 
 app.use(cors())
 
-mongoose.connect('mongodb://localhost/fancy_todo', {useNewUrlParser: true});
+mongoose.connect(process.env.DB_ENV, {useNewUrlParser: true})
+.then(function(success){
+    console.log("succesfully connect to database")
+})
+.catch(function(err){
+    console.log(err)
+});
 
 app.use(express.json() )
 app.use(express.urlencoded({extended:true}))
