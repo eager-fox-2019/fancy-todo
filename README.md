@@ -1,2 +1,2 @@
 # fancy-todo
-fancy-todo
+Web app of todo list, where you can add, edit, delete task with or without due date, and see from calendar. This web app client use mdbootstrap, sweetalert, jQuery, Ajax, and fullcalendar. In the server side, I build REST API using mongoDB (with the help of mongoose), express, jsonwebtoken, bcryptjs(for hashing password), cors(for cross origin functionality). This app also use google third party oAuth.
