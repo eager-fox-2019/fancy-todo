@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="992850227424-6dktmtr5omau00q6ltfrbsb1hbgp4d2r.apps.googleusercontent.com">
+    <link rel="stylesheet" href="style.css">
+    <title>Todoz</title>
+    <link rel="icon" href="https://cdn4.iconfinder.com/data/icons/ios-web-user-interface-multi-circle-flat-vol-4/512/Check_check_marks_list_checklist_documents_todo_list-512.png">
+</head>
+<body>
+    <div id="accept-member">
+      <div class="container mt-5">
+        <div class="card">
+          <h5 class="card-header" style="text-align: center">Verification Member on Todoz app</h5>
+          <div class="card-body">
+            <h5 class="card-title">You were added as a member on a project</h5>
+            <p class="card-text"> Please click button bellow to verification </p>
+            <a onclick="accept()" href="#" class="btn btn-primary">accept</a>
+            <a  onclick="decline()" href="#" class="btn btn-danger">decline</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="main">
+      <div id="navbar"></div>
+      <div id="main-todo" class="container-fluid mt-3"></div>
+      <div id="login-page">
+          <div class="d-flex justify-content-center" style="width:800px; margin:10px auto;">
+              <img src="https://cdn4.iconfinder.com/data/icons/ios-web-user-interface-multi-circle-flat-vol-4/512/Check_check_marks_list_checklist_documents_todo_list-512.png" alt="logo Todoz" style="width:100px">
+          </div>
+        <hr>
+        <div class="d-flex justify-content-center mb-4" style="width:500px; margin:10px auto;">
+            <form style="width: 100%">
+              <p style="font-weight: bold; text-align: center;">To continue, log in to Todoz.</p> 
+              <div class="form-group">
+                <input type="email" class="form-control rounded-0" id="login-email" aria-describedby="emailHelp" placeholder="Email address">
+              </div>
+              <div class="form-group">
+                <input type="password" class="form-control rounded-0" id="login-pass" placeholder="Password">
+              </div>
+              <button onclick="login()" type="submit" class="btn btn-info rounded-pill" style="width:100%; height: 50px; font-weight:bold;">LOG IN</button>
+            </form>
+          </div>
+          <div style="width:500px; margin:0 auto;">
+              <div class="row d-flex justify-content-center">
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              </div>
+          </div>
+          <hr style="border: 1px solid rgb(153, 150, 150); width:500px">
+          <div class="d-flex justify-content-center" style="width:500px; margin:50px auto;">
+            <form style="width: 100%">
+              <h5 style="text-align: center; font-weight:bold; "> 
+                Don't have an account?
+              </h5>
+              <div class="form-group mt-4">
+                <button onclick="registerTrigger()" type="submit" class="btn btn btn-outline-secondary rounded-pill" style="width:100%; height: 50px; font-weight:bold;">SIGN UP FOR TODOZ</button>
+              </div>
+            </form> 
+             
+          </div>
+      </div>
+      <div id="register-page"></div>
+      <div id="update-todo-page"></div>
+      <div id="main-project" class="container-fluid mt-3"></div>
+      <div id="create-project-page"></div>
+      <div id="create-project-todo-page"></div>
+      <div id="update-project-todo-page"></div>
+      <div id="add-member-page"></div>
+      <!-- Modal -->
+      <div class="modal fade mt-3" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-info">
+              <h5 class="modal-title" id="exampleModalLabel">New Todo</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <label for="title-new-todo">Title</label>
+                  <input type="text" class="form-control" id="title-new-todo" placeholder="input title">
+                </div>
+                <div class="form-group">
+                  <label for="description-new-todo">Description</label>
+                  <textarea class="form-control" id="description-new-todo" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                  <label for="due-date-new-todo">Due Date</label>
+                  <input type="date" id="due-date-new-todo">
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button onclick="createTodo()" type="button" class="btn btn-primary" data-dismiss="modal">Create</button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="./script/index.js"></script>
+    <script src="./script/page.js"></script>
+    <script src="./script/error.js"></script>
+    <script src="./script/getData.js"></script>
+    <script src="./script/sendData.js"></script>
+  </body>
+</html>
