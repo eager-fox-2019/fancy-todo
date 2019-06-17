@@ -34,7 +34,7 @@ function login(email, password) {
 
 function register(email,name,password) {
     $.ajax({
-        url: `http://localhost:3000/api/users/signup`,
+        url: `http://35.247.175.185/api/users/signup`,
         method: `POST`,
         data: {
             email,
@@ -224,12 +224,12 @@ function onSignIn(googleUser) {
 }
 
 function signOut() {
-    // var auth2 = gapi.auth2.getAuthInstance();
+    var auth2 = gapi.auth2.getAuthInstance();
 
-    // auth2.signOut().then(function () {
+    auth2.signOut().then(function () {
         localStorage.clear()
         renderLoggedInPage()
-    // });
+    });
 }
 
 function confirmDelete(id) {
@@ -258,7 +258,7 @@ function changeStatus(id, status) {
     let newStatus = !status
 
     $.ajax({
-        url: `http://localhost:3000/api/todos/${id}`,
+        url: `http://35.247.175.185/api/todos/${id}`,
         method: `PATCH`,
         data: {
             status: newStatus
@@ -301,7 +301,7 @@ function createProject() {
     const userId = localStorage.id
 
     $.ajax({
-        url: `http://localhost:3000/api/projects`,
+        url: `http://35.247.175.185/api/projects`,
         method: `POST`,
         data: {
             name,
@@ -340,7 +340,7 @@ function enterProject(projectId, projectName) {
 
 function deleteProject(projectId) {
     $.ajax({
-        url: `http://localhost:3000/api/projects/${projectId}`,
+        url: `http://35.247.175.185/api/projects/${projectId}`,
         method: 'DELETE',
         headers: {
             token: localStorage.token
