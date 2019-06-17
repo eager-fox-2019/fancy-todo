@@ -8,13 +8,13 @@ module.exports = {
                 req.decode = decode
                 next()
             } catch(err){
-                err.status = 400
+                err.code = 400
                 res.json({
                     message: 'Unverified token'
                 })
             }
         } else {
-            next({status: 400})
+            next({code: 401})
             res.json({
                 message: 'Token not found'
             })

@@ -54,10 +54,10 @@ class UserController{
                             username: user.username
                         })
                     } else {
-                        throw({code: 404, message: 'Invalid password'})
+                        throw({code: 404, message: 'Email/Password invalid!'})
                     }
                 } else {
-                    throw({code: 404, message: 'Email not registered'})
+                    throw({code: 404, message: 'Email/Password invalid!'})
                 }
             })
             .catch(next)

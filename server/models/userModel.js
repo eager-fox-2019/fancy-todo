@@ -6,12 +6,12 @@ const UserSchema = new Schema({
     username: String,
     email: {
         type: String,
-        required: [ true, 'Email is required' ],
+        required: [ true, 'Email is required!' ],
         validate: [{
             validator: function(input){
                 return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,4})+$/i.test(input);
             },
-            message: props => `Email not valid`
+            message: props => `Email not valid!`
         }, {
             validator: function(input){
                 return User.findOne({email: input})
@@ -21,7 +21,7 @@ const UserSchema = new Schema({
                         }
                     })
             },
-            message: props => `Email has been used`
+            message: props => `Email has been registered!`
         }]
     },
     password: {
@@ -31,7 +31,7 @@ const UserSchema = new Schema({
             validator: function(input){
                 if(input.length < 6) return false
             },
-            message: props => `Password minimum 6 characters`
+            message: props => `Password minimum 6 characters!`
         }
     }
 }, {timestamps: true})

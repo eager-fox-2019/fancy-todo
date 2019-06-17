@@ -33,7 +33,8 @@ class TodoController{
 
     static update(req, res, next){
         let searchObj = {
-            _id: req.params.todoId
+            _id: req.params.todoId,
+            assign: req.decode.id
         }
         let updateObj = {}
         let updateKeys = Object.keys(req.body)
@@ -56,7 +57,8 @@ class TodoController{
 
     static delete(req, res, next){
         let searchObj = {
-            _id: req.params.todoId
+            _id: req.params.todoId,
+            assign: req.decode.id
         }
         Todo.deleteOne(searchObj)
             .then(result => {

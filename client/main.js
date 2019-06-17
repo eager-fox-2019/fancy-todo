@@ -4,7 +4,7 @@ $(document).ready(function(){
     if(token){
         $('#userform').hide()
         $('#loggedUsername').empty()
-        $('#loggedUsername').append(`Hi, ${localStorage.getItem("username")}!`)
+        $('#loggedUsername').append(`<b>Hi, ${localStorage.getItem("username")}!</b>`)
         $('#outButton').empty()
         let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signoutall()">Log out</a>`
         $('#outButton').append(logout)
@@ -66,7 +66,7 @@ $(document).ready(function(){
                 let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signout()">Log out</a>`
                 $('#outButton').append(logout)
                 $('#userform').hide()
-                $('#loggedUsername').append(`Hi, ${res.username}!`)
+                $('#loggedUsername').append(`<b>Hi, ${res.username}!</b>`)
                 $('#todolist').show()
                 updateList()                
             })
@@ -156,7 +156,7 @@ function onSignIn(googleUser) {
             localStorage.setItem('username', profile.getName())
             let logout = `<a id="logout" class="dropdown-item" href="#" onclick="signoutall()">Log out</a>`
             $('#outButton').append(logout)
-            $('#loggedUsername').append(`Hi, ${localStorage.getItem("username")}!`)
+            $('#loggedUsername').append(`<b>Hi, ${localStorage.getItem("username")}!</b>`)
             $('#todolist').show()
             updateList()  
         })
