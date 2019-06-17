@@ -43,7 +43,7 @@ class TodoController {
             importantStatus : req.body.importantStatus || false,
             UserId: decodeToken.id
         }
-        console.log(req.body);
+        console.log(newTodo);
         
         Todo.create(newTodo)
         .then((gotData)=>{

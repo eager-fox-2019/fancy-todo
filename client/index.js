@@ -313,6 +313,8 @@ function fetchMainContent(filter) {
 
     $.each(gotData, function (i, dataa) {
         let today = new Date().getDate()
+        console.log(today);
+        
         let dueDateConvert = formatDate(new Date(dataa.dueDate))
         let TodoCreatedAtConvert = formatDate(new Date(dataa.createdAt))
         let cross = ''
@@ -342,19 +344,20 @@ function fetchMainContent(filter) {
         if (filterTodo === "all") {
             if (true) {
                 $('#MainTodo').append(`
-                <div class="card">
+                <div id="${dataa._id}card" class="card">
                     <div class="card-body" style="width: 100%;">
                         <div class="row">
                             <div id="checkListDekstop" class="col-md-1">
                                 <h3 ><i onclick="updateDoneStatus('${dataa._id}')" style="${doneStatus}" class="far fa-check-circle"></i></h3>
                             </div>
-                            <div id="todoSingle" class="col-md-9 ">
+                            <div id="todoSingle" class="col-md-8 ">
                                 <p class="card-text" style="${cross}" style="${cross}">${dataa.name}</p>
                                 <p  style="${dueDateColor}" class="card-text"><small>Due Date : ${dueDateConvert}</small></p>
                             </div>
-                            <div id="todoAttr" class="col-md-2 ">
+                            <div id="todoAttr" class="col-md-3 ">
                                 <h3>
                                 <i id="checkListPhone" onclick="updateDoneStatus('${dataa._id}')" style="${doneStatus}" class="far fa-check-circle"></i>
+                                <i onclick="editTodo('${dataa._id}')" class="far fa-edit"></i>
                                 <i id="${dataa._id}" onclick="showDetails('${dataa._id}')" class="fas fa-info"></i>
                                 <i style="${importantStatus}" class="fas fa-star"></i>
                                 <i onclick="deleteTodo('${dataa._id}')"class="fas fa-trash-alt"></i>
@@ -382,13 +385,14 @@ function fetchMainContent(filter) {
                             <div id="checkListDekstop" class="col-md-1">
                                 <h3 ><i onclick="updateDoneStatus('${dataa._id}')" style="${doneStatus}" class="far fa-check-circle"></i></h3>
                             </div>
-                            <div id="todoSingle" class="col-md-9 ">
+                            <div id="todoSingle" class="col-md-8 ">
                                 <p class="card-text" style="${cross}">${dataa.name}</p>
                                 <p class="card-text"><small class="text-muted">Due Date : ${dueDateConvert}</small></p>
                             </div>
-                            <div id="todoAttr" class="col-md-2 ">
+                            <div id="todoAttr" class="col-md-3 ">
                                 <h3>
                                 <i id="checkListPhone" onclick="updateDoneStatus('${dataa._id}')" style="${doneStatus}" class="far fa-check-circle"></i>
+                                <i onclick="editTodo('${dataa._id}')" class="far fa-edit"></i>
                                 <i id="${dataa._id}" onclick="showDetails('${dataa._id}')" class="fas fa-info"></i>
                                 <i style="${importantStatus}" class="fas fa-star"></i>
                                 <i onclick="deleteTodo('${dataa._id}')"class="fas fa-trash-alt"></i>
@@ -410,19 +414,20 @@ function fetchMainContent(filter) {
         if (filterTodo === "today") {
             if (dataa.dueDate.substring(8, 10) == today) {
                 $('#MainTodo').append(`
-                <div class="card">
+                <div  class="card">
                     <div class="card-body" style="width: 100%;">
                         <div class="row">
                             <div id="checkListDekstop" class="col-md-1">
                                 <h3 ><i onclick="updateDoneStatus('${dataa._id}')" style="${doneStatus}" class="far fa-check-circle"></i></h3>
                             </div>
-                            <div id="todoSingle" class="col-md-9 ">
+                            <div id="todoSingle" class="col-md-8 ">
                                 <p class="card-text" style="${cross}">${dataa.name}</p>
                                 <p class="card-text"><small class="text-muted">Due Date : ${dueDateConvert}</small></p>
                             </div>
-                            <div id="todoAttr" class="col-md-2 ">
+                            <div id="todoAttr" class="col-md-3 ">
                             <h3>
                             <i id="checkListPhone" onclick="updateDoneStatus('${dataa._id}')" style="${doneStatus}" class="far fa-check-circle"></i>
+                            <i onclick="editTodo('${dataa._id}')" class="far fa-edit"></i>
                             <i id="${dataa._id}" onclick="showDetails('${dataa._id}')" class="fas fa-info"></i>
                             <i style="${importantStatus}" class="fas fa-star"></i>
                             <i onclick="deleteTodo('${dataa._id}')"class="fas fa-trash-alt"></i>
@@ -465,6 +470,86 @@ function fetchMainContent(filter) {
 
 }
 
+function editTodo(id){
+    $.ajax({
+        url: `${baseUrl}/todo/${id}`,
+        type: 'get',
+        dataType: 'json',
+        headers: {
+            'token': localStorage.getItem('token')
+        }
+    })
+    .done((gotData)=>{
+        let today = new Date()
+        let dueDateTodo = new Date(gotData.dueDate)
+        dueDateTodo.setHours(today.getHours()+7)    
+        let dueDateShow = dueDateTodo.toISOString().substr(0, 16)
+        let checkStat = ""
+        if(gotData.status === true){
+            checkStat = "checked"
+        }
+        $(`#${id}card`).html(`
+        <div id="todoSingle" class="col-md-12 ">
+                <h2>Edit</h2>
+            <form onsubmit="updateTodo('${id}')">
+                <div class="form-group">
+                    <input type="text" value="${gotData.name}" class="form-control form-control-sm" id="taskNameEdit">
+                </div>
+                <div class="form-group">
+                    <input type="datetime-local"  class="form-control form-control-sm" id="taskDueDateEdit">
+                </div>
+                <div class="form-group">
+                    <textarea class="form-control form-control-sm" id="taskDescriptionEdit" rows="2"
+                        >${gotData.description}</textarea>
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="taskImportanStatusEdit" ${checkStat}>
+                    <label class="form-check-label" for="taskImportanStatus">Important</label>
+                </div>
+                <button type="submit" class="btn btn-block" style="background-color: #F19137;">Update</button>
+                </form>
+        </div>
+        `)
+         
+        $('#taskDueDateEdit').val(dueDateShow.substr(0, 16)) 
+        
+    })
+    .fail((gotData)=>{
+        log(gotData)
+    })
+}
+
+function updateTodo(id){
+    event.preventDefault()
+    var important = false
+    if ($('#taskImportanStatus').is(':checked')) {
+        important = true
+    }
+    $.ajax({
+        url: `${baseUrl}/todo/${id}`,
+        type: 'put',
+        dataType: 'json',
+        data: {
+            name: $('#taskNameEdit').val(),
+            description: $('#taskDescriptionEdit').val(),
+            status: false,
+            dueDate: $('#taskDueDateEdit').val(),
+            importantStatus: important
+        },
+        headers: {
+            token: localStorage.getItem('token')
+        }
+    })
+    .done((gotData) => {
+        fetchMainContent()
+    })
+    .fail((gotData) => {
+        console.log(gotData);
+
+    })
+
+}
+
 function showDetails(id){
     console.log("showDetails");
     
@@ -483,7 +568,10 @@ function generateAddNewTodo() {
     let today = new Date()
     let tomorrow = new Date()
     tomorrow.setDate(today.getDate()+1)
-    let tomorrowDateOnly = tomorrow.toISOString().substr(0, 10);
+    tomorrow.setHours(today.getHours()+7)    
+    let tomorrowDateOnly = tomorrow.toISOString().substr(0, 16);
+    // console.log(tomorrowDateOnly);
+    
     $('#addNewButton').css({'height':'270px','background-color':'#ffffff','color':'black'})
     $("#addNewButton").html(`
     <div class="card-body" style="width: 100%;">
@@ -510,14 +598,15 @@ function generateAddNewTodo() {
     </div>
 </div>
     `)
-    $('#taskDueDate').val(tomorrowDateOnly) 
+    $('#taskDueDate').val(tomorrowDateOnly)
+    // $('#taskDueDate').val(gotData.dueDate.substr(0, 16)) 
     console.log(tomorrowDateOnly);
     
 }
 
 function addNewTodo() {
-    var important = false
     event.preventDefault()
+    var important = false
     if ($('#taskImportanStatus').is(':checked')) {
         important = true
     }
