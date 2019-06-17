@@ -37,8 +37,7 @@ class UserController {
                 if( Helper.comparePassword(password, user.password) ) {
                     let access_token = Helper.generateJWT({
                         email: user.email,
-                        firstName: user.firstName,
-                        lastName: user.lastName,
+                        username: user.username,
                         id: user._id
                     });
 

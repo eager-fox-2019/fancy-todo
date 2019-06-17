@@ -1,4 +1,5 @@
 const baseURL = 'http://localhost:3000'
+let todoId;
 
 $(document).ready(function(){
     initListener()
@@ -10,8 +11,12 @@ function checkSignIn(){
         $('#firstPage').hide()
         $('#secondPage').show()
         $('#thirdPage').hide()
+        $('#navBar').show()
+        $('.mainNav').show()
+        $('.crudNav').hide()
         getAllTodos()
     } else {
+        $('#navBar').hide()
         $('#firstPage').show()
         $('#secondPage').hide()
         $('#thirdPage').hide()
@@ -19,9 +24,11 @@ function checkSignIn(){
 }
 
 function initListener(){
-    event.preventDefault()
-
+    
+    // event.preventDefault()
     $('#registerPage').hide()
+    
+
 
     $('#loginForm').submit(function(){
         event.preventDefault()
@@ -32,8 +39,8 @@ function initListener(){
     })
 
     $('#registerForm').submit(function(event){
-        event.preventDefault()
         
+        event.preventDefault()
         let email = $('#reg_email').val()
         let username = $('#reg_username').val()
         let password = $('#reg_password').val()
@@ -55,22 +62,21 @@ function initListener(){
         $('#loginPage').show()
     })
 
-
-}
-
-function createTodo(){
-    $('#secondPage').hide()
-    $('#thirdPage').show()
-    $('#createTodo').submit(function(){
+    $('#addTodoForm').submit(function(event){
         event.preventDefault()
-        // console.log($('#todo_date').val())
+        console.log('masuk create todoSubmit')
+        console.log($('#todo_description').val());
+        console.log($('#todo_dueDate').val());
         $.ajax({
             url : `${baseURL}/todo/add`,
             method : "POST",
             data : {
                 description : $('#todo_description').val(),
                 dueDate : $('#todo_dueDate').val(),
-                status : $('#').val()
+                status : false
+            },
+            headers : {
+                access_token : localStorage.getItem('token')
             }
         })
             .done(function(response){
@@ -82,13 +88,41 @@ function createTodo(){
                 checkSignIn()
             })
     })
+
+    $('#updateTodoForm').submit(function(event){
+        event.preventDefault()
+        console.log('masuk create todoSubmit')
+        console.log($('#todoU_description').val());
+        console.log($('#todoU_dueDate').val());    
+        
+        updateTodoClick()
+        
+    })
+
+}
+
+function createTodo(){
+    console.log('masuk create todo')
+    $('#thirdPage').show()
+    $('#addTodoForm').show()
+    
+    $('.mainNav').hide()
+    $('.crudNav').show()
+    $('#updateTodoForm').hide()
+    $('#secondPage').hide()
+    $('#thirdPage').show()
+    
 }
 
 function deleteTodo(id){
-    event.preventDefault()
+    console.log(localStorage.getItem('token'));
+    console.log(id)
     $.ajax({
         url : `${baseURL}/todo/${id}`,
-        method : "DELETE"
+        method : "DELETE",
+        headers : {
+            access_token : localStorage.getItem('token')
+        }
     })
         .done(function(response){
             console.log(response)
@@ -100,11 +134,70 @@ function deleteTodo(id){
         })
 }
 
-function updateTodo(id){
-    event.preventDefault()
+function updateTodo(id, desc, date){
+    todoId = id
+    $('#updateTodoForm').empty()
+    $('#updateTodoForm').append(`
+        Due Date :
+        <div class='row'>
+        <div class='input-field col s12'>
+            <input value="${date}" type='date' name='date' id="todoU_dueDate" />
+            <label for='date'></label>
+        </div>
+        </div>
+
+        <div class='row'>
+        <div class='input-field col s12'>
+            <textarea id="todoU_description" class="validate" type='materialize-textarea' name="description">${desc}</textarea>
+            <label class="active" for='description'>Enter your description</label>
+        </div>
+        </div>
+        
+        <br />
+        <center>
+        <div class='row'>
+            <button id="createTodoBut" type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>update todo</button>
+        </div>
+        <br>
+        <br>
+        </center>
+    `)
+    
+}
+
+function updateTodoClick(){
+    $.ajax({
+        url : `${baseURL}/todo/${todoId}`,
+        method : "PUT",
+        data : {
+            description : $('#todoU_description').val(),
+            dueDate : $('#todoU_dueDate').val()
+        },
+        headers : {
+            access_token : localStorage.getItem('token')
+        }
+    })
+        .done(function(response){
+            console.log(response)
+            checkSignIn()
+        })
+        .fail(function(jqXHR, TextError){
+            console.log(jqXHR)
+            checkSignIn()
+        })
+}
+
+function completed(id){
+    console.log(id)
     $.ajax({
         url : `${baseURL}/todo/${id}`,
-        method : "PUT"
+        method : "PUT",
+        data : {
+            status : true
+        },
+        headers : {
+            access_token : localStorage.getItem('token')
+        }
     })
         .done(function(response){
             console.log(response)
@@ -138,6 +231,7 @@ function onSignIn(googleUser) {
         })
         .fail(function(jqXHR, TextError){
             console.log(jqXHR)
+            checkSignIn()
         })
 
 }
@@ -160,12 +254,13 @@ function login(email, password){
             data : user
         })
             .done(function(response){
-                localStorage.setItem('token', response.token)
+                localStorage.setItem('token', response.access_token)
                 localStorage.setItem('userId', response.userId)
                 checkSignIn()
             })
             .fail(function(jqXHR, TextError){
                 console.log(jqXHR)
+                checkSignIn()
             })
 }
 
@@ -182,6 +277,7 @@ function register(email, username, password){
         })
         .fail(function(jqXHR, TextError){
             console.log(jqXHR)
+            checkSignIn()
         })
 }
 
@@ -198,50 +294,72 @@ function getAllTodos(){
             response.forEach((element, i) => {
                 if(element.status === 'true') element.status = 'completed'
                 if(element.status === 'false') element.status = 'uncompleted'
-                element.dueDate = `${day[new Date(element.dueDate).getDay()]}, ${new Date(element.dueDate).getDate()}/${new Date(element.dueDate).getMonth()+1}/${new Date(element.dueDate).getFullYear()}`
-                if(currId === element.userId){
-                    $('#todoCard').append(`
-                        <div class="col s12 m3">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                <span class="card-title">Todo <small><p>owner : ${element.userId}</p></small></span>
+                let date = `${day[new Date(element.dueDate).getDay()]}, ${new Date(element.dueDate).getDate()}/${new Date(element.dueDate).getMonth()+1}/${new Date(element.dueDate).getFullYear()}`
+                $('#todoCard').append(`
+                    <div class="col s12 m3">
+                        <div class="card blue-grey darken-1">
+                            <div class="card-content white-text">
+                            <span class="card-title">Todo <small><p>owner : ${element.userId.username}</p></small></span>
+                            
+                            <br>
+                            <p>${element.description}</p>
+                            <br>
+                            <small><p>Due : ${date}</p></small>
+                            <br>
+                            <div id="todoStatus-${i}">
                                 
-                                <br>
-                                <p>${element.description}</p>
-                                <br>
-                                <small><p>Due : ${element.dueDate}</p></small>
-                                <small><p>${element.status}</p></small>
-                                </div>
-                                <div class="card-action">
-                                <a href="#" class="btn-flat" id="updateTodo_${i}">UPDATE</a>
-                                <a href="#" class="btn-flat" id="deleteTodo_${i}">DELETE</a>
-                                </div>
+                            </div>
+                            </div>
+                            <div class="card-action" id="action-buttons-${i}">
+                            
                             </div>
                         </div>
-                    `)                    
+                    </div>
+                `)                    
+                $(`#todoStatus-${i}`).empty()
+                if(currId == element.userId._id){
+                    $(`#action-buttons-${i}`).append(`
+                        <a href="#" class="btn-flat" id="updateTodo_${i}">UPDATE</a>
+                        <a href="#" class="btn-flat" id="deleteTodo_${i}">DELETE</a>
+                    `)
+                    if(element.status == 'uncompleted'){
+                        $(`#todoStatus-${i}`).append(`
+                            <small><p><b style="color:red">${element.status}</b> <button style="float:right;" id="doneBut-${i}"> done ? </button></p></small>
+                        `)
+                    } else {
+                        $(`#todoStatus-${i}`).append(`
+                            <small><p><b style="color:lightgreen">${element.status}</b> </p></small>
+                        `)
+                    }
                 } else {
-                    $('#todoCard').append(`
-                        <div class="col s12 m3">
-                            <div class="card blue-grey darken-1">
-                                <div class="card-content white-text">
-                                <span class="card-title">Todo <small><p>owner : ${element.userId}</p></small></span>
-                                
-                                <br>
-                                <p>${element.description}</p>
-                                <br>
-                                <small><p>Due : ${element.dueDate}</p></small>
-                                <small><p>${element.status}</p></small>
-                                </div>
-                                <div class="card-action">
-                                <a href="#" class="btn-flat disabled" id="updateTodo_${i}">UPDATE</a>
-                                <a href="#" class="btn-flat disabled" id="deleteTodo_${i}">DELETE</a>
-                                </div>
-                            </div>
-                        </div>
-                    `)                    
+                    if(element.status == 'uncompleted'){
+                        $(`#todoStatus-${i}`).append(`
+                            <small><p><b style="color:red">${element.status}</b></p></small>
+                        `)
+                    } else {
+                        $(`#todoStatus-${i}`).append(`
+                            <small><p><b style="color:lightgreen">${element.status}</b></p></small>
+                        `)
+                    }
                 }
-                $(`#updateTodo_${i}`).click(updateTodo(element.userId))
-                $(`#deleteTodo_${i}`).click(deleteTodo(element.userId))
+
+                $(`#doneBut-${i}`).on('click', function(){
+                    completed(element._id)
+                })
+                
+                $(`#updateTodo_${i}`).on('click', function(){
+                    $('.mainNav').hide()
+                    $('.crudNav').show()
+                    $('#thirdPage').show()
+                    $('#addTodoForm').hide()
+                    $('#updateTodoForm').show()
+                    $('#secondPage').hide()
+
+                    updateTodo(element._id, element.description, element.dueDate)
+                })
+                $(`#deleteTodo_${i}`).on('click', function(){
+                    deleteTodo(element._id)
+                })
             });
             
         })

@@ -2,8 +2,9 @@ const Todo = require('../models/todo')
 
 class TodoController{
     static add(req, res){
+        console.log('masuk add todo')
         let newTodo = new Todo ({
-            userId : req.body.userId,
+            userId : req.loggedUser.id,
             description : req.body.description,
             status : req.body.status,
             dueDate : req.body.dueDate
@@ -19,12 +20,12 @@ class TodoController{
     }
 
     static update(req, res){
-        let id = req.body.id
-        let field = req.body.field
-        let value = req.body.value
-        Todo.findByIdAndUpdate(id, {
-            [field] : value
-        })
+        let id = req.params.id
+        let obj = {}
+        if (req.body.description) obj.description = req.body.description
+        if (req.body.dueDate) obj.dueDate = req.body.dueDate
+        if (req.body.status) obj.status = req.body.status
+        Todo.findByIdAndUpdate(id, obj)
             .then(data => {
                 res.json({ message : 'updated', response : data})
             })
@@ -34,11 +35,9 @@ class TodoController{
     }
 
     static delete(req, res){
-        let id = req.params.id
-
-        Todo.deleteOne({
-            _id : id
-        })
+        let id = req.params.id.trim()
+        console.log(id, 'ini id braaaaaaaaaay')
+        Todo.findByIdAndDelete(id)
             .then(data => {
                 res.json({message : 'deleted', response : data})
             })
@@ -50,14 +49,13 @@ class TodoController{
     static readAll(req, res){
         let id = req.params.id
 
-        Todo.find({})
+        Todo.find({}).populate('userId')
             .then(data => {
-                // data.forEach(el => {
-                //     el.userId = populate()
-                // })
+                console.log(data)
                 res.json(data)
             })
             .catch(err => {
+                console.log(err)
                 res.status(500).json(err)
             })
     }

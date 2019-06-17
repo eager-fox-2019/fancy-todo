@@ -14,6 +14,28 @@
   <title>Fancy Todo</title>
 </head>
 <body>
+    <div id="navBar">
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container">
+                <a id="logo-container" href="" class="brand-logo" onclick="checc">Fancy Todo</a>
+                <ul class="right hide-on-med-and-down">
+                    <div class="mainNav">
+                        <li id="create-button"><a href="#" onclick="createTodo()">create Todo</a></li>
+                        <li><a href="#" onclick="signOut()">Logout</a></li>
+                    </div>
+                    <div class="crudNav">
+                        <li id="back-button"><a href="#" onclick="checkSignIn()">go Back</a></li>
+                        <li><a href="#" onclick="signOut()">Logout</a></li>
+                    </div>
+                </ul>
+        
+                <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">Navbar Link</a></li>
+                </ul>
+                <a href="#" data-target="nav-mobile" class="sidenav-trigger btn-floating pulse light-blue lighten-1"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+    </div>
     <div id="firstPage">
         <div id="loginPage">
             <main>
@@ -117,21 +139,6 @@
         </div>
     </div>
     <div id="secondPage">
-        <nav class="light-blue lighten-1" role="navigation">
-          <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Fancy Todo</a>
-            <ul class="right hide-on-med-and-down">
-              <!-- <li><a href="#">Home</a></li> -->
-              <!-- <li><i class="large material-icons">add</i></li> -->
-              <li><a href="#" onclick="createTodo()">create Todo</a></li>
-              <li><a href="#" onclick="signOut()">Logout</a></li>
-            </ul>
-      
-            <ul id="nav-mobile" class="sidenav">
-              <li><a href="#">Navbar Link</a></li>
-            </ul>
-            <a href="#" data-target="nav-mobile" class="sidenav-trigger btn-floating pulse light-blue lighten-1"><i class="material-icons">menu</i></a>
-          </div>
-        </nav>
         <div class="section no-pad-bot" id="index-banner">
           <div class="container">
             <br><br>
@@ -149,21 +156,6 @@
         
     </div>
     <div id="thirdPage">
-        <nav class="light-blue lighten-1" role="navigation">
-            <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Fancy Todo</a>
-              <ul class="right hide-on-med-and-down">
-                <!-- <li><a href="#">Home</a></li> -->
-                <!-- <li><i class="large material-icons">add</i></li> -->
-                <li><a href="#" onclick="checkSignIn()">go Back</a></li>
-                <li><a href="#" onclick="signOut()">Logout</a></li>
-              </ul>
-        
-              <ul id="nav-mobile" class="sidenav">
-                <li><a href="#">Navbar Link</a></li>
-              </ul>
-              <a href="#" data-target="nav-mobile" class="sidenav-trigger btn-floating pulse light-blue lighten-1"><i class="material-icons">menu</i></a>
-            </div>
-        </nav>
         <div class="section no-pad-bot" id="index-banner">
             <main>
                 <center>
@@ -174,18 +166,18 @@
                 <div class="container">
                     <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
             
-                    <form class="col s12" method="post" id="registerForm">            
+                    <form class="col s12" id="addTodoForm">            
                         Due Date :
                         <div class='row'>
                         <div class='input-field col s12'>
-                            <input class='validate' type='date' name='date' id="todo_date"/>
+                            <input class='validate' type='date' name='date' id="todo_dueDate" />
                             <label for='date'></label>
                         </div>
                         </div>
 
                         <div class='row'>
                         <div class='input-field col s12'>
-                            <textarea class='validate' type='materialize-textarea' name='description' id="todo_description" /></textarea>
+                            <textarea class='validate' type='materialize-textarea' name='description' id="todo_description"/></textarea>
                             <label for='description'>Enter your description</label>
                         </div>
                         </div>
@@ -193,11 +185,14 @@
                         <br />
                         <center>
                         <div class='row'>
-                            <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>create todo</button>
+                            <button id="createTodoBut" type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>create todo</button>
                         </div>
                         <br>
                         <br>
                         </center>
+                    </form>
+                    <form class="col s12" id="updateTodoForm">            
+                            
                     </form>
                     </div>
                 </div>

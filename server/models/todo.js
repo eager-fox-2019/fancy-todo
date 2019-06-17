@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const todoSchema = mongoose.Schema({
-    userId : {type : String, ref : 'User'},
+    userId : {type : mongoose.Schema.Types.ObjectId, ref : 'User'},
     description : String,
     status : String,
     dueDate : String,
