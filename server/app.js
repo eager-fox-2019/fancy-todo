@@ -1,29 +1,32 @@
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){
-    require('dotenv').config();
-}
+require('dotenv').config()
 
-const express = require('express')
-const cors = require('cors')
-const route = require('./routes')
 const mongoose = require('mongoose')
-const errHandler = require('./middleware/errHandler')
+const express = require('express')
 const app = express()
+const cors = require('cors')
+const port = 3000
+const routes = require('./routes')
 
-const port = process.env.PORT
-
-mongoose.connect('mongodb://localhost:27017/FancyTodo', {useNewUrlParser: true},(err)=> {
-    if (err) console.log (err) ,console.log ('Coonection error :(');
-    else console.log ('Success Connected :)')
+mongoose.set('useFindAndModify', false);
+mongoose.connect(process.env.DB_CONNECT,{ useNewUrlParser: true }, (err) => {
+    if(err) console.log('database failed to connect..')
+    else{
+        console.log('database connection established')
+    }
 })
 
 app.use(cors())
-app.use(express.urlencoded({extended : false}))
 app.use(express.json())
+app.use(express.urlencoded({extended:false}))
+app.use('/',routes)
 
-app.use ('/',route)
+app.use((err,req,res,next) => {
+    console.log('ini response error', err)
+    const status = err.status || 500
+    const message = err.message || 'Internal Server Error'
+    res.status(status).json({message})
+})
 
-app.use(errHandler)
-
-app.listen(port, ()=> {
-    console.log (`Connected on post : ${port}`)
+app.listen(port,() => {
+    console.log(`listen to port:${port}`)
 })
