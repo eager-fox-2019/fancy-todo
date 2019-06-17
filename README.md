@@ -1,10 +1,5 @@
 # DOCUMENTATION
 
-Hayo ngintip2 gw laporin mba icha ntar
-
-ᕦ(ò_óˇ)ᕤ
-do you even lift bro?
-
 ## Signup 
 
 - route:
@@ -109,7 +104,7 @@ Token is decoded via JWT to get UserId.
 ```
 - Token is decoded via JWT to get UserId.
 
-- query is used to find specific To-Do.
+- Query is used to find specific To-Do.
 ```
 
 ## Delete To-Do
