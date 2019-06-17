@@ -1,29 +1,22 @@
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development'){
-    require('dotenv').config();
-}
-
-const express = require('express')
+require('dotenv').config()
 const cors = require('cors')
-const route = require('./routes')
-const mongoose = require('mongoose')
-const errHandler = require('./middleware/errHandler')
+const express = require('express')
 const app = express()
+const PORT = process.env.PORT
+const routes = require('./routes')
+const mongoose = require('mongoose');
 
-const port = process.env.PORT
-
-mongoose.connect('mongodb://localhost:27017/FancyTodo', {useNewUrlParser: true},(err)=> {
-    if (err) console.log (err) ,console.log ('Coonection error :(');
-    else console.log ('Success Connected :)')
-})
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true)
 
 app.use(cors())
-app.use(express.urlencoded({extended : false}))
-app.use(express.json())
 
-app.use ('/',route)
+mongoose.connect('mongodb://localhost/fancy_todo', {useNewUrlParser: true});
 
-app.use(errHandler)
+app.use(express.json() )
+app.use(express.urlencoded({extended:true}))
+app.use('/api', routes)
 
-app.listen(port, ()=> {
-    console.log (`Connected on post : ${port}`)
+app.listen(PORT, () => {
+    console.log(`Running on http://localhost:${PORT}`)
 })

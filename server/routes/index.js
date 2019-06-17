@@ -1,12 +1,18 @@
-const router = require('express').Router()
-const userR = require('./userR')
-const todoR = require('./todoR')
+const express = require('express');
+const routes = express.Router();
+const todos = require('./todoRoute')
+const users = require('./userRoute')
+const projects = require('./projectRoute')
+const apiRoutes = require('./apiRoutes')
+const authentication = require('../middlewares/authentication')
 
-router.use('/users',userR)
-router.use('/todos',todoR)
+routes.use('/opens', apiRoutes)
+routes.use('/users', users)
+routes.use('/todos', authentication, todos)
+routes.use('/projects', authentication, projects)
 
-router.use('/*',(req,res)=> {
-    console.log ("Now in router/index.js")
-    res.status(404).json({message : 'Not Found :('})
+routes.get('*', (req, res) => {
+    res.status(404).json({msg: 'Page not found'})
 })
-module.exports = router
+
+module.exports = routes
