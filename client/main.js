@@ -80,7 +80,7 @@ $('#form-register').click(function(event){
         console.log(createdUser, 'user yang sudah dibuat')
         Swal.fire({
             type:'success',
-            title: "Success",
+            title: "Register Success",
             text:createdUser.msg
         })
     })
@@ -118,11 +118,18 @@ $('#form-login').click(function(){
         console.log(logedIn, 'ini apa')
         Swal.fire({
             type:'success',
-            title: "Success",
+            title: "Login Success",
             text:logedIn.msg
         })
     })
-    .fail()
+    .fail(() => {
+        Swal.fire({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+            footer: '<a href>You input wrong combination of email and password</a>'
+          })
+    })
 })
 
 $('#todo-submit').on('click',function(event){
@@ -154,6 +161,15 @@ $('#todo-submit').on('click',function(event){
             title: "Success adding to todo list",
             text:addTodo.msg
         })
+    })
+    .fail(() =>{
+        Swal.fire({
+            title: 'Failed to add todo',
+            animation: false,
+            customClass: {
+              popup: 'animated tada'
+            }
+          })
     })
 })
 
