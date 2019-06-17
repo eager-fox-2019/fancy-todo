@@ -5,6 +5,19 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class UserCont {
+  static read(req, res, next) {
+    let obj = {}
+    if(req.query.email)
+      obj.email = { '$regex' : req.query.email, '$options' : 'i' }
+    User.find(obj)
+      .sort({ email: 1 })
+      .then(rows => {
+        // rows = rows.filter(row => !row._id.equals(req.decoded._id))
+        res.json(rows)
+      })
+      .catch(next)
+  }
+
   static GoogleSignIn(req, res, next) {
     let payload = null
     let newPass = null
@@ -39,7 +52,9 @@ class UserCont {
         }
         let data = {
           'access-token': sign(payload, process.env.KUNCI),
-          name: row.name
+          _id: row._id,
+          name: row.name,
+          email: row.email
         }
         if (newPass) data.newPass = newPass
         res.status(code).json(data)
@@ -60,6 +75,8 @@ class UserCont {
   }
 
   static login(req, res, next) {
+    if(req.body.password.length < 8)
+      next({ code: 400, message: 'Password must be more than equal 8 character!' })
     User.findOne({
       email: req.body.email,
     })
@@ -74,7 +91,9 @@ class UserCont {
             }
             let data = {
               'access-token': sign(payload, process.env.KUNCI),
-              name: row.name
+              _id: row._id,
+              name: row.name,
+              email: row.email
             }
             res.status(200).json(data)
           }

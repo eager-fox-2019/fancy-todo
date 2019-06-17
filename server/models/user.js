@@ -44,7 +44,7 @@ let userSchema = new Schema({
       message: 'Password must be more than equal 8 character!'
     }
   },
-})
+}, {timestamps: true})
 
 userSchema.pre('save', function (next) {
   this.password = hashSync(this.password)

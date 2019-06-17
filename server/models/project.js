@@ -1,15 +1,19 @@
 const mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
-let todoSchema = new Schema({
-  user: {
+let projectSchema = new Schema({
+  admin: {
     type: Schema.Types.ObjectId,
     ref: 'User'
   },
-  project: {
+  user: [{
     type: Schema.Types.ObjectId,
-    ref: 'Project'
-  },
+    ref: 'User'
+  }],
+  todo: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Todo'
+  }],
   title: {
     type: String,
     required: [true, "Title cannot be blank !!!"]
@@ -27,14 +31,6 @@ let todoSchema = new Schema({
   }
 }, {timestamps: true})
 
-todoSchema.pre('save',function(next){
-  if (this.duedate < new Date()) {
-    next({ code: 400, message: "Due date cant be the past!!!" })
-  }
-  else
-    next()
-})
+let Project = mongoose.model('Project', projectSchema)
 
-let Todo = mongoose.model('Todo', todoSchema)
-
-module.exports = Todo
+module.exports = Project
