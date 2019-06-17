@@ -1,0 +1,112 @@
+* {
+  color: black;
+}
+
+body {
+  background-color: #eed4ca;
+}
+
+form input, textarea {
+  background-color: #ffffff;
+}
+
+input:-webkit-autofill {
+  color: #fff !important;
+}
+
+#subtitle {
+  color: #111;
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+
+.form1 {
+  border-color: #444;
+}
+
+.form1:hover {
+  box-shadow: 0 0 1.2rem #777;
+}
+
+.form1:focus-within {
+  border-color: #fff;
+  box-shadow: 0 0 1.2rem #777;
+}
+
+.button1 {
+  background-color: #f3f3f3;
+}
+
+.button2 {
+  background-color: #f3f3f3;
+}
+
+.button1:hover, .button2:hover {
+  background-color: #fff;
+}
+
+.button3 {
+  background-color: #ccc;
+}
+
+.button3:hover {
+  width: 4.7rem;
+}
+
+#reg-message {
+  border: 0.3rem solid #fff;
+  box-shadow: 0 0 1.2rem #777;
+}
+
+.navbar {
+  background-color: #f3f3f3;
+  box-shadow: 0 0 1.2rem #555;
+}
+
+a.navlink:hover {
+  text-shadow: 0 0 0.3rem #bbbbbb;
+}
+
+#newtodo-form, #newtodo2-form, #newproject-form, #addmember-form, #removemember-form {
+  background-color: #e3e3e3;
+  box-shadow: none;
+  border: 0.3rem solid #333;
+}
+
+#newtodo-form > hr {
+  border-color: #333;
+}
+
+.lightgrey {
+  color: #111;
+}
+
+.todo, .project {
+  background-color: #f3f3f3;
+}
+
+.modal {
+  background-color: #18181881;
+}
+
+.modalcontent {
+  background-color: #e3e3e3;
+  border: 0.3rem solid #333;
+  box-shadow: 0 0 1.5rem #333;
+}
+
+.filterbutton {
+  color: #a8a8a8;
+  background-color: #ddd;
+  font-size: 0.8rem;
+}
+
+.filterbutton:hover {
+  background-color: #fff;
+}
+
+.filterselect {
+  color: black;
+  background-color: #fff;
+  box-shadow: 0 0 1.2 rem #111;
+}
