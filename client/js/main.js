@@ -666,6 +666,10 @@ function onSignIn(googleUser){
               })
           }
           localStorage.setItem('token',data)
+          $("#invite-collection").html('') 
+          $("#todo-list").html('')
+          $("#finished-task").html('')
+          $("#project-list").html('')
           $('.register').hide()
           $('.login').hide()
           $('#login-button').hide()
