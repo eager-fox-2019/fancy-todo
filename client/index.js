@@ -334,14 +334,16 @@ function logout() {
   localStorage.clear();
   currentProject = null;
   $('#project-section').hide();
-  gapi.auth2.getAuthInstance()
-    .signOut()
-    .then(() => console.log('User signed out.'));
   $('#list').empty();
   $('#list2').empty();
   $('#inside').hide();
   $('link[href="./css/light.css"]').remove(); // defaults to dark theme
   $('#outside').show();
+  if(gapi.auth2) {
+    gapi.auth2.getAuthInstance()
+      .signOut()
+      .then(() => console.log('User signed out.'));
+  }
 }
 
 $(document).ready(() => {
