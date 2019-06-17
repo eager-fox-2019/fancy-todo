@@ -1,10 +1,13 @@
 let baseUrl = 'http://localhost:3000'
 
 function newTodo() {
+    let datearr = $('#todo-date').val().split('/')
+    let date = datearr[2] + '-' + datearr[0] + '-' +datearr[1]
+
     let data = {
         name: $('#todo-name').val(),
         description: $('#todo-desc').val(),
-        dueDate: $('#todo-date').val()
+        dueDate: date
     }
     $.ajax({
             method: "POST",
@@ -184,16 +187,17 @@ function edittodo(id) {
             }
         })
         .done(resp => {
-            let date = resp.dueDate.substr(0, 10)
+            let datearr = resp.dueDate.substr(0, 10).split('-')
+            let date = datearr[1] + '/' + datearr[2] + '/' +datearr[0]
             $('#edit-name').val(`${resp.name}`),
-                $('#edit-desc').val(`${resp.description}`),
-                $('#edit-date').val(`${date}`)
+            $('#edit-desc').val(`${resp.description}`),
+            $('#edit-date').val(`${date}`)
             $("#edit-status select").val(`${resp.status}`);
             $('#editbutton').empty()
             $('#editbutton').append(`
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="submitedittodo('${resp._id}')" data-dismiss="modal">Edit Todo</button>
-        `)
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="submitedittodo('${resp._id}')" data-dismiss="modal">Edit Todo</button>
+            `)
         })
         .fail((jqXHR, textStatus) => {
             console.log(textStatus)
@@ -205,10 +209,13 @@ function edittodo(id) {
 }
 
 function submitedittodo(id) {
+    let datearr = $('#edit-date').val().split('/')
+    let date = datearr[2] + '-' + datearr[0] + '-' +datearr[1]
+
     let data = {
         name: $('#edit-name').val(),
         description: $('#edit-desc').val(),
-        dueDate: $('#edit-date').val(),
+        dueDate: date,
         status: $('#statusSelected').val()
     }
     $.ajax({
