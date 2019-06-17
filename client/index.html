@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="862970043761-20gvg559091uv6duj442i64v3d6qra1u.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+  <link rel="shortcut icon" type="image/svg" href="https://purepng.com/public/uploads/large/purepng.com-fortnite-logo-black-and-whitefortnitefortnite-battle-royalegameslogos-691522709171yxrho.png" />
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <title>Do It !</title>
+  <style>
+    html{scroll-behavior:smooth}
+    .g-signin2{
+      width: 100%;
+    }
+    .g-signin2 > div{
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body style="background-color:black">
+
+  <div id="loginForm" style="margin-top:-10px">
+    <main>
+      <center>
+        <h3 class="white-text">D <i class="fas fa-exclamation-circle animated heartBeat infinite" style="margin-left:-5px"></i> It !</h3>        
+        
+        <h5 class="grey-text animated fadeIn delay-0.25s">Login into your account</h5>
+        <div class="section"></div>
+  
+        <div class="container animated fadeIn delay-0.25s">
+          <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+  
+            <form id="login" class="col s12">
+              <div class='row'>
+                <div class='col s12'>
+                </div>
+              </div>
+  
+              <div class='row'>
+                <div class='input-field col s12'>
+                  <input class='validate' required="" aria-required="true" type='email' name='email' id='email' />
+                  <label for='email'>Enter your email</label>
+                </div>
+              </div>
+  
+              <div class='row'>
+                <div class='input-field col s12'>
+                  <input class='validate' required="" aria-required="true" type='password' name='password' id='password' />
+                  <label for='password'>Enter your password</label>
+                </div>
+              </div>
+  
+              <br />
+              <center>
+                <div class='row'>
+                  <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect grey'>Login</button>
+                </div>
+              </center>
+              <center>
+                <div class='row'>
+                  <label style="color: black">Log In with Another Account:</label></br>
+                  <br><div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </div>
+              </center>
+            </form>
+            <div>
+              <a id="toRegister" class="animated fadeIn delay-0.25s" href="">Create account</a>
+            </div>
+          </div>
+        </div>
+      </center>
+    </main>
+  </div>
+
+  <div id="registerForm" style="margin-top:-10px">
+      <main>
+        <center>
+        <h3 class="white-text">D <i class="fas fa-exclamation-circle animated heartBeat infinite" style="margin-left:-5px"></i> It !</h3>                  
+  
+          <h5 class="grey-text animated fadeIn delay-0.25s">Sign in to our app</h5>
+          <div class="section"></div>
+    
+          <div class="container animated fadeIn delay-0.25s">
+            <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+    
+              <form id="register" class="col s12">
+                <div class='row'>
+                  <div class='col s12'>
+                  </div>
+                </div>
+                
+                <div class='row'>
+                    <div class='input-field col s12'>
+                        <input required="" aria-required="true" type='text' name='name' id='newName' />
+                        <label for='email'>Enter your name</label>
+                    </div>
+                </div>
+
+                <div class='row'>
+                  <div class='input-field col s12'>
+                    <input class='validate' required="" aria-required="true" type='email' name='email' id='newEmail' />
+                    <label for='email'>Enter your email</label>
+                  </div>
+                </div>
+    
+                <div class='row'>
+                  <div class='input-field col s12'>
+                    <input class='validate' required="" aria-required="true" type='password' name='password' id='newPassword' />
+                    <label for='password'>Enter your password</label>
+                  </div>
+                </div>
+    
+                <br />
+                <center>
+                  <div class='row'>
+                    <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect grey'>Register</button>
+                  </div>
+                </center>
+              </form>
+              <div class="container">
+                <a id="toLogin" class="animated fadeIn delay-0.25s" href="">Back to Login Screen</a>
+              </div>
+            </div>
+          </div>
+        </center>
+      </main>
+  </div>
+
+  <div id="main">
+
+    <nav>
+      <div class="nav-wrapper grey">
+        <a class="brand-logo" style="margin-left:20px"><span>D</span><i class="fas fa-exclamation-circle animated heartBeat infinite" style="position:absolute; margin-left: 3px"></i><span style="margin-left:30px"> It!</span></a>
+        <div class="right" style="margin-right:20px">
+            <a style="margin-right: 20px" id="loggedEmail"></a>
+            <a id="logout" class="waves-effect waves-light btn-small grey">Logout</a>
+        </div>
+      </div>
+    </nav>
+    
+    <div id="personal">
+      <div class="center">
+        <div class="row" style="margin-top:25px">
+          <div class="col s3">
+            <div class="card blue-grey darken-1" style="height:509px">
+              <div class="card-content white-text">
+                <span class="card-title">Your Projects</span>
+              </div>
+              <div class="card-action" style="height:350px; overflow-y:scroll; border:1px solid grey; margin-left: 10px; margin-right: 10px">
+                <div class="">
+                  <div id="projectList" class="row">
+                     
+                  </div>
+                </div>
+              </div>
+              
+              <a id="newProject" class="waves-effect waves-light btn-small" style="margin-top:20px">Add New Project</a>
+            </div>
+          </div>
+          <div class="col s9">
+            <div class="card blue-grey darken-1">
+              <div class="card-content white-text">
+                <div style="margin-bottom:38px">
+                  <span class="card-title left">To Do List</span>
+                  <a id="newTask" class="waves-effect waves-light btn-small right modal-trigger" href="#modalNewTask">New Task</a>
+                </div>
+              </div>
+              <div class="card-action">
+                <div id="todoList" class="row" style="height:370px;overflow-y: scroll">
+                    
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <form id="modalNewTask" class="modal">
+        <div class="modal-content" style="height:400px">
+          <h4>New Task</h4>
+          <div class="container">
+            <div class="input-field col s6">
+              <input placeholder="Title.." id="title" type="text" class="validate">
+              <textarea placeholder="Description.." id="description" class="materialize-textarea"></textarea>
+              <input placeholder="Due date" id="dueDate" type="text" class="datepicker">
+      
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <a id="addNewTask" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+      
+            <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+      </form>
+      </div>
+    </div>
+
+    <div id="project">
+        <div class="center">
+          <div class="row" style="margin-top:25px">
+            <div class="col s3">
+              <div class="card blue-grey darken-1" style="height:509px">
+                <div class="card-content white-text">
+                  <span class="card-title">Members</span>
+                </div>
+                <div id="memberList" class="card-action" style="height:350px; border:1px solid grey; margin-left: 10px; margin-right: 10px">
+                </div>
+                
+                <a id="addMembers" class="waves-effect waves-light btn-small modal-trigger" href="#modalAddMember" style="margin-top:20px">Add New Members</a>
+              </div>
+            </div>
+            <div class="col s9">
+              <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                  <div style="margin-bottom:38px">
+                    <a id="back" href=""><i class="fas fa-caret-left left" style="font-size:2.5em; margin-top:-2px"></i></a>
+                    
+                    <span id="projectName" class="card-title left"></span>
+                    <a id="newTask" class="waves-effect waves-light btn-small right modal-trigger" href="#modalNewTask2">New Task</a>
+                  </div>
+                </div>
+                <div class="card-action">
+                  <div id="todoList2" class="row" style="height:370px;overflow-y: scroll">
+                      
+                  </div>
+              </div>
+            </div>
+      </div>
+      <form id="modalNewTask2" class="modal">
+        <div class="modal-content" style="height:400px">
+          <h4>New Task</h4>
+          <div class="container">
+            <div class="input-field col s6">
+              <input placeholder="Title.." id="title2" type="text" class="validate">
+              <textarea placeholder="Description.." id="description2" class="materialize-textarea"></textarea>
+              <input placeholder="Due date" id="dueDate2" type="text" class="datepicker">
+              <input disabled value="I am not editable" id="projectId" type="text" class="validate">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <a id="addNewTask2" class="modal-close waves-effect waves-green btn-flat">Submit</a>
+      
+            <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
+        </div>
+      </form>
+      <form id="modalAddMember" class="modal">
+        <div class="modal-content" style="height:400px">
+          <h4>Add Members</h4>
+          <div class="container">
+            <div class="col s8 offset-s2">
+              <div id="userList">
+                <div style="border:1px solid black; margin-bottom: 5px">
+                  <div class="">
+                    <p>Name :</p>
+                    <p>Email:</p>
+                  </div>
+                  <div class="">
+                    <a id="invite" class="waves-effect waves-light btn-small" style="margin-top:20px">Invite</a>                    
+                  </div>
+                </div>
+                <div style="border:1px solid black; margin-bottom: 5px">
+                    <div class="">
+                      <p>Name :</p>
+                      <p>Email:</p>
+                    </div>
+                    <div class="">
+                      <a id="invite" class="waves-effect waves-light btn-small" style="margin-top:20px">Invite</a>                    
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <a class="modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+      </form>
+    </div>
+    </div>
+    </div>
+  
+    <footer class="grey" style="margin-top:0px; text-align: center">
+      <span style="margin-right: 10px; color: white">Do It! ©2019</span>
+    </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+  crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+</html>
