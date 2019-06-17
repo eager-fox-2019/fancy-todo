@@ -13,7 +13,7 @@ function stopLoading() { $(".lds-ellipsis").hide() }
 
 function login(email, password) {
     $.ajax({
-        url: `http://localhost:3000/api/users/signin`,
+        url: `35.247.175.185/api/users/signin`,
         method: `POST`,
         data: {
             email,
@@ -64,7 +64,7 @@ function dateFormat(date) {
 
 function fetchTodo() {
     $.ajax({
-        url: `http://localhost:3000/api/todos`,
+        url: `35.247.175.185/api/todos`,
         method: `GET`,
         headers: {
             token: localStorage.token,
@@ -146,7 +146,7 @@ function deleteTodo(todoId) {
     const id = todoId
 
     $.ajax({
-        url: `http://localhost:3000/api/todos/${id}`,
+        url: `35.247.175.185/api/todos/${id}`,
         method: `DELETE`,
         headers: {
             token: localStorage.token
@@ -206,7 +206,7 @@ function onSignIn(googleUser) {
     const token = googleUser.getAuthResponse().id_token;
 
     $.ajax({
-        url: `http://localhost:3000/api/users/googlesignin`,
+        url: `35.247.175.185/api/users/googlesignin`,
         method: `POST`,
         headers: {
             token
@@ -224,12 +224,12 @@ function onSignIn(googleUser) {
 }
 
 function signOut() {
-    var auth2 = gapi.auth2.getAuthInstance();
+    // var auth2 = gapi.auth2.getAuthInstance();
 
-    auth2.signOut().then(function () {
+    // auth2.signOut().then(function () {
         localStorage.clear()
         renderLoggedInPage()
-    });
+    // });
 }
 
 function confirmDelete(id) {
@@ -280,7 +280,7 @@ function generateRandomActivity() {
     initiateLoading()
 
     $.ajax({
-        url: `http://localhost:3000/api/opens/bored`,
+        url: `35.247.175.185/api/opens/bored`,
         method: `GET`,
         headers: {
             token: localStorage.token
@@ -366,7 +366,7 @@ function addMember() {
     const userEmail = $("#newMemberEmail").val()
 
     $.ajax({
-        url: `http://localhost:3000/api/projects/${localStorage.projectId}`,
+        url: `35.247.175.185/api/projects/${localStorage.projectId}`,
         method: `POST`,
         data: {
             userEmail
@@ -379,7 +379,7 @@ function addMember() {
 
 function removeMember(userId) {
     $.ajax({
-        url: `http://localhost:3000/api/projects/${userId}/removeMember`,
+        url: `35.247.175.185/api/projects/${userId}/removeMember`,
         method: `PATCH`,
         headers: {
             token: localStorage.token,
@@ -397,7 +397,7 @@ function removeMember(userId) {
 
 function fetchProject() {
     $.ajax({
-        url: `http://localhost:3000/api/projects`,
+        url: `35.247.175.185/api/projects`,
         method: `GET`,
         headers: {
             token: localStorage.token
@@ -435,7 +435,7 @@ function fetchProject() {
 
 function fetchProjectMember() {
     $.ajax({
-        url: `http://localhost:3000/api/projects/members`,
+        url: `35.247.175.185/api/projects/members`,
         method: `GET`,
         headers: {
             token: localStorage.token,
@@ -503,7 +503,7 @@ function getCurrentWeather(position) {
     const lng = position.coords.longitude;
 
     $.ajax({
-        url: `http://localhost:3000/api/opens/currentweather`,
+        url: `35.247.175.185/api/opens/currentweather`,
         method: `POST`,
         data: {
             lat,
@@ -533,7 +533,7 @@ function setProjectName(name) {
     const projectId = localStorage.projectId
 
     $.ajax({
-        url: `http://localhost:3000/api/projects/${projectId}`,
+        url: `35.247.175.185/api/projects/${projectId}`,
         method: `PATCH`,
         data: {
             name
@@ -586,7 +586,7 @@ $(document).ready(function() {
         const projectId = localStorage.projectId
 
         $.ajax({
-            url: `http://localhost:3000/api/todos`,
+            url: `35.247.175.185/api/todos`,
             method: `POST`,
             data: {
                 name, 
@@ -629,7 +629,7 @@ $(document).ready(function() {
         const due_date = $("#edit-todo__due_date").val()
 
         $.ajax({
-            url: `http://localhost:3000/api/todos/${id}`,
+            url: `35.247.175.185/api/todos/${id}`,
             method: `PATCH`,
             data: {
                 name, description, due_date
@@ -662,7 +662,7 @@ $(document).ready(function() {
         const searchTodo = $("#todoSearchValue").val()
 
         $.ajax({
-            url: `http://localhost:3000/api/todos/search?name=${searchTodo}`,
+            url: `35.247.175.185/api/todos/search?name=${searchTodo}`,
             type: `GET`,
             headers: {
                 token: localStorage.token,
@@ -772,7 +772,7 @@ $(document).ready(function() {
         const email = $("#newMemberEmail").val()
 
         $.ajax({
-            url: `http://localhost:3000/api/projects/${localStorage.projectId}/addMember`,
+            url: `35.247.175.185/api/projects/${localStorage.projectId}/addMember`,
             type: `PATCH`,
             data: {
                 email
