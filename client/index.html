@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <meta name="google-signin-client_id" content="128148223679-b2k5jjdc1h990buvjbfin563h67kln1l.apps.googleusercontent.com">
+  
+
+  <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link rel="stylesheet" href="./css/style.css">
+  <!-- <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/> -->
+  <title>Fancy Todo</title>
+</head>
+<body>
+    <div id="firstPage">
+        <div id="loginPage">
+            <main>
+                <center>
+                <!-- <img class="responsive-img" style="width: 250px;" src="https://i.imgur.com/ax0NCsK.gif" /> -->
+                <h5 class="indigo-text">Please, login into your account</h5>
+            
+                <div class="container">
+                    <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+            
+                    <form class="col s12" method="post" id="loginForm">
+                        <div class='row'>
+                        <div class='col s12'>
+                        </div>
+                        </div>
+            
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <input class='validate' type='email' name='email' id="login_email"/>
+                            <label for='email'>Enter your email</label>
+                        </div>
+                        </div>
+            
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <input class='validate' type='password' name='password' id="login_password"/>
+                            <label for='password'>Enter your password</label>
+                        </div>
+                        <label style='float: right;'>
+                            <!-- <a class='pink-text' href='#!'><b>Forgot Password?</b></a> -->
+                        </label>
+                        </div>
+            
+                        <br />
+                        <center>
+                        <div class='row'>
+                            <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Login</button>
+                        </div>
+                        <br>
+                        <div class="row">
+    
+                            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            
+                        </div>
+                        <br>
+                        </center>
+                    </form>
+                    </div>
+                </div>
+                <a href="" id="registerButton">Create account</a>
+                </center>
+
+            </main>
+        </div>
+        <div id="registerPage">
+            <main>
+                <center>
+                <!-- <img class="responsive-img" style="width: 250px;" src="https://i.imgur.com/ax0NCsK.gif" /> -->
+            
+                <h5 class="indigo-text">Please, fill the form below</h5>
+            
+                <div class="container">
+                    <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+            
+                    <form class="col s12" method="post" id="registerForm">            
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <input class='validate' type='email' name='email' id="reg_email"/>
+                            <label for='email'>Enter your email</label>
+                        </div>
+                        </div>
+
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <input class='validate' type='text' name='username' id="reg_username" />
+                            <label for='username'>Enter your username</label>
+                        </div>
+                        </div>
+            
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <input class='validate' type='password' name='password' id="reg_password"/>
+                            <label for='password'>Enter your password</label>
+                        </div>
+                        </div>
+            
+                        <br />
+                        <center>
+                        <div class='row'>
+                            <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>Register</button>
+                        </div>
+                        <br>
+                        <br>
+                        </center>
+                    </form>
+                    </div>
+                </div>
+                <a href="" id="loginButton">back to login page</a>
+                </center>
+            </main>
+        </div>
+    </div>
+    <div id="secondPage">
+        <nav class="light-blue lighten-1" role="navigation">
+          <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Fancy Todo</a>
+            <ul class="right hide-on-med-and-down">
+              <!-- <li><a href="#">Home</a></li> -->
+              <!-- <li><i class="large material-icons">add</i></li> -->
+              <li><a href="#" onclick="createTodo()">create Todo</a></li>
+              <li><a href="#" onclick="signOut()">Logout</a></li>
+            </ul>
+      
+            <ul id="nav-mobile" class="sidenav">
+              <li><a href="#">Navbar Link</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger btn-floating pulse light-blue lighten-1"><i class="material-icons">menu</i></a>
+          </div>
+        </nav>
+        <div class="section no-pad-bot" id="index-banner">
+          <div class="container">
+            <br><br>
+            <div class="row" id="todoCard">
+              
+            </div>
+            <br><br>
+      
+          </div>
+        </div>
+        <div id="modal1" class="modal" style="z-index: 1003; display: block; opacity: 1; transform: scaleX(1); top: 10%;">
+            
+        </div>
+      
+        
+    </div>
+    <div id="thirdPage">
+        <nav class="light-blue lighten-1" role="navigation">
+            <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Fancy Todo</a>
+              <ul class="right hide-on-med-and-down">
+                <!-- <li><a href="#">Home</a></li> -->
+                <!-- <li><i class="large material-icons">add</i></li> -->
+                <li><a href="#" onclick="checkSignIn()">go Back</a></li>
+                <li><a href="#" onclick="signOut()">Logout</a></li>
+              </ul>
+        
+              <ul id="nav-mobile" class="sidenav">
+                <li><a href="#">Navbar Link</a></li>
+              </ul>
+              <a href="#" data-target="nav-mobile" class="sidenav-trigger btn-floating pulse light-blue lighten-1"><i class="material-icons">menu</i></a>
+            </div>
+        </nav>
+        <div class="section no-pad-bot" id="index-banner">
+            <main>
+                <center>
+                <!-- <img class="responsive-img" style="width: 250px;" src="https://i.imgur.com/ax0NCsK.gif" /> -->
+            
+                <h5 class="indigo-text">Please, fill the form below</h5>
+            
+                <div class="container">
+                    <div class="z-depth-1 grey lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px solid #EEE;">
+            
+                    <form class="col s12" method="post" id="registerForm">            
+                        Due Date :
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <input class='validate' type='date' name='date' id="todo_date"/>
+                            <label for='date'></label>
+                        </div>
+                        </div>
+
+                        <div class='row'>
+                        <div class='input-field col s12'>
+                            <textarea class='validate' type='materialize-textarea' name='description' id="todo_description" /></textarea>
+                            <label for='description'>Enter your description</label>
+                        </div>
+                        </div>
+                        
+                        <br />
+                        <center>
+                        <div class='row'>
+                            <button type='submit' name='btn_login' class='col s12 btn btn-large waves-effect indigo'>create todo</button>
+                        </div>
+                        <br>
+                        <br>
+                        </center>
+                    </form>
+                    </div>
+                </div>
+                </center>
+            </main>
+        </div>
+    </div>
+
+
+  <!--  Scripts-->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/index.js"></script>
+
+  </body>
+</html>
