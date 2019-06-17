@@ -103,7 +103,7 @@ function todo() {
                     <p class="card-text">Status: ${resp.status}</p>
                     <p class="card-text">Due Date: ${date}</p>
                     <button type="button" class="btn btn-outline-primary" style="margin-bottom:10px;" onclick="detailtodo('${resp.name}','${resp.description}','${resp.status}','${date}')">Detail</button><br>
-                    <button type="button" class="btn btn-outline-warning" style="margin-right:5px;">Edit</button>
+                    <button type="button" class="btn btn-outline-warning" style="margin-right:5px;" data-target="#edittodomodal" data-toggle="modal" onclick="edittodo('${resp._id}')">Edit</button>
                     <button type="button" class="btn btn-outline-danger" onclick="deletetodo('${resp._id}')">Delete</button>
                     </div>
                 </div>
@@ -184,37 +184,10 @@ function edittodo(id){
         }
     })
     .done(resp => {
-        let data = {
-            name : $('#todo-name').val(),
-            description : $('#todo-desc').val(),
-            dueDate : $('#todo-date').val()
-        }
-        $.ajax({
-            method: "POST",
-            url: `${baseUrl}/todos`,
-            headers: {
-                token: localStorage.getItem('token')
-            },
-            data: data
-        })
-        .done(resp => {
-            console.log(resp, 'add todo')
-            swal({
-                icon: "success",
-                text: "Success Add Todo"
-            })
-            todo()
-            $('#todo-name').val(''),
-            $('#todo-desc').val(''),
-            $('#todo-date').val('')
-        })
-        .fail((jqXHR, textStatus) => {
-            console.log(textStatus)
-            swal({
-                icon: "warning",
-                text: "Cannot Get Todos"
-            })
-        })
+        let date = resp.dueDate.substr(0, 10)
+        $('#edit-name').val(`${resp.name}`),
+        $('#edit-desc').val(`${resp.description}`),
+        $('#edit-date').val(`${date}`)
     })
     .fail((jqXHR, textStatus) => {
         console.log(textStatus)
@@ -223,6 +196,40 @@ function edittodo(id){
             text: "Cannot Get Todos"
         })
     })  
+}
+
+function submitedittodo(id){
+    let data = {
+        name : $('#edit-name').val(),
+        description : $('#edit-desc').val(),
+        dueDate : $('#edit-date').val()
+    }
+    $.ajax({
+        method: "PATCH",
+        url: `${baseUrl}/todos/${id}`,
+        headers: {
+            token: localStorage.getItem('token')
+        },
+        data: data
+    })
+    .done(resp => {
+        console.log(resp, 'add todo')
+        swal({
+            icon: "success",
+            text: "Success Edit Todo"
+        })
+        todo()
+        $('#todo-name').val(''),
+        $('#todo-desc').val(''),
+        $('#todo-date').val('')
+    })
+    .fail((jqXHR, textStatus) => {
+        console.log(textStatus)
+        swal({
+            icon: "warning",
+            text: "Cannot Get Todos"
+        })
+    })
 }
 
 $(document).ready(function () {
