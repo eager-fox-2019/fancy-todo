@@ -2,6 +2,7 @@
 ## This App Built With Express and Mongoose
 ## how to run this APP
 
+
 1. Make sure you installed
 
     * git
@@ -37,3 +38,4 @@
 | `todo/[id]` | **DELETE** | email | none | Delete todo  | Response status 200 | Status code 500 |
 | `todo/[id]` | **PUT** | Token | name:string(**required**), description:string(**required**),description: String (**required**), dueDate:Date, importantStatus: Boolean (**required**) | update todo  | Response an`object` {todo} | Status code 500 |
 
+## This app can send email remainder 30 minutes before task due

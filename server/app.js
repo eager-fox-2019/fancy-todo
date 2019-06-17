@@ -1,11 +1,13 @@
 require('dotenv').config();
 const express = require('express')
 const app = express()
-var cors = require('cors')
+const cors = require('cors')
 const port = process.env.PORT || 3100
 const CONNECTION_URI = process.env.MONGGODB_URI || `${process.env.MONGGODB_URL}/${process.env.MONGGODB_NAME}`
 const routes = require('./routes/')
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const checkDateline = require('./helpers/checkDueDate')
+const schedule = require('node-schedule');
 mongoose.connect(CONNECTION_URI, {useNewUrlParser: true})
 .then(() =>{
       console.log('MongoDB connected')
@@ -43,6 +45,11 @@ app.use((err,req,res,next) => {
         })
     }
 })
+
+var event = schedule.scheduleJob("*/30 * * * *", function() {
+    checkDateline()
+});
+
 app.listen(port, () => {
     console.log('this app running on port ' + port)
 })
