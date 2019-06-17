@@ -9,8 +9,15 @@ const todoRoute = require('./routes/todos.js')
 const userRoute = require('./routes/users.js')
 const projectRoute = require('./routes/projects.js')
 
-// mongodb connection
-mongoose.connect('mongodb://localhost/lc-fancytodo', {
+// local mongodb connection
+// mongoose.connect('mongodb://localhost/lc-fancytodo', {
+//   useNewUrlParser: true,
+//   useCreateIndex: true,
+//   useFindAndModify: false,
+// });
+
+// atlas connection
+mongoose.connect(process.env.ATLAS_URL, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
