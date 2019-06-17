@@ -201,6 +201,7 @@ function readTodo(id, tag, find) {
   } else {
     link = `${url}/todo?name=false`
   }
+
   $.ajax({
     url: link,
     method: "GET",
@@ -210,12 +211,11 @@ function readTodo(id, tag, find) {
   })
     .done(function(response) {
       console.log("Reading To-Do.");
-      $("#searchTodo").val("")
       $("#readTodo").empty();
       if (!tag && !search){
         $("#readTodo3").empty();
         $("#readTodo3").html(`
-        <input type="text" class="form-control" id="searchTodo" placeholder="Search title..">
+        <input onkeyup="readTodo(undefined,undefined, true)"type="text" class="form-control" id="searchTodo" placeholder="Search title..">
 
         <a href="#" class="btn btn-primary" style="padding:3px 10px 3px 10px;margin-top:10px;background-color:#505397;border-color:#505397" id="searchTodoButton" onclick="readTodo(undefined,undefined, true)">Search</a>
         <br><br>
