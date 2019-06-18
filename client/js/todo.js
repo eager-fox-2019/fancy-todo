@@ -21,7 +21,7 @@ function loadtodopage() {
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="loadprojectpage()">View Projects</a>
+            <a class="nav-link" href="#" onclick="loadprojectpage()" ondblclick="loadprojectpage()">View Projects</a>
           </li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -29,7 +29,7 @@ function loadtodopage() {
             <a class="nav-link" href="#">Setting</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#" onclick="signOut()">Log Out</a>
+            <a class="nav-link" href="#" onclick="signOut()" ondblclick="signOut()">Log Out</a>
           </li>
         </ul>
       </div>
@@ -67,8 +67,10 @@ function loadtodopage() {
         `There are ${reminder.length} todos that needs to be done!`,
         "info"
       );
+      console.log(todos)
+      console.log(reminder)
     }
-  }, 1000);
+  }, 2000);
 }
 
 function loadlisttodos(todos) {
@@ -94,7 +96,8 @@ function loadlisttodos(todos) {
       todo.bg = "bg-secondary";
     } else {
       if (days < 2) {
-        if (todo.status != "Completed") {
+        if (todo.status !== "Completed" && !todo.project) {
+
           reminder.push(todo);
           todo.bg = "bg-warning";
         }
@@ -105,6 +108,10 @@ function loadlisttodos(todos) {
 
       strTimeDetail = `${days} ${dd} left to due date`;
 
+      if(days == 0){
+        strTimeDetail = `Today is the due date !!`;
+      }
+
       let theStatus = `Not Done <i class='fa fa-times'></i>`;
       if (todo.status == "Completed") {
         theStatus = `Completed <i class='fa fa-check'></i>`;
@@ -112,7 +119,9 @@ function loadlisttodos(todos) {
       if (!todo.project) {
         $("#todolist").append(`
             <div class="p-2 ${todo.bg} m-2">
-            <a href="#" onclick="loadformdetailtodo('${i}')">${todo.title}</a>
+            <a href="#" onclick="loadformdetailtodo('${i}')" ondblclick="loadformdetailtodo('${i}')">${
+          todo.title
+        }</a>
             <br>
             <small>
             Created At : ${new Date(
@@ -123,10 +132,10 @@ function loadlisttodos(todos) {
             ).toLocaleDateString()}</small>
             <div class="d-flex mt-2 justify-around-around">
               <div class="col-auto">
-              <small class="text-muted" onclick="markAsDone('${i}')">${theStatus}</small>
+              <small class="text-muted" onclick="markAsDone('${i}')" ondblclick="markAsDone('${i}')">${theStatus}</small>
               </div>
               <div class="col-auto">
-                <i class="fa fa-trash text-danger" onclick="deleteTodo('${i}')" ></i>
+                <i class="fa fa-trash text-danger" onclick="deleteTodo('${i}')" ondblclick="deleteTodo('${i}')" ></i>
              </div>
               <div class="col-auto">
                 <small class="text-muted">${strTimeDetail}</small>
@@ -142,7 +151,7 @@ function loadlisttodos(todos) {
 function loadformnewtodo() {
   $("#formtodo").html(`
   <h2 class="p-3 mb-2 border-bottom border-danger">Create New Todo</h2>
-    <form class="p-2" onsubmit="newTodo()">
+    <form class="p-2" onsubmit="newTodo();return false">
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title" placeholder="Todo Title">
@@ -163,15 +172,14 @@ function loadformnewtodo() {
 }
 
 function loadformdetailtodo(i) {
-  console.log(todos[i]);
-  let attr = `<button type="submit" class="btn btn-block btn-primary mb-2" onclick="loadformupdatetodo('${i}')">Update This Todo</button>`;
+  let attr = `<button type="submit" class="btn btn-block btn-primary mb-2" onclick="loadformupdatetodo('${i}') ondblclick="loadformupdatetodo('${i}')">Update This Todo</button>`;
   if (todos[i].status == "Completed") {
     attr = "";
   }
   $("#formtodo").html(`
     <h2 class="p-3 mb-2 border-bottom border-danger">Details Todo</h2>
       <form class="p-2">
-        <div class="form-group" onsubmit="loadformupdatetodo('${i}')">
+        <div class="form-group" onsubmit="loadformupdatetodo('${i}');return false">
           <label for="title">Title</label>
           <input type="text" class="form-control" id="title" placeholder="Todo Title" disabled>
         </div>
@@ -187,7 +195,7 @@ function loadformdetailtodo(i) {
         ${attr}
       </form>
       <center class="p-2">
-        <button class="btn btn-block btn-info" onclick="loadformnewtodo()">Close Details</button>
+        <button class="btn btn-block btn-info" onclick="loadformnewtodo()" ondblclick="loadformnewtodo()">Close Details</button>
       </center>
     `);
   $("#title").val(todos[i].title);
@@ -198,7 +206,7 @@ function loadformdetailtodo(i) {
 function loadformupdatetodo(i) {
   $("#formtodo").html(`
   <h2 class="p-3 mb-2 border-bottom border-danger">Update This Todo</h2>
-    <form class="p-2" onsubmit="updateTodo('${i}')">
+    <form class="p-2" onsubmit="updateTodo('${i}');return false">
       <div class="form-group">
         <label for="title">Title</label>
         <input type="text" class="form-control" id="title" placeholder="Todo Title">
@@ -215,10 +223,10 @@ function loadformupdatetodo(i) {
       <button type="submit" class="btn btn-block btn-primary">Submit Update</button>
     </form>
     <center class="my-3 p-1">
-      <a  href="#" onclick="loadformnewtodo('${i}')">Cancel Update</a> &emsp;
-      <a  href="#" onclick="loadformdetailtodo('${i}')">Back to Details</a>
+      <a  href="#" onclick="loadformnewtodo('${i}')" ondblclick="loadformnewtodo('${i}')">Cancel Update</a> &emsp;
+      <a  href="#" onclick="loadformdetailtodo('${i}')" ondblclick="loadformdetailtodo('${i}')">Back to Details</a>
       <center>
-        <a  href="#" onclick="deleteTodo('${i}')">Delete This Todo</a>
+        <a  href="#" onclick="deleteTodo('${i}')" ondblclick="deleteTodo('${i}')">Delete This Todo</a>
       </center>
     </center>
   `);
@@ -228,6 +236,7 @@ function loadformupdatetodo(i) {
 }
 
 function getAllTodos() {
+  todos = []
   $.ajax({
     url: serverURL + "/todos",
     method: `GET`,
@@ -247,7 +256,6 @@ function getAllTodos() {
         todos.push(response[i]);
         response.splice(i, 1);
       }
-
       loadlisttodos(todos);
       loadformnewtodo();
     })
@@ -258,14 +266,21 @@ function getAllTodos() {
 }
 
 function newTodo() {
+  console.log("INVOKED");
   let title = $("#title").val(),
     description = $("#description").val(),
     targetdate = $("#targetdate").val();
 
   if (title == "" || description == "" || targetdate == "") {
-    swal("please complete the form!");
+    swal({
+      text: "please complete the form",
+      closeOnClickOutside: false
+    });
   } else if (new Date() > new Date(targetdate)) {
-    swal("date must be later than today!");
+    swal({
+      text: "date must be later than today!",
+      closeOnClickOutside: false
+    });
   } else {
     $.ajax({
       url: serverURL + "/todos",
@@ -301,10 +316,10 @@ function updateTodo(i) {
     targetdate = $("#targetdate").val();
 
   let target = todos[i];
-      target.title = title
-      target.description = description
-      target.targetdate = targetdate
-  console.log(target)
+  target.title = title;
+  target.description = description;
+  target.targetdate = targetdate;
+  console.log(target);
 
   if (title == "" || description == "" || targetdate == "") {
     swal("please complete the form!");

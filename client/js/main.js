@@ -1,18 +1,28 @@
 const serverURL = "http://localhost:3000";
-$("a").click(function(event) {
-  event.preventDefault();
-});
-
-$("button").click(function(event) {
-  event.preventDefault();
-});
-
-$("form").on("submit", function(event) {
-  event.preventDefault();
-});
+var reminder = [];
+var todos = [];
+var projects = [];
+var users = [];
+var loggedInUser = {};
 
 $(document).ready(function() {
   checkLogin();
+  $("a").click(function(event) {
+    event.preventDefault();
+  });
+
+  $("button").click(function(event) {
+    event.preventDefault();
+  });
+
+  $("button").dblclick(function(event) {
+    event.preventDefault();
+  });
+
+
+  $("form").on("submit", function(event) {
+    event.preventDefault();
+  });
 });
 
 function checkLogin() {
@@ -29,38 +39,32 @@ function loadGAPI() {
   });
 }
 
-
-function getTomorrowDate(){
+function getTomorrowDate() {
   var currentDate = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
-  var day = currentDate.getDate()
-  var month = currentDate.getMonth() + 1
-  var year = currentDate.getFullYear()
+  var day = currentDate.getDate();
+  var month = currentDate.getMonth() + 1;
+  var year = currentDate.getFullYear();
 
-  if(String(month).length == 1){
-    month = "0" + month.toString()
+  if (String(month).length == 1) {
+    month = "0" + month.toString();
   }
-  if(String(day).length == 1){
-    day = "0" + day.toString()
+  if (String(day).length == 1) {
+    day = "0" + day.toString();
   }
-  let str = `${year}-${month}-${day}`
+  let str = `${year}-${month}-${day}`;
 
-  return str
+  return str;
 }
 
 function formatDate(date) {
   var d = new Date(date),
-      month = '' + (d.getMonth() + 1),
-      day = '' + d.getDate(),
-      year = d.getFullYear();
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
 
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
 
-  return [year, month, day].join('-');
+  return [year, month, day].join("-");
 }
 
-var reminder = [];
-var todos = [];
-var projects = [];
-var users = [];
-var loggedInUser = {};

@@ -183,27 +183,30 @@ function viewProjectDetail(id) {
           }</option>`;
         }
       });
-      let ability = "disabled";
+      let sectionTitle = "View Project"
+      let disabled = "disabled";
       let updButton = "";
       if (data.owner._id == loggedInUser._id) {
-        updButton = `<button type="submit" class="btn btn-block btn-primary">Submit Data</button>`;
-        ability = "";
+        updButton = `<button type="submit" class="btn btn-block btn-primary">Update Project Detail</button>`;
+        disabled = "";
+        sectionTitle = `${data.name}'s Detail`
       }
+
       $("#formproject").html(`
-        <h2 class="p-3 mb-2 border-bottom border-danger">ViewProjects</h2>
+        <h2 class="p-3 mb-2 border-bottom border-danger">${sectionTitle}</h2>
         <form class="p-2" onsubmit="updateProject('${data._id}')">
           <div class="form-group">
             <label for="name">Project Name</label>
-            <input type="text" class="form-control" id="name" placeholder="Project Name" ${ability}>
+            <input type="text" class="form-control" id="name" placeholder="Project Name" ${disabled}>
           </div>
           <div class="form-group">
             <label for="projectdescription">Description</label>
-            <textarea class="form-control" rows="3" id="projectdescription" placeholder="Project Description" ${ability}></textarea>
+            <textarea class="form-control" rows="3" id="projectdescription" placeholder="Project Description" ${disabled}></textarea>
           </div>
   
           <div class="form-group">
             <label for="members">Members</label>
-            <select class="selectpicker form-control mb-3 w-100" id="members" multiple title="Add Members" ${ability}>
+            <select class="selectpicker form-control mb-3 w-100" id="members" multiple title="Add Members" ${disabled}>
               ${option}
             </select> 
           </div>
@@ -419,6 +422,10 @@ function getAllProjects() {
 }
 
 function newProject() {
+  console.log("====================");
+  console.log($("#members").val())
+  let members = $("#members").val();
+  console.log(members)
   let input = {
     owner: loggedInUser._id,
     name: $("#name").val(),

@@ -28,11 +28,12 @@ class ControllerProject {
   }
 
   static create(req, res, next) {
+    console.log(req.body)
     const input = {
       owner: req.body.owner,
       name: req.body.name,
       description: req.body.description,
-      members: req.body["members[]"]
+      members: req.body.members
     };
     Project.create(input)
       .then(created => {
