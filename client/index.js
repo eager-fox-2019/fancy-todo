@@ -35,10 +35,10 @@ function onSignIn(googleUser) {
             // login(profile.getEmail(), "asdasd123")
             console.log(gotData);
             localStorage.setItem('token', gotData.token)
-            localStorage.setItem('email', gotData.userProfile.email)
-            localStorage.setItem('UserId', gotData.userProfile._id)
+            localStorage.setItem('email', gotData.email)
+            localStorage.setItem('UserId', gotData.id)
             $('#buttonLogin').hide()
-            fetchUserProfile(gotData.userProfile.email)
+            fetchUserProfile(gotData.email)
             fetchMainContent()
             $("body").css({
                 "background-image": "url('./img/doodles.png')",
@@ -218,10 +218,10 @@ function login(email, password) {
         .done((gotData) => {
             console.log(gotData);
             localStorage.setItem('token', gotData.token)
-            localStorage.setItem('email', gotData.userProfile.email)
-            localStorage.setItem('UserId', gotData.userProfile._id)
+            localStorage.setItem('email', gotData.email)
+            localStorage.setItem('UserId', gotData.id)
             $('#buttonLogin').hide()
-            fetchUserProfile(gotData.userProfile.email)
+            fetchUserProfile(gotData.email)
             fetchMainContent()
             $("body").css({
                 "background-image": "url('./img/doodles.png')",

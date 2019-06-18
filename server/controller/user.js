@@ -33,7 +33,7 @@ class UserController {
         .catch(next)
     }
     static login(req, res, next) {
-        // console.log(req.body.email, "<<<<<<<<<<<<<<<<<<<<<<");
+        console.log(req.body.email, "<<<<<<<<<<<<<<<<<<<<<<");
         
         User.findOne({
                 email: req.body.email
@@ -53,7 +53,8 @@ class UserController {
                         let userToken = jwt.sign(userData)
                         res.status(200).json({
                             token : userToken,
-                            userProfile : gotData
+                            email: gotData.email,
+                            id: gotData.id
                         })
 
                     } else {
@@ -92,7 +93,8 @@ class UserController {
                     let userToken = jwt.sign(userData)
                     res.status(200).json({
                         token : userToken,
-                        userProfile : gotData
+                        email: gotData.email,
+                        id: gotData.id
                     })
                 } else {
                     //create dulu baru send token
