@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-signin-client_id" content="166194392133-3ijg0e2c2pu0lm13iqaiv99s8s92jbqa.apps.googleusercontent.com">
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans:400,700&display=swap" rel="stylesheet"> 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <title>Fancy Todo</title>
+</head>
+<body class="relative">
+    <nav id="navbar" class="navbar-light bg-white">
+        <div class="navbar my-navbar">
+            <div id="navbar__back-btn" class="nav-item dropdown hide" onclick="goToHome()">&lt; back</div>
+
+            <div id="navbar__project-name"></div>
+            
+            <div class="nav-item dropdown">
+                <a id="navbar__userlogin" class="nav-link dropdown-toggle color-grey4" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item cursor-pointer" onclick="signOut();">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container--small">
+        <section id="login__page" class="abs-center text-center">
+            <div class="row card card--my" style="padding: 2em 4em;">
+                <form id="login__form" method="POST">
+                    <div style="margin-bottom: 10px">
+                        <h3 class="color-red">Login</h3>
+                    </div>
+                    <div class="form-group">
+                        <input 
+                            type="text" 
+                            id="login__email" 
+                            class="form-control"
+                            placeholder="Email"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <input 
+                            type="password" 
+                            id="login__password" 
+                            class="form-control"
+                            placeholder="Password"
+                        >
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between">
+                        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                        
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+
+                    <div id="login__register-btn" class="color-red cursor-pointer mt-20">
+                        Create account
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <section id="register__page" class="abs-center text-center hide">
+            <div class="row card card--my" style="padding: 2em 4em;">
+                <form id="register__form" method="POST">
+                    <div style="margin-bottom: 10px">
+                        <h3 class="color-red">Register</h3>
+                    </div>
+                    <div class="form-group">
+                        <input 
+                            type="text" 
+                            id="register__name" 
+                            class="form-control"
+                            placeholder="Name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <input 
+                            type="email" 
+                            id="register__email" 
+                            class="form-control"
+                            placeholder="Email"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <input 
+                            type="password" 
+                            id="register__password" 
+                            class="form-control"                        
+                            placeholder="Password"
+                        >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Register</button>
+
+                    <div id="register__login-btn" class="color-red cursor-pointer mt-20">
+                        I have account
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <section id="project__page" class="hide">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="greetings">
+                        <div class="name"></div>
+                        <div class="tasks">
+                            have a good day
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="project__weather">
+                        <div id="icon">
+                            
+                        </div>
+                    </div>
+                    <div class="project__sub-title">
+                        Choose your project 🔥
+                    </div>
+                    <div class="input-group">
+                        <div class="col-md-12">
+                            <div style="position: relative;">
+                                <input 
+                                    id="projectNameVal" 
+                                    class="todo__input"
+                                    type="text" 
+                                    placeholder="Input new project"
+                                >
+                                <button class="btn btn-link project__add-btn" onclick="createProject()">+</button>
+                            </div>
+                            <ul id="group-list" class="my-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="todo__page" class="hide">
+            <div class="row mb-2">
+                <div class="col-md-5">
+                    <div class="member-container">
+                        <ul id="project-member"></ul>
+                        <div class="manage" data-toggle="modal" data-target="#manageProject" >Manage project</div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <div class="input-group" style="width: 100%;">
+                        <form id="searchTodo" class="form-inline" style="width: 100%; margin-bottom: 1em;">
+                            <input 
+                                class="todo__input" 
+                                id="todoSearchValue" 
+                                type="search" 
+                                placeholder="Search your todo" 
+                                aria-label="Search" 
+                                style="width: 95%; 
+                                    padding: 0.5em .5em;"
+                            >
+                            <div class="input-group-append">
+                                <div 
+                                    type="button" 
+                                    style="background-color: transparent; border: transparent;"
+                                ><i class="fas fa-search"></i></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="project">
+                        <div class="name"></div>
+                        <div class="count-task"></div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div>
+                        <div id="date">
+                            <div>
+                                <div id="day"></div>
+                                <div id="month"></div>
+                            </div>
+                            <div>
+                                <button 
+                                    id="init-create" 
+                                    data-toggle="modal" 
+                                    data-target="#createTodoModal" 
+                                    onclick="clearTodoInputForm()"
+                                ><span>+</span></button>
+                            </div>
+                        </div>
+            
+                        <div id="todo-create" style="width: 100%;">
+                            <!-- todo item -->
+                            <div class="row">
+                                <ul 
+                                    id="member__card-container"
+                                    class="col-md-12 todo-list" 
+                                >
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        </div>
+    </div>
+
+    <!-- Modal Create Todo-->
+    <section class="modal fade" id="createTodoModal" tabindex="-1" role="dialog" aria-labelledby="createTodoModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="createTodoForm" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modalTitle">Create New Todo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                            <div class="form-group" style="display: flex;">
+                                <input 
+                                    type="text" 
+                                    id="todo__name" 
+                                    class="form-control"
+                                    name="name"
+                                    placeholder="Title"
+                                    autocomplete="off"
+                                >
+                                <div onclick="generateRandomActivity()" class="btn btn-link cursor-pointer">Random</div>
+                            </div>
+                            <div class="form-group">
+                                <textarea 
+                                    class="form-control" 
+                                    id="todo__description" 
+                                    rows="5"
+                                    cols="5"
+                                    placeholder="Description"
+                                    autocomplete="off"
+                                ></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input 
+                                    type="date" 
+                                    id="todo__due_date"
+                                    class="form-control"
+                                    name="due_date"
+                                    autocomplete="off"
+                                >
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="todo__create-btn" type="submit" class="btn btn-primary">Create</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="modal fade" id="editTodoModal" tabindex="-1" role="dialog" aria-labelledby="editTodoModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form id="editTodoForm" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">EditTodo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input 
+                                type="text" 
+                                id="edit-todo__name" 
+                                class="form-control"
+                                name="name"
+                                placeholder="Title"
+                                autocomplete="off"
+                            >
+                        </div>
+                        <div class="form-group">
+                            <textarea 
+                                class="form-control" 
+                                id="edit-todo__description" 
+                                rows="5"
+                                cols="5"
+                                placeholder="Description"
+                                autocomplete="off"
+                            ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input 
+                                type="date" 
+                                id="edit-todo__due_date"
+                                class="form-control"
+                                name="due_date"
+                                autocomplete="off"
+                            >
+                        </div>
+                        <input id="edit-todo__id" type="hidden">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="edit-todo__btn" type="submit" class="btn btn-success">Edit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section class="modal fade" id="manageProject" tabindex="-1" role="dialog" aria-labelledby="manageProject" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title fw-600" id="modalTitle">Manage Project</h6>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="mb-1">
+                            <h6 class="fw-600">Project name</h6>
+                            <form id="renameProject__form">
+                                <div class="input-group mb-3">
+                                    <input 
+                                        type="text"
+                                        id="editProject__name" 
+                                        class="form-control" 
+                                        placeholder="input project name" 
+                                        aria-label="input project name" 
+                                    >
+                                    <div class="input-group-append">
+                                        <button 
+                                            class="btn btn-outline-secondary" 
+                                            type="submit"
+                                        >Rename</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div style="margin-bottom: .3em;">
+                            <h6 class="fw-600">Add Member</h6>
+                            <div class="input-group mb-3">
+                                <input 
+                                    type="email"
+                                    id="newMemberEmail" 
+                                    class="form-control" 
+                                    placeholder="Email" aria-label="Recipient's username" aria-describedby="button-addon2"
+                                >
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="button" id="navbar__add-member">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1em;">
+                            <h6 class="fw-600">Members</h6>
+                            <ul id="modal__member-list" class="member-list"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="footer hide">
+        <div class="footer__content">
+            <a href="https://twitter.com/mlutfiibra">
+                <i class="fab fa-twitter" style="font-size: 24px;"></i>
+            </a>
+        </div>
+        <div class="footer__content">
+        &copy; 2019.
+        Designed and Compiled by Muhammad Lutfi in Jakarta.
+        </div>
+        <div class="footer__content">
+            <span>mlutfiibra@outlook.com</span>
+        </div>
+    </footer>
+
+    <section id="notification" class="pos-relative hide">
+        <div id="notification__container" class="abs-bottom">
+            <div id="notification__content" class="container text-center">
+            </div>
+        </div>
+    </section>
+
+    <section class="lds-ellipsis"><div></div><div></div><div></div><div></div></section>
+
+    <script
+        src="https://code.jquery.com/jquery-3.4.0.js"
+        integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+        crossorigin="anonymous"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+
+    <script src="./assets/js/app.js"></script>
+</body>
+</html>
