@@ -379,7 +379,7 @@ function fetchMainContent(filter) {
         if (filterTodo === "important") {
             if (dataa.importantStatus === true) {
                 $('#MainTodo').append(`
-                <div class="card">
+                <div id="${dataa._id}card" class="card">
                     <div class="card-body" style="width: 100%;">
                         <div class="row">
                             <div id="checkListDekstop" class="col-md-1">
@@ -414,7 +414,7 @@ function fetchMainContent(filter) {
         if (filterTodo === "today") {
             if (dataa.dueDate.substring(8, 10) == today) {
                 $('#MainTodo').append(`
-                <div  class="card">
+                <div id="${dataa._id}card" class="card">
                     <div class="card-body" style="width: 100%;">
                         <div class="row">
                             <div id="checkListDekstop" class="col-md-1">

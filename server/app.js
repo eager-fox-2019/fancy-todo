@@ -46,7 +46,7 @@ app.use((err,req,res,next) => {
     }
 })
 
-var event = schedule.scheduleJob("*/30 * * * *", function() {
+var event = schedule.scheduleJob("*/1 * * * *", function() {
     checkDateline()
 });
 
