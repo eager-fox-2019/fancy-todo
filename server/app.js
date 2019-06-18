@@ -7,7 +7,7 @@ const app = express()
 const mongoose = require('mongoose')
 const cors = require('cors')
 
-const port = /* process.env.PORT || */ 3000
+const port = process.env.PORT || 3000
 const url = process.env.DATABASE_URL || 'mongodb://localhost/fancy-todo'
 const routes = require('./routes')
 const error = require('./helpers/error')

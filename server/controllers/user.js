@@ -77,8 +77,6 @@ class UserCont {
   }
 
   static login(req, res, next) {
-    if(req.body.password.length < 8)
-      next({ code: 400, message: 'Password must be more than equal 8 character!' })
     User.findOne({
       email: req.body.email,
     })

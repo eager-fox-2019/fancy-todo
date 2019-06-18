@@ -30,8 +30,8 @@
 //   }, 4000);
 // }
 
-var baseURL = `http://localhost:3000`
-// var baseURL = `http://35.198.211.20`
+// var baseURL = `http://localhost:3000`
+var baseURL = `http://35.198.211.20`
 var tempUsers = []
 var tempProjects = []
 

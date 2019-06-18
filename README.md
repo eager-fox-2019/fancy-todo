@@ -1,7 +1,5 @@
-# fancy-todo
-fancy-todo
-
-**Fancy Todo** (Portofolio Project Week 1)
+# **Fancy Todo** (Portofolio Project Week 1)
+Website : http://fancy-todo.alvinchristian7.icu/
 ----------------------------------------
 
 ## Endpoint
