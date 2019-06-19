@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="1008185134786-p6j8sbckfabsdg357rtvghkpkrc7uj8r.apps.googleusercontent.com">
+  <script src="https://apis.google.com/js/platform.js" defer></script>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '857945794540372',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v3.3'
+      });
+    };
+  </script>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
+  <!-- Link to CSS file -->
+  <link rel="stylesheet" type="text/css" href="./style.css">
+  <!-- Jquery -->
+  <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+    <title>Todo List</title>
+  </head>
+<body>
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.3"></script>
+  <!-- <script src="getImgUri.js"></script> -->
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js'></script>
+  <script src='jquery.voicerss-tts.min.js'></script>
+
+  <div id="outside">
+    <div id="title">Todo List</div>
+    <div id="subtitle">
+      Register for a new account / login to an existing account.
+    </div>
+    <div id="front-forms" style="display: flex; justify-content: center;">
+      <form id="register-form" class="form1" autocomplete="off">
+        <div class="form1title">Register</div>
+        <input class="input1" type="text" placeholder="New Email" name="email" required id="registrationEmail">
+        <br>
+        <input class="input1" type="password" placeholder="New Password" name="password" required id="registrationPassword">
+        <br>
+        <button class="button" type="submit">Register</button>
+      </form>
+      <form id="login-form" class="form1" action="/" method="POST" autocomplete="off">
+        <div class="form1title">Login</div>
+        <input class="input1" type="text" placeholder="Email" name="email" required id="loginEmail">
+        <br>
+        <input class="input1" type="password" placeholder="Password" name="password" required id="loginPassword">
+        <br>
+        <button class="button" type="submit">Login</button>
+      </form>
+    </div>
+
+    <div class="otherLogins">
+      <div class= "goog" style="display: flex; justify-content: center;margin-top: 1rem;">
+        <div class="g-signin2" data-onsuccess="onSignIn" style="text-align: center;"></div>
+      </div>
+      <br>
+
+      <div style="display: flex; justify-content: center;margin-top: 0.5rem;" class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="true" data-use-continue-as="false" data-scope="email" data-onlogin="checkLoginState()"></div>
+      <br>
+
+      <div style="display: flex; justify-content: center;margin-top: 0.5rem;">
+          <a href="#" onclick="logout();">Sign out</a>
+      </div>
+    </div>
+
+    <div id="reg-message">
+      <p>Successfully Registered</p>
+      <button id="successRegisterReturnButton" class="button">Return</button>
+    </div>
+  </div>
+
+  <div id="inside">
+    <div class="navbar">
+      <ul>
+        <li><a href="#" onclick="logout();">Sign out</a></li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div class="user">
+        <div id="theUser">
+          
+        </div>
+        <div id="editUserFormContainer">
+          <form id="editUserForm" class="form1" action="/" method="POST" autocomplete="off">
+            <div class="form1title">Editing User Detail</div>
+            <input class="input1" type="text" placeholder="Name" name="name" required>
+            <br>
+            <input class="input1" type="password" placeholder="Password" name="password" required>
+            <br>
+            <button class="button" type="submit">Edit</button>
+            <br>
+            <a href="#" onclick="hideEditUserForm();">cancel</a> | 
+            <a href="#" onclick="deleteUser('${user._id}')">delete</a>
+          </form>
+        </div>
+      </div>
+
+      <div class="todolist">
+
+        <form id="addTodoForm" class="form1" action="/" method="POST" autocomplete="off">
+          <div class="form1title">Add a Todo</div>
+          <input class="input1" type="text" placeholder="Name" name="todoName" required id="todoName">
+          <br>
+          <input class="input1" type="text" placeholder="Description" name="todoDescription" required id="todoDescription">
+          <br>
+          <input class="input1" type="Date" name="todoDueDate" id="todoDueDate">
+          <br>
+          <button class="button" type="submit">add Todo</button>
+          <a href="#" onclick="hideAddTodoForm();">cancel</a>
+        </form>
+
+        <div id="theTodoList">
+          <div id="buttonContainer"><button id="showAddTodoFormButton" onclick="addTodoForm()" class="button" type="submit">add Todo</button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <script src="index.js"></script>
+  <script src="todolist.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Noto Sans", "Ubuntu", "Helvetica Neue", "Cantarell", "Fira Sans", "Droid Sans", sans-serif;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  font-family: Calibri, Sans;
+  display: flex;
+  height: 100%;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+#outside {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-bottom: 7rem;
+}
+
+#inside {
+  flex: 1;
+  display: none;
+}
+
+form input, textarea {
+  padding: 0.2rem 0.3rem;
+}
+
+#addTodoForm, #showAddTodoFormButton{
+  margin: 1em auto;
+  clear: both;
+  width: 50%;
+}
+
+#theTodoList button{
+  font-weight: bold;
+  color: brown;
+  padding: 1em;
+  border-radius: 1em;
+  border-width: 2px;
+  margin-left: 35%;
+  margin-right: : 35%;
+  width: 30%;
+}
+
+.nonEditTodoDiv, .editTodoForm{
+  padding: 1em;
+  margin: 1em;
+  border-style: solid;
+  border-color: brown;
+}
+
+#title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  align-self: center;
+}
+
+#subtitle {
+  text-align: center;
+  margin-bottom: 1.4rem;
+}
+
+.form1 {
+  margin: 0 2rem;
+  padding: 1rem;
+  width: 16rem;
+  background-color: #eaeaea;
+  border: 0.2rem solid transparent;
+  line-height: 2.2rem;
+  text-align: center;
+}
+
+.form1:focus-within {
+  border-color: black;
+}
+
+.form1title {
+  margin-bottom: 0.4rem;
+}
+
+input {
+  border: 1px solid black;
+}
+
+.input1 {
+  width: 85%;
+}
+
+.input2 {
+  width: 93%;
+}
+
+hr {
+  border-top: 1px solid #555;
+  margin: 0.7rem 0;
+}
+
+.button {
+  cursor: pointer;
+  margin-top: 1rem;
+  padding: 0.2rem 0.5rem;
+  background-color: #fff;
+  border: 1px solid black;
+}
+
+.button1 {
+  margin-top: 0.5rem;
+}
+
+.button:hover {
+  background-color: #eee;
+}
+
+.button2 {
+  cursor: pointer;
+}
+
+.button2:hover {
+  color: #c4591b;
+}
+
+#reg-message {
+  text-align: center;
+  margin: 2.8rem auto;
+  padding: 0.8rem;
+  border: 0.2rem solid black;
+  max-width: 15rem;
+  display: none;
+}
+
+#toplogo {
+  font-size: 1.2rem;
+}
+
+a.navlink {
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0.2rem 0.4rem;
+  margin: 0 1rem;
+}
+
+a.navlink:hover {
+  text-shadow: 0 0 0.3rem #d8d8d8;
+}
+
+.heading-md {
+  font-size: 1.1rem;
+}
+
+.heading-lg {
+  font-size: 1.6rem;
+}
+
+
+#grid {
+  width: 100%;
+  min-height: calc(100% - 2.8rem);
+  display: grid;
+  grid-template-columns: 2fr 3fr 3fr;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 2.8rem;
+  color: #fff;
+  background-color: black;
+  z-index: 3; 
+}
+
+.navbar ul{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar li{
+  float: left;
+  flex-direction: row;
+  justify-content: space-between;
+  flex: unset;
+  height: 100%;
+}
+
+/* On mouse-over, add a deeper shadow */
+.nonEditTodoDiv:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+/* Add some padding inside the card container */
+.container {
+  padding: 2px 16px;
+}
+.nonEditTodoDiv, .editTodoForm {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  transition: 0.3s;
+  border-radius: 1em; /* 1em rounded corners */
+}
+.nonEditTodoDiv label, .editTodoForm label{
+  font-weight: bold;
+}
+.editTodoForm{
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.editTodoForm form{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Add rounded corners to the top left and the top right corner of the image */
+img {
+  border-radius: 5px 5px 0 0;
+}
+
+.navbar li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px 10px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: white;
+  background-color: black;
+}
+
+/* Change the link color to #111 (black) on hover */
+.navbar li a:hover {
+  background-color: #111;
+}
+
+.user, .user div form{
+  border-bottom-style: dashed;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+  padding-top: 1em;
+  margin-top: 5px;
+}
+
+.user div form{
+  padding: 0;
+  border: none;
+}
+
+#editDeleteUserLinks{
+  padding-bottom: 1em;
+}
