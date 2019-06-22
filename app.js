@@ -5,7 +5,7 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
-const index = require('./routers/index.js')
+const index = require('./routers/index.js.js')
 const cors = require('cors')
 const mongoose = require('mongoose')
 const error = require('./helpers/error')
