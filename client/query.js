@@ -2,7 +2,7 @@ $( "#register" ).click(function( event ) {
   $('.register').show()
   $('.home').hide()
   $('.login').hide()
-  $("#notification1").empty()
+  $("#notif-alert").empty()
 })   
 
 $( "#register-form" ).submit(function( event ) {
@@ -21,20 +21,22 @@ $( "#register-form" ).submit(function( event ) {
     dataType: "json"
   })
   .done(function( data ) {
-    $("#notification1").empty()
-    $("#notification1").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-success" role="alert">
       Registration Success!
     </div>
     `)
+    $('#notification').modal("show")
   })
   .fail(function(err) {
-    $("#notification1").empty()
-    $("#notification1").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -42,7 +44,7 @@ $( "#login" ).click(function( event ) {
   $('.login').show()
   $('.home').hide()
   $('.register').hide()
-  $("#notification2").empty()
+  $("#notif-alert").empty()
 }) 
 
 $( "#login-form" ).submit(function( event ) {
@@ -59,13 +61,13 @@ $( "#login-form" ).submit(function( event ) {
     dataType: "json"
   })
   .done(function( data ) {
-    $("#notification2").empty()
-    $("#notification3").empty()
-    $("#notification2").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-success" role="alert">
-      Registration Success!
+      Login Success!
     </div>
     `)
+    $('#notification').modal("show")
     localStorage.setItem("token", data.token)
     localStorage.setItem("name", data.name)
     $("#user").append(data.name)
@@ -77,12 +79,13 @@ $( "#login-form" ).submit(function( event ) {
     initialPopulate()
   })
   .fail(function(err) {
-    $("#notification2").empty()
-    $("#notification2").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -103,12 +106,13 @@ $( "#todo-form" ).submit(function( event ) {
     dataType: "json"
   })
   .done(function( data ) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-success" role="alert">
       Todo Created!
     </div>
     `)
+    $('#notification').modal("show")
     $("#list-todo").append(`
     <div class="card" style="width: 100%;">
       <h5 class="card-header text-center">${data.name}</h5>
@@ -126,12 +130,13 @@ $( "#todo-form" ).submit(function( event ) {
     `)
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -142,53 +147,56 @@ function onSignIn(googleUser) {
       token: id_token
     })
     .then(function( {data} ) {
-      $("#notification2").empty()
-      $("#notification2").append(`
+      $("#notif-alert").empty()
+      $("#notif-alert").append(`
       <div class="alert alert-success" role="alert">
         Login Success!
       </div>
       `)
+      $('#notification').modal("show")
       localStorage.setItem("token", data.token)
+      localStorage.setItem("name", data.name)
       $("#user").append(data.name)
       $(".logged-out").hide()
       $(".logged-in").attr( "style", "display: inline-block;" )
       $(".logged-in").sho
       $('.login').hide()
       $('.home').show()
-      $("#notification2").empty()
       initialPopulate()
     })
     .catch(function(err) {
       console.log(err)
-      $("#notification2").empty()
-      $("#notification2").append(`
+      $("#notif-alert").empty()
+      $("#notif-alert").append(`
       <div class="alert alert-warning" role="alert">
         ${err.message}
       </div>
       `)
+      $('#notification').modal("show")
     })
 }
 
 function signOut() {
-  $("#notification1").empty()
-  $("#notification2").empty()
-  $("#notification3").empty()
   $('.logged-out').show()
   $("#user").empty()
-  $("#restaurant").empty()
-  $("#fav-restaurant").empty()
-  $("#recipe").empty()
-  $("#fav-recipe").empty()
+  $("#list-todo").empty()
   $('.logged-in').hide()
   $('.home').hide()
   $('.login').show()
-
+  
   localStorage.removeItem('token')
   localStorage.removeItem('name')
   var auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     console.log('User signed out.');
   });
+  $("#notif-alert").empty()
+  $("#notif-alert").append(`
+  <div class="alert alert-success" role="alert">
+    Logout Success!
+  </div>
+  `)
+  $('#notification').modal("show")
 }
 
 function initialPopulate(){
@@ -220,30 +228,31 @@ function initialPopulate(){
         `)
       } else {
         $("#list-todo").append(`
-      <div class="card" style="width: 100%;">
-        <h5 class="card-header text-center">${data[i].name}</h5>
-        <div class="card-body">
-          <p class="card-text text-left">Description:</p>
-          <p class="card-text text-left">${data[i].description}</p>
-          <p class="card-text text-left status">Status: ${status}</p>
-          <p class="card-text text-left">Due Date: ${data[i].dueDate.slice(0,10)}</p>
-          <div class="text-center">
-            <a href="#" class="btn btn-primary complete mt" id="${data[i]._id}">Completed</a>
-            <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Delete</a>
+        <div class="card" style="width: 100%;">
+          <h5 class="card-header text-center">${data[i].name}</h5>
+          <div class="card-body">
+            <p class="card-text text-left">Description:</p>
+            <p class="card-text text-left">${data[i].description}</p>
+            <p class="card-text text-left status">Status: ${status}</p>
+            <p class="card-text text-left">Due Date: ${data[i].dueDate.slice(0,10)}</p>
+            <div class="text-center">
+              <a href="#" class="btn btn-primary complete mt" id="${data[i]._id}">Completed</a>
+              <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Delete</a>
+            </div>
           </div>
         </div>
-      </div>
-      `)
+        `)
       }
     }
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 }
 
@@ -256,22 +265,24 @@ $("#list-todo").on("click", ".complete", function(event) {
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-success" role="alert">
       Todo set to complete!
     </div>
     `)
+    $('#notification').modal("show")
     card.parent().siblings('.status').empty()
     card.parent().siblings('.status').append('Status: <span class="badge badge-pill badge-success">Complete</span>')
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -284,21 +295,23 @@ $("#list-todo").on("click", ".remove", function(event) {
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-success" role="alert">
       Todo Delete Success!
     </div>
     `)
+    $('#notification').modal("show")
     card.closest('.card').remove()
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -351,12 +364,13 @@ $( "#filter" ).submit(function( event ) {
     }
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -368,7 +382,7 @@ $("#filter").on("click", ".complete", function(event) {
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
-    $("#notification3").empty()
+    $("#notif-alert").empty()
     $("#list-todo").empty()
     for (let i = 0; i < data.length; i++){
       $("#list-todo").append(`
@@ -389,12 +403,13 @@ $("#filter").on("click", ".complete", function(event) {
     }
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -406,7 +421,7 @@ $("#filter").on("click", ".in-progress", function(event) {
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
-    $("#notification3").empty()
+    $("#notif-alert").empty()
     $("#list-todo").empty()
     for (let i = 0; i < data.length; i++){
       $("#list-todo").append(`
@@ -427,12 +442,13 @@ $("#filter").on("click", ".in-progress", function(event) {
     }
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
@@ -444,29 +460,30 @@ $("#filter").on("click", ".email-notif", function(event) {
     headers: {token: localStorage.getItem("token")}
   })
   .done (function(data) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-success" role="alert">
       Email remainder sent! Please check your inbox or spam box!
     </div>
     `)
+    $('#notification').modal("show")
   })
   .fail(function(err) {
-    $("#notification3").empty()
-    $("#notification3").append(`
+    $("#notif-alert").empty()
+    $("#notif-alert").append(`
     <div class="alert alert-warning" role="alert">
       ${err.responseJSON.message}
     </div>
     `)
+    $('#notification').modal("show")
   })
 })
 
 $('document').ready(function(){
+  $("#notif-alert").empty()
+  $("#user").empty()
   
   if(localStorage.getItem('token')){
-    $("#notification3").empty()
-    $("#user").empty()
-
     let name = localStorage.getItem('name')
     $("#user").append(name)
     $(".logged-out").hide()

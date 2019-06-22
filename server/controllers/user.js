@@ -70,10 +70,11 @@ class UserCont {
               email: user.email
             }
             let access_token = jwt.sign(payload)
-            res.status(201).json({
+            let data = ({
               token: access_token,
               name: user.name
             })
+            res.status(201).json(data)
           }
           else next({ code: 400, message: 'Wrong email/password' })
         }
