@@ -156,6 +156,7 @@ function onSignIn(googleUser) {
       $('#notification').modal("show")
       localStorage.setItem("token", data.token)
       localStorage.setItem("name", data.name)
+      $("#user").empty()
       $("#user").append(data.name)
       $(".logged-out").hide()
       $(".logged-in").attr( "style", "display: inline-block;" )
@@ -220,8 +221,7 @@ function initialPopulate(){
             <p class="card-text text-left status">Status: <span class="badge badge-pill badge-success">${status}</span></p>
             <p class="card-text text-left">Due Date: ${data[i].dueDate.slice(0,10)}</p>
             <div class="text-center">
-            <a href="#" class="btn btn-primary complete mt" id="${data[i]._id}">Completed</a>
-            <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Delete</a>
+              <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Delete</a>
             </div>
           </div>
         </div>
@@ -235,7 +235,7 @@ function initialPopulate(){
             <p class="card-text text-left">${data[i].description}</p>
             <p class="card-text text-left status">Status: ${status}</p>
             <p class="card-text text-left">Due Date: ${data[i].dueDate.slice(0,10)}</p>
-            <div class="text-center">
+            <div class="text-center card-button">
               <a href="#" class="btn btn-primary complete mt" id="${data[i]._id}">Completed</a>
               <a href="#" class="btn btn-danger remove mt" id="${data[i]._id}">Delete</a>
             </div>
@@ -274,6 +274,7 @@ $("#list-todo").on("click", ".complete", function(event) {
     $('#notification').modal("show")
     card.parent().siblings('.status').empty()
     card.parent().siblings('.status').append('Status: <span class="badge badge-pill badge-success">Complete</span>')
+    card.remove()
   })
   .fail(function(err) {
     $("#notif-alert").empty()
