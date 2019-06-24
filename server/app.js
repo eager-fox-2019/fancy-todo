@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const port = process.env.PORT || 3100
-const CONNECTION_URI = process.env.MONGGODB_URI || `${process.env.MONGGODB_URL}/${process.env.MONGGODB_NAME}`
+const CONNECTION_URI = `${process.env.MONGGODB_URI}`
 const routes = require('./routes/')
 const mongoose = require('mongoose');
 const checkDateline = require('./helpers/checkDueDate')
@@ -46,7 +46,7 @@ app.use((err,req,res,next) => {
     }
 })
 
-var event = schedule.scheduleJob("*/1 * * * *", function() {
+var event = schedule.scheduleJob("*/30 * * * *", function() {
     checkDateline()
 });
 

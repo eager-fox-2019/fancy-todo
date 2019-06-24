@@ -136,7 +136,7 @@ body {
 
     #registerText {
         font-family: 'Fredoka One', cursive;
-        margin-top: 60%;
+        margin-top: 10%;
     }
 
     #registerText p{
@@ -151,16 +151,16 @@ body {
     
 
     #registerText h1{
+        margin-top: -15px;
         color: #ffffff;
         text-shadow: 2px 2px #000000;
     }
 
     #registerText span{
+      margin-top: -15px;
       color: rgb(248, 156, 70);
       font-family: 'Pacifico', cursive;
   }
-
-  
 
   #profilePic {
     width: 120px;
