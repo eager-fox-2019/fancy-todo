@@ -10,8 +10,9 @@ const errHandler = require('./middleware/errHandler')
 const app = express()
 
 const port = process.env.PORT
+const database = 'mongodb+srv://yudawardana:sukamakan94~@yudawardana-i1zsd.gcp.mongodb.net/Fancy-todo?retryWrites=true&w=majority'
 
-mongoose.connect('mongodb://localhost:27017/FancyTodo', {useNewUrlParser: true},(err)=> {
+mongoose.connect(database, {useNewUrlParser: true},(err)=> {
     if (err) console.log (err) ,console.log ('Coonection error :(');
     else console.log ('Success Connected :)')
 })
