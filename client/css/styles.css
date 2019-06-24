@@ -1,0 +1,44 @@
+body>.grid {
+    height: 100%;
+}
+
+#loginForm .column {
+    max-width: 450px;
+}
+
+#loginForm #errMessage {
+    display: none;
+}
+
+#errText {
+    list-style: none;
+    padding: 0;
+}
+
+#yourProjects {
+    display: none
+}
+
+#home,
+#yourProjects {
+    border: none;
+    box-shadow: none;
+}
+
+#noItems,
+#noMember {
+    display: none
+}
+
+#owned,
+#member {
+    margin-bottom: 20px
+}
+
+#detail {
+    display: none;
+}
+
+#memberDetail {
+    background-color: rgba(0, 0, 0, .1)
+}
