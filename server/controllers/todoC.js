@@ -21,7 +21,7 @@ class todoController {
     }
     
     static update (req,res,next){
-        console.log('update doonggg')
+        // console.log('update doonggg')
         let update = {}
 
         if (req.body.name) {
@@ -36,13 +36,13 @@ class todoController {
         if (req.body.date) {
             update.dueDate = req.body.date
         }
-        console.log(update,'ini update')
+        // console.log(update,'ini update')
         todos.findByIdAndUpdate({
             _id : req.params.taskId
         },update)
 
             .then(result=> {
-                console.log (result)
+                // console.log (result)
                 res.json(result)
             })
             .catch(next)

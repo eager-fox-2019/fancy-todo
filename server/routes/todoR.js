@@ -1,14 +1,14 @@
 const router = require('express').Router()
 const todoC = require('../controllers/todoC')
-const { authenticate } = require('../middleware/auth')
+const { authenticate, authorization } = require('../middleware/auth')
 
 router.use('/',authenticate)
 
 router.get('/findAll',todoC.allTodo)
 router.get('/findOne/:id',todoC.detail)
-router.post('/add',todoC.create)
-router.patch('/update/:taskId',todoC.update)
-router.delete('/remove/:taskId',todoC.remove)
+router.post('/add',authorization,todoC.create)
+router.patch('/update/:taskId',authorization,todoC.update)
+router.delete('/remove/:taskId',authorization,todoC.remove)
 
 router.get('/*',(req,res)=> {
     console.log ('Success')
