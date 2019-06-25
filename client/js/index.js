@@ -4,30 +4,30 @@ var showTipsYoutube = ''
 var statusTodo = ''
 var userId = ''
 
-// function onSignIn(googleUser) {
-//   const idToken = googleUser.getAuthResponse().id_token;
-//   $.ajax({
-//     url: `http://localhost:3333/users/loginGoogle`,
-//     method: `POST`,
-//     headers: {
-//       token: idToken
-//     }
-//   })
-//     .done(function (response) {
-//       localStorage.setItem('token', response.token)
-//       todoList()
-//       $("#col-todo-append").show()
-//       $("#add-form").show()
-//       $("#register-form").hide()
-//       $("#login-form").hide()
-//       $('#register').hide()
-//       $('#login').hide()
-//       $('#logout').show()
-//     })
-//     .fail(function (jqXHR, textStatus) {
-//       console.log(jqXHR.responseText, '====');
-//     })
-// }
+function onSignIn(googleUser) {
+  const idToken = googleUser.getAuthResponse().id_token;
+  $.ajax({
+    url: `http://localhost:3333/users/loginGoogle`,
+    method: `POST`,
+    headers: {
+      token: idToken
+    }
+  })
+    .done(function (response) {
+      localStorage.setItem('token', response.token)
+      todoList()
+      $("#col-todo-append").show()
+      $("#add-form").show()
+      $("#register-form").hide()
+      $("#login-form").hide()
+      $('#register').hide()
+      $('#login').hide()
+      $('#logout').show()
+    })
+    .fail(function (jqXHR, textStatus) {
+      console.log(jqXHR.responseText, '====');
+    })
+}
 
 function signOut() {
   var auth2 = gapi.auth2.getAuthInstance();

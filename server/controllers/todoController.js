@@ -31,7 +31,7 @@ class TodoController {
   }
 
   static readAll(req, res) {
-    Todo.find({ userId: req.user._id })
+    Todo.find({ userId: req.decoded._id })
       .then(todo => {
         todo = todo.reverse()
         res.status(200).json(todo)
@@ -65,15 +65,16 @@ class TodoController {
     const { name, description , dueDate} = req.body
     Todo.create({
       name: name,
-      userId: req.user._id,
+      userId: req.decoded._id,
       description: description,
       dueDate : dueDate
     })
       .then(todo => {
-        console.log(todo)
+        console.log(todo, '===')
         res.status(201).json(todo)
       })
       .catch(err=>{
+        console.log(err,'----')
         res.status(500).json(err)
       })
   }

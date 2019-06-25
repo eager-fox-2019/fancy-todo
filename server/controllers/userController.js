@@ -15,6 +15,7 @@ class UserController {
     User
       .create(input)
       .then(user => {
+        console.log(user, '====')
         res.status(201).json(user)
       })
       .catch(err => {
@@ -77,7 +78,7 @@ class UserController {
       })
       .then(function (newUser) {
         console.log('masuk ke then 3')
-        let token = Helper.generateJWT({ email: newUser.email, _id: newUser._id}, process.env.SECRET);
+        let token = Helper.generateJWT({ email: newUser.email, _id: newUser._id});
         res.status(200).json({ token })
       })
       .catch(function (err) {
