@@ -11,7 +11,7 @@ const route = require('./routes')
 const mongoose = require('mongoose')
 const errorHandler = require('./middleware/errorHandler')
 
-mongoose.connect(`mongodb://localhost/trail-work`, {useNewUrlParser: true}, function(err){
+mongoose.connect(`mongodb+srv://anameilani:ana1106131176@cluster0-ogdd6.gcp.mongodb.net/test?retryWrites=true&w=majority`, {useNewUrlParser: true}, function(err){
     if(err) throw err
     else console.log('success connect to database')
 });

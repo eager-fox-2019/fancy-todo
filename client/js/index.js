@@ -1,4 +1,4 @@
-const baseUrl= 'http://localhost:3000'
+const baseUrl= 'http://104.197.237.157:3000'
 
 function isLoggedIn () {
   if (localStorage.token) {
