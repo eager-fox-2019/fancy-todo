@@ -5,7 +5,7 @@ class todoController{
 
     static create(req, res, next){
         let newTodo= new Todo({
-            userId: req.body.userId,
+            userId: req.decode.id,
             name: req.body.title,
             description: req.body.description,
             status:'pending',
@@ -104,9 +104,11 @@ class todoController{
     }
 
     static getWithStatus(req, res, next){
+
         Todo.find({status: req.params.status, userId: req.decode.id})
         .then(data =>{
             let todos= data.sort(function(a,b){return new Date(a.dueDate) - new Date(b.dueDate);})
+            console.log(todos)
             res.status(200).json({ todos })
         })
         .catch(next)

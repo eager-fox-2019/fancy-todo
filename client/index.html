@@ -28,8 +28,8 @@
         </center>
         <div class="container white z-depth-2"style="width: 400px">
             <ul class="tabs teal">
-                <li class="tab col s3"><a class="white-text active" href="#login" id="toLogin">login</a></li>
-                <li class="tab col s3"><a class="white-text" href="#register" id="toRegister">register</a></li>
+                <li class="tab col s3"><a class="white-text active" href="#" id="toLogin">login</a></li>
+                <li class="tab col s3"><a class="white-text" href="#" id="toRegister">register</a></li>
             </ul>
             <div id="login" class="col s12" style="width: 400px; height: 500px">
                 <form class="col s12" id="formLogin">
@@ -70,23 +70,23 @@
                         <h3 class="teal-text">Welcome</h3>
                         <div class="row">
                             <div class="input-field col s6">
-                                <input id="last_name" type="text" class="validate" required="" name="firstName">
+                                <input id="firstName" type="text" class="validate" required="" name="firstName">
                                 <label for="last_name">First Name</label>
                             </div>
                             <div class="input-field col s6">
-                                <input id="last_name" type="text" class="validate" name="lastName">
+                                <input id="lastName" type="text" class="validate" name="lastName">
                                 <label for="last_name">Last Name</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="email" type="email" class="validate" name="email" required="">
+                                <input id="emailRegis" type="email" class="validate" name="email" required="">
                                 <label for="email">Email</label>
                             </div>
                         </div>
                         <div class="row">
                             <div class="input-field col s12">
-                                <input id="password" type="password" class="validate" name="password" required="">
+                                <input id="passwordRegis" type="password" class="validate" name="password" required="">
                                 <label for="password">Password</label>
                             </div>
                         </div>
@@ -114,12 +114,7 @@
                     <h3 class="left" style="margin-left: 20px; margin-top: 15px">My Task</h3>
                     <h5 class="left" style="margin-left: 20px; margin-top: 30px" id="today">Date</h5>
                 </div>
-                
-                <!-- <ul id="nav-mobile" class="left hide-on-med-and-down">
-                    <li><a href="" id="toHome">Home</a></li>
-                    <li><a href="" id="toAdd">Add New Task</a></li>
-                    <li><a href="" id="toHistory">History</a></li>
-                </ul> -->
+
                 <div class="right" style="margin-right:20px" >
                     <a style="margin-right: 20px" id="loggedName">Hi, </a>
                     <a id="logout" class="waves-effect waves-light btn-small red lighten-3">Logout</a>
@@ -130,25 +125,21 @@
             
             <div class="col s3" id="home">
                 <center>
-                    <!-- <a href="#" id="toHome"><img src="http://cdn.onlinewebfonts.com/svg/img_158445.png" style="width: 30px; height: 30px; margin-top: 40px"> Home</a> -->
                     <a class="waves-effect waves-light btn-small teal" id="toHome" style="width: 100px"><i class="fas fa-home"></i>  Home</a>
                 </center>
             </div>
             <div class="col s3" id="add">
                 <center>
-                    <!-- <a href="#" id="toAdd"><img src="https://media.istockphoto.com/vectors/plus-add-flat-icon-cross-round-simple-button-circular-vector-sign-vector-id678479260?b=1&k=6&m=678479260&s=170x170&h=eo8IpS4NB_mOtTGvUoGo654RdKCW3C8N_BPif0KX2YQ=" style="width: 30px; height: 30px; margin-top: 40px"> Task</a> -->
                     <a class="waves-effect waves-light btn-small teal" id="toAdd" style="width: 100px"><i class="fas fa-plus"></i>Add Task</a>
                 </center>
             </div>
             <div class="col s3" id="history">
                 <center>
-                    <!-- <a href="#" id="toHistory"><i class="fas fa-list-ul"></i>History Task</a> -->
                     <a class="waves-effect waves-light btn-small teal" id="toHistory" style="width: 100px"><i class="fas fa-list-ul"></i>History</a>
                 </center>
             </div>
             <div class="col s3" id="deadline">
                 <center>
-                    <!-- <a href="history" id="toHistory"><i class="fas fa-tasks" style="margin-top: 50px"><span> History Task</span></i></a> -->
                     <a class="waves-effect waves-light btn-small red" id="toDeadline" style="width: 300px">Deadline for Tommorow</a>
                 </center>
             </div>

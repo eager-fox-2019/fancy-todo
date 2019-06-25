@@ -17,7 +17,7 @@ function hasToken(){
     $('#today').empty()
     $('#today').append(`${getFormatDate(new Date())}`)
     $('#loggedName').empty()
-    $('#loggedName').append(`${localStorage.firstName}`)
+    $('#loggedName').append(`Welcome, ${localStorage.firstName}`)
     fetchPending()
     fetchInprogress()
     fetchComplete()
@@ -178,7 +178,7 @@ function addTask(newTask){
 
 function removeTask(id, name){
   Swal.fire({
-    title: 'Delete this items?',
+    title: 'Delete this task?',
     text: name,
     showCancelButton: true,
     confirmButtonColor: '#3085d6',
@@ -768,10 +768,10 @@ $(document).ready(function() {
       let newUser = {
         firstName: $('#firstName').val(),
         lastName: $('#lastName').val(),
-        email: $('#email').val(),
-        password: $('#password').val()
+        email: $('#emailRegis').val(),
+        password: $('#passwordRegis').val()
       }
-      console.log(newUser)
+      console.log(newUser, 'new User')
        register(newUser)
     })
   
@@ -817,7 +817,6 @@ $(document).ready(function() {
     $('#formAddTask').submit(function(event){
       event.preventDefault()
         let newTask={
-          userId: localStorage.userId,
           title: $('#title').val(),
           description: $('#description').val(),
           dueDate: $('#dueDate').val(),

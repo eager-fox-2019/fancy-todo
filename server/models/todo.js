@@ -2,7 +2,10 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 let todoSchema= new Schema({
-    userId: String,
+    userId: {
+        type: 'ObjectId',
+        ref: 'User'
+    },
     name: {
         type: String,
         required: [true, 'Title task must be filled']
