@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="google-signin-client_id"
+    content="434972235901-ms028jp1anu3odcvrgnmcq0k27brjf9e.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <header>
+    <nav class="navbar navbar-expand-md navbar-light py-3">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span style="padding-right:.5em;">MENU</span><span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav mr-auto font-weight-bold">
+          <li class="nav-item">
+            <a class="navbar-brand" href="#">My Todo</a>
+          </li>
+          <li class="nav-item" id="register">
+            <a class="nav-link" href="#">Register</a>
+          </li>
+          <li class="nav-item" id="login">
+            <a class="nav-link" href="#">Login</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto font-weight-bold">
+          <li class="nav-item" id="logout">
+            <a class="nav-link" href="#">Logout</a>
+          </li>
+        </ul>
+      </div>
+
+    </nav>
+  </header>
+  <!-- End navbar -->
+
+
+  <div>
+    <div class="d-flex justify-content-center align-items-center container ">
+      <!-- from login -->
+      <div id="login-form">
+        <div class="text-center ">
+          <h2 class="font-weight-bold">
+            LOGIN
+          </h2>
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="login-form-email" aria-describedby="emailHelp"
+              placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="login-form-password" placeholder="Password">
+          </div>
+          <div class="form-group d-flex justify-content-between">
+            <button class="btn btn-primary">Login</button>
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+          </div>
+        </form>
+      </div>
+      <!-- end login -->
+
+      <!-- form register -->
+      <div id="register-form">
+        <div class="text-center">
+          <h2 class="font-weight-bold">
+            REGISTER
+          </h2>
+        </div>
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            <input type="email" class="form-control" id="register-form-email" aria-describedby="emailHelp"
+              placeholder="Enter email">
+            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="register-form-password" placeholder="Password">
+          </div>
+          <button class="btn btn-primary">Register</button>
+        </form>
+      </div>
+    </div>
+    <!-- end register -->
+
+    <!-- LIST TODO -->
+    <div class="container">
+      <div class="row" id="user">
+        <div class="col-md-5" id="col-todo">
+          <div id="col-todo-append" style="height: 50em; overflow-y: scroll;">
+            <h2 class="text-center" class="font-weight-bold">List Todo</h2>
+            <!-- List Todo -->
+
+
+          </div>
+        </div>
+        <!-- END LIST TODO -->
+
+        <div class="col-md-7" id="">
+          <div id="add-form">
+            <!-- Add Todo -->
+            <div id="title-todo" class="text-center" class="font-weight-bold">
+              <h2>Add Todo</h2>
+            </div>
+            <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input class="form-control" id="add-TodoName-from" aria-describedby="emailHelp"
+                  placeholder="What your todo now ?">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Description</label>
+                <input class="form-control" id="add-TodoDescription-form" placeholder="Description">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Deadline</label>
+                <input type="date" class="form-control" id="add-TodoDeadline-form" placeholder="Date">
+              </div>
+              <button id="add-button" type="submit" class="btn btn-primary">Add</button>
+              <button id="edit-button" type="submit" class="btn btn-primary">Update</button>
+            </form>
+          </div>
+
+          <!-- ifram youtube -->
+          <br>
+          <div id="player">
+
+          </div>
+        </div>
+        <!-- End ifram youtube -->
+
+
+
+      </div>
+    </div>
+
+  </div>
+  
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
+  <script src="./js/index.js"></script>
+</body>
+
+</html>
