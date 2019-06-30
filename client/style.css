@@ -1,0 +1,301 @@
+body {
+    /* background-image: url('./img/doodles.png');
+    background-size: 250px; */
+    background:linear-gradient(rgba(0,0,0,.3), rgba(0,0,0,.3)), url('https://images.unsplash.com/photo-1532618500676-2e0cbf7ba8b8?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1414&q=80') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-size: cover;
+    -o-background-size: cover;
+  }
+
+  #cardLogin{
+    height: 285px;
+    margin-top: 40px;
+    margin-bottom: auto;
+    width: 400px;
+    background-color: rgba(0,0,0,0.3) !important;
+    }
+
+   .list-group-item {
+       border: 0px;
+   }
+
+   #checkListPhone{
+    display: none;
+   }
+
+   #userProfile{
+    
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: 'Roboto', sans-serif;
+    color: #ffffff;
+
+    }
+    
+    i {
+        cursor: pointer;
+    }
+
+    #addNewButton{
+        margin-top: 2px;
+        margin-bottom: 3px;
+        height: 50px;
+        background-color: #F19137;
+        color: #ffffff;
+        cursor: pointer;
+    }
+
+    #addNewButton h3{
+        margin-top: -11px;
+    }
+
+    #addNewButton button{
+        background-color: #F19137;
+    }
+
+    #addNewButton p{
+        margin-top: -7px;
+    }
+
+    .todoDescription{
+        margin-left: 20px;
+        margin-bottom: -5px;
+        font-weight: bold;
+    }
+   
+
+   #todoSingle p {
+       margin-bottom: -8px;
+   }
+
+   #buttonAddNewTodoXL {
+   display: inline
+   }
+
+   #buttonAddNewTodoSM {
+    display: none;
+    }
+ 
+    .card-header{
+        margin-bottom: -20px;
+    }
+    
+    .social_icon span{
+    font-size: 40px;
+    margin-left: 10px;
+    color: #F19137;
+    }
+    
+    .social_icon span:hover{
+    color: white;
+    cursor: pointer;
+    }
+    
+    .card-header h3{
+    color: white;
+    }
+    
+    .social_icon{
+    position: absolute;
+    right: 20px;
+    margin-top: -10px;
+    }
+    
+    .input-group-prepend span{
+    width: 50px;
+    background-color: #F19137;
+    color: rgb(255, 255, 255);
+    border:0 !important;
+    }
+    
+    input:focus{
+    outline: 0 0 0 0  !important;
+    box-shadow: 0 0 0 0 !important;
+    
+    }
+    
+    .login_btn{
+    color: rgb(250, 250, 250);
+    background-color: #F19137;
+    width: 100px;
+    }
+    
+    .login_btn:hover{
+    color: black;
+    background-color: white;
+    }
+    
+    .links{
+    color: white;
+    }
+    
+    .links a{
+    margin-left: 4px;
+    }
+
+    #registerText {
+        font-family: 'Fredoka One', cursive;
+        margin-top: 60%;
+    }
+
+    #registerText p{
+        color: #ffffff;
+        font-family: 'Roboto', sans-serif;
+    }
+    #registerText button{
+        color: #ffffff;
+        font-family: 'Fredoka One', cursive;
+    }
+
+    
+
+    #registerText h1{
+        color: #ffffff;
+        text-shadow: 2px 2px #000000;
+    }
+
+    #registerText span{
+      color: rgb(248, 156, 70);
+      font-family: 'Pacifico', cursive;
+  }
+
+  
+
+  #profilePic {
+    width: 120px;
+    margin-left: 25px;
+    margin-top: 50px;
+    border: 5px solid white;
+}
+
+#userFullname{
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: -10px;
+}
+.profileTextShaddow{
+    text-shadow: 2px 2px #000000;
+}
+
+#userEmail{
+    margin-left: 50px;
+}
+
+#todayDate{
+   margin-top: 20px;
+}
+
+
+
+/* dekstop fersion */
+
+  @media (min-width: 992px) {
+     #profilePic {
+         width: 150px;
+         margin-left: 25px;
+         margin-top: 25px;
+         border: 5px solid white;
+     }
+
+     .badge {
+         background-color: #F19137;
+         color: #ffffff;
+     }
+
+     #todayDate{
+        margin-top: 30px;
+    }
+
+    #userProfile{
+        background-image: url('./img/6.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+        font-family: 'Roboto', sans-serif;
+        color: #ffffff;
+
+    }
+
+    #nextBackground{
+        margin-top: -18px;
+        margin-bottom: -10px;
+    }
+
+    .navbar {
+    max-height: 35px;
+    }
+
+    #registerText {
+        margin-top: 23%;
+    }
+
+     
+    
+  }
+
+
+/* phone verson */
+
+   @media (max-width: 575.98px) { 
+        #row1 {
+            display: none;
+        }
+
+        
+        /* .col-md-4 {
+            width: 15%;
+            display: inline-block;
+        }
+        .col-md-8 {
+            width: 85%;
+            display: inline-block;
+        } */
+
+        #registerText h1{
+            margin-top: 20px;
+            margin-bottom: -20px;
+            color: #ffffff;
+            text-shadow: 2px 2px #000000;
+            font-size: 37px;
+        }
+
+        #registerText span{
+        color: rgb(248, 156, 70);
+        font-family: 'Pacifico', cursive;
+        }
+
+        #registerText button{
+            margin-top:  -10px;
+            height: 30px;
+            font-size: 12px;
+        }
+
+        .smallText {
+            margin-top:  30px;
+        }
+
+        #row2 {
+            margin-top: 50px;
+        }
+
+        #checkListDekstop{
+            display: none;
+        }
+
+        #checkListPhone{
+            display: inline;
+        }
+
+        #todoAttr i{
+            font-size: 18px;
+        }
+        
+        #buttonAddNewTodoXL {
+            display: none
+        }
+
+        #buttonAddNewTodoSM {
+            display: inline;
+        }
+       
+    }
