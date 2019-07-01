@@ -105,6 +105,8 @@ function createTodo(){
     console.log('masuk create todo')
     $('#thirdPage').show()
     $('#addTodoForm').show()
+    console.log(curDate())
+    $('#todo_dueDate').attr('min', curDate())
     
     $('.mainNav').hide()
     $('.crudNav').show()
@@ -366,4 +368,14 @@ function getAllTodos(){
         .fail(function(jqXHR, TextError){
             console.log(jqXHR)
         })
+}
+
+function curDate(){
+    let n =  new Date();
+    let y = n.getFullYear();
+    let m = n.getMonth() + 1;
+    let d = n.getDate() + 1;
+    if(m / 10 < 1) m = `0${m}`
+    if(d / 10 < 1) d = `0${d}`
+    return `${y}-${m}-${d}`
 }
