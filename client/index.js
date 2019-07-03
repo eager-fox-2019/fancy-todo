@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:3000'
+const baseURL = 'http://35.240.135.47'
 M.AutoInit();
 var chipInstance = M.Chips.getInstance($(".chips"));
 
@@ -398,7 +398,7 @@ function signOut() {
 function signIn() {
     email = $('#emailSignIn').val()
     password = $('#passwordSignIn').val()
-    console.log(username, "usernameSignIn")
+    console.log(email, "usernameSignIn")
     console.log(password, "password")
     $.ajax({
         url: `${baseURL}/signin`,
@@ -416,9 +416,11 @@ function signIn() {
             signedIn()
             token = localStorage.getItem('token')
             populate()
+            $('#errorSignin').html('')
 
         })
         .fail(function (jqXHR, textStatus) {
+            $('#errorSignin').html('wrong email/password')
             console.log('request failed', textStatus)
         })
 }
@@ -494,6 +496,31 @@ $(document).ready(function () {
         }
        
     }
+    $('.signupNew').submit(function(e){
+        e.preventDefault()
+        let name = $('#name').val()
+        let email = $('#email').val()
+        let password = $('#password').val()
+        $.ajax({
+            url: `${baseURL}/signup`,
+            type: 'POST',
+            data: {
+                name,
+                email,
+                password,
+            }
+        })
+            .done((response) => {
+                console.log('hello, berhasil signup')
+                showSignIn()
+                console.log(response.data)
+                console.log(response.token)
+                
+            })
+            .fail(function (jqXHR, textStatus) {
+                console.log('request failed', textStatus)
+            })
+    })
     $('#createProject').click(addProject)
     $('root-element').on('click', $('.collection-item'), function () {
         console.log('tes')
@@ -517,8 +544,14 @@ $(document).ready(function () {
     $('#signinpage').click(function () {
         showSignIn()
     })
+    $('#signinpage2').click(function () {
+        showSignIn()
+    })
 
     $('#signuppage').click(function () {
+        showSignUp()
+    })
+    $('#signuppage2').click(function () {
         showSignUp()
     })
     $('#signin').submit(function (event) {

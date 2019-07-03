@@ -60,7 +60,7 @@
             <div class="card red darken-4">
                 <div class="card-content grey-text row">
                     <img class='logo col s12 m6 '>
-                    <form class="col s12 m6 ">
+                    <form class="signupNew col s12 m6 ">
                         <span class="card-title">Create New Account</span>
                         <div class="row">
                             <div class="input-field col s12">
@@ -68,18 +68,23 @@
                                 <label for="name">Name</label>
                             </div>
                         </div>
+                        
                         <div class="row">
-                            <div class="input-field col s12">
-                                <input id="username" type="text" class="validate">
-                                <label for="username">Username</label>
+                                <div class="input-field col s12">
+                                    <input id="email" type="email" class="validate">
+                                    <label for="email">Email</label>
+                                </div>
                             </div>
-                        </div>
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="password" type="password" class="validate">
                                 <label for="password">Password</label>
                             </div>
                         </div>
+                        <button type='submit' class="waves-effect waves-light btn-small">Sign Up</button>
+
+                        <a class="waves-effect waves-light btn-small" id="signinpage2">Already have an account</a>
+                        
                     </form>
                 </div>
             </div>
@@ -93,11 +98,14 @@
                 <div class="card-content grey-text row">
                     <img class='logo col s12 m6'>
                     <form class="col s12 m6 " id='signin'>
+                        
                         <span class="card-title">Sign in</span>
+                        <div style='color:red' id='errorSignin'></div>
+                        <a class="waves-effect waves-light btn-small red" id="signuppage2">No account yet</a>
                         <div class="row">
                             <div class="input-field col s12">
                                 <input id="emailSignIn" type="text">
-                                <label for="username">Username</label>
+                                <label for="email">email</label>
                             </div>
                         </div>
                         <div class="row">
@@ -113,6 +121,7 @@
                         <div style="widows: 120px;text-align:center; display: inline-block">
                             <div class="g-signin2" data-onsuccess="onSignIn" style=" position: absolute"  ></div>
                         </div>
+
                     </form>
                 </div>
 
@@ -147,7 +156,7 @@
                     </form>
                     <div style='width:20%; float:right'>
                         <ul class="right hide-on-med-and-down">
-                            <li><a href="" id='signout'><i class="tiny material-icons">account_circle</i></a></li>
+                            <li><a href="" id='signout'>signout</a></li>
                         </ul>
                     </div>
 
