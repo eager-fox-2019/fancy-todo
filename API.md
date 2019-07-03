@@ -37,20 +37,17 @@ API to access database of todo application
 | `/user/info` | PATCH  | Update info of signed in user with new info |          |  name:Boolean, username:String, password:String, email:String|   
  
 
-### /grouping
+### /grouping (projects)
 
 | Route            | HTTP   | Description                 | Header(s)|Body                              |
 |:-----------------|:-------|:----------------------------|:---------|:---------------------------------|
-| `/grouping`     | GET    |      |          |                                  |
+| `/grouping`     | GET    |    get all groups  | token         |      -                            |
+| `/grouping/:groupingId`     | GET    |    get a single group based on id  |  token        |       -                           |
+| `/grouping/:groupingId`     | DELETE    |  delete a single group based on id    |  token        |       -                           |
+| `/grouping/contributor/add/:groupingId/:userId`     | PATCH    | add group contributor |   token |   -       |                                 
+| `/grouping/contributor/remove/:groupingId/:userId`     | PATCH    |remove group contributor | token    |  -        |                                  
+| `/grouping/:groupingId`     | PATCH    |    update group details| token   |  title:String, description:String      |                                  
+| `/grouping`     | POST    |    create new group      |      token   |  title:String, description:String, contributors:Array(emails)                            |
 
  
 
-### /tags
-
-| Route            | HTTP   | Description                 | Header(s)|Body                              |
-|:-----------------|:-------|:----------------------------|:---------|:---------------------------------|
-| `/tags`     | GET    |      |          |                                  |
-
-## ENV
-
-env for SECRET_SAUCE is kalduayam
