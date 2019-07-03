@@ -6,11 +6,11 @@ const cors = require('cors');
 const morgan = require('morgan');
 const app = express();
 const ErrorHandler = require('./helpers/Error-Handler.js');
-const path = require('path');
 
-mongoose.connect('mongodb://localhost/Fancy-Todo', {useNewUrlParser: true});
+let local = 'mongodb://localhost/Fancy-Todo'
+let uri = 'mongodb+srv://admin:admin@cluster0-ezblw.gcp.mongodb.net/fancy-todo?retryWrites=true&w=majority'
+mongoose.connect(uri , {useNewUrlParser: true});
 
-app.use(express.static(path.join(__dirname, '../client')));
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json());
 app.use(cors());
@@ -18,7 +18,7 @@ app.use(morgan("dev"));
 app.use("/", routes);
 app.use(ErrorHandler)
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, ()=> {
     console.log(`connected to localhost ${PORT}`);
 });

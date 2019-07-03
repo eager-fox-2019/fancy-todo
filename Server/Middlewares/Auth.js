@@ -1,7 +1,7 @@
 const jwt = require('../Helpers/Jwt.js')
 const User = require('../Models/User.js')
 const Todo = require("../Models/Todo.js")
-const {OAuth2Client} = require('google-auth-library');
+const { OAuth2Client } = require('google-auth-library');
 
 module.exports = {
   Authentication: function (req, res, next){
