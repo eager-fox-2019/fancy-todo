@@ -1,4 +1,4 @@
-const url = "http://localhost:3000";
+const url = "http://34.87.13.129:82";
 
 $(document).ready(function() {
   currentPage()
