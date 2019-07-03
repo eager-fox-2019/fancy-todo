@@ -7,7 +7,7 @@ module.exports = function (req, res, next) {
     if (req.headers.hasOwnProperty('token')) {
         try {
             const decoded = jwt.verify(req.headers.token, "kalduayam")//proccess.env.SECRET_SAUCE)
-            console.log(decoded)
+            // console.log(decoded)
             req.decoded = decoded
             next()
         } catch (err) {

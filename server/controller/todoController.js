@@ -38,6 +38,7 @@ new CronJob('* 1 0 * * *', function() {
 
 class todoController{
     static findAll(req,res){
+        console.log('findall')
         let output = []
         // console.log('hai')
         let id = ObjectId(req.decoded._id)
@@ -47,11 +48,13 @@ class todoController{
                 // console.log('hello di controller')
                 // console.log(todo)
                 output.push(todo)
+                console.log(todo, '1')
                 // console.log(output, '<<--- output part1')
                 return (grouping . find({UserIds:id}))
                 // res.status(200).json( todo)
             })
             .then(grouping=>{
+                console.log(grouping, '1')
                 let projectIds = []
                 for( let i = 0; i < grouping.length; i++){
                     projectIds.push(grouping[i]._id)
@@ -65,21 +68,25 @@ class todoController{
                 // console.log(result)
                 // res.send('hello')
                 let temp = []
-                for ( let i = 0; i < result[0].length; i++){
-                    console.log(result[0], 'result')
-                    for( let j = 0 ; j < output[0].length; j++){
-                        // console.log(result[i], result, i)
-                        // console.log(output[0][j], 'output', j)
-                        if(result[0][i]._id.equals(output[0][j]._id)){
-                            console.log('sini', i)
-                            j = output[0].length
-                        }
-                        if(j == output[0].length -1){
-                            console.log('kok gak masuk')
-                            temp.push(result[0][i])
-                            // console.log(temp)
+                console.log(result, 'resullllttt')
+                if(result[0]){
+                    for ( let i = 0; i < result[0].length; i++){
+                        console.log(result[0], 'result')
+                        for( let j = 0 ; j < output[0].length; j++){
+                            // console.log(result[i], result, i)
+                            // console.log(output[0][j], 'output', j)
+                            if(result[0][i]._id.equals(output[0][j]._id)){
+                                console.log('sini', i)
+                                j = output[0].length
+                            }
+                            if(j == output[0].length -1){
+                                console.log('kok gak masuk')
+                                temp.push(result[0][i])
+                                // console.log(temp)
+                            }
                         }
                     }
+
                 }
                 if(temp[0]){
                     // console.log(temp, '<< temp')
