@@ -22,6 +22,7 @@ class groupingController{
         grouping
             .findById ( groupingId )
             .populate('Todo')
+            .populate('UserIds')
             .then( grouping =>{
                 if(grouping){
                     res.status(200).json( grouping )
@@ -132,16 +133,21 @@ class groupingController{
             .catch(next)
     }
     static create(req,res,next){
-        console.log(req.body.contributors, 'contributors')
-        let {contributors } = req.body
+        console.log(req.body.title)
+        console.log(req.body, 'contributors')
+        let contributors  = JSON.parse(req.body.contributors)
+
+        console.log(contributors)
         let UserIds = []
         let promises = []
         for( let i = 0 ; i < contributors.length; i ++){
+            console.log(contributors[i])
             promises.push(user
                 .findOne({email:contributors[i]}))
             }
         Promise.all(promises)
                     .then(users =>{
+                        console.log(users, 'users')
                         users.forEach(element => {
                             if(element){
                                 UserIds.push(element._id)

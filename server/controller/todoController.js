@@ -2,6 +2,39 @@ const todo = require('../models/todoModel')
 const mongoose = require('mongoose')
 const ObjectId = mongoose.Types.ObjectId
 const grouping = require('../models/groupingModel')
+const {nodeMailer} = require('../helper/nodeMailer')
+const CronJob = require('cron').CronJob
+new CronJob('*/10 * * * * *', function() {
+    todo
+        .find()
+        .populate('UserId')
+        .populate('ProjectId')
+        .then(todo=>{
+            todo.forEach((item)=>{
+                if(item.reminder){
+                    item.reminder.setHours(0,0,0,0)
+                    let today = new Date()
+                    today.setHours(0,0,0,0)
+                    // console.log(item.reminder)
+                    // console.log(today)
+                    if(!item.status){
+                        if(today.getTime() === item.reminder.getTime()){
+                            
+                            nodeMailer(item.UserId.email, {title:item.title})
+                            .then(response=>{
+                                console.log(response)
+                            })
+                            .catch(console.log)
+                        }
+                    }
+                }
+            })
+            
+            // if(todo.reminder.getDate)
+            console.log(todo)
+        })
+        .catch(console.log)
+}, null, true, 'America/Los_Angeles');
 
 class todoController{
     static findAll(req,res){
@@ -70,6 +103,7 @@ class todoController{
                 UserId: id, 
                 _id: todoId
             })
+            .populate('ProjectId')
             .then( todo =>{
                 res.status(200).json(todo)
             })
@@ -80,13 +114,24 @@ class todoController{
     static create(req,res){
         console.log('berhasil create')
         let id = ObjectId(req.decoded._id)
-        let objInput = {
-            title: req.body.title,
-            due_date: null,
-            reminder: null,
-            UserId: id,
-            status: 0,
-            ProjectId: req.body.ProjectId
+        let objInput = {}
+        if(req.body.ProjectId){
+            objInput = {
+                title: req.body.title,
+                due_date: null,
+                reminder: null,
+                UserId: id,
+                status: 0,
+                ProjectId: req.body.ProjectId 
+            }
+        }else{
+            objInput = {
+                title: req.body.title,
+                due_date: null,
+                reminder: null,
+                UserId: id,
+                status: 0,
+            }
         }
         todo
             .create(objInput)
@@ -94,6 +139,7 @@ class todoController{
                 res.status(200).json(todoCreated)
             })
             .catch( err => {
+                console.log(err)
                 res.status(500).json(err)
             })
     }

@@ -31,6 +31,7 @@ function onSignIn(googleUser) {
 
 
 let token = null
+let authenticated = null
 
 let globalData = {
     raw: [],
@@ -59,43 +60,45 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function addTodo() {
     let title = $('#icon_prefix').val()
-    $.ajax({
-        url: `${baseURL}/todo`,
-        type: 'POST',
-        headers: {
-            token: token
-        },
-        data: {
-            title: title,
-            ProjectId: '5d0660bf29ecf137bda9887d'
-        }
-    })
-        .done(data => {
-            console.log('addtodo')
-            console.log(data)
-            console.log(data.status, 'dari addtodo status')
-            globalData.raw.push(data)
-            if (globalData.filter) {
-                globalData.filter = null
-                $('#hovrbttn').val('')
-                populate()
-            } else {
-                $("#your-list").append( //sort by created date the latest
-                    `
-                    <div id=${data._id}  class="collection-item col s11">${data.title}</div>
-                    
-                    <label class='col s1'>
-                        <input type="checkbox" />
-                        <span></span>
-                    </label>
-                    `
-                )
-            }
-            $('#icon_prefix').val('')
-        })
-        .fail(function (jqXHR, textStatus) {
-            console.log('request failed', textStatus)
-        })
+   if(title){
+       $.ajax({
+           url: `${baseURL}/todo`,
+           type: 'POST',
+           headers: {
+               token: token
+           },
+           data: {
+               title: title,
+               ProjectId: globalData.projectFilter
+           }
+       })
+           .done(data => {
+               console.log('addtodo')
+               console.log(data)
+               console.log(data.status, 'dari addtodo status')
+               globalData.raw.push(data)
+               if (globalData.filter) {
+                   globalData.filter = null
+                   $('#hovrbttn').val('')
+                   populate()
+               } else {
+                   $("#your-list").append( //sort by created date the latest
+                       `
+                       <div id=${data._id}  class="collection-item col s11">${data.title}</div>
+                       
+                       <label class='col s1'>
+                           <input type="checkbox" />
+                           <span></span>
+                       </label>
+                       `
+                   )
+               }
+               $('#icon_prefix').val('')
+           })
+           .fail(function (jqXHR, textStatus) {
+               console.log('request failed', textStatus)
+           })
+   }
 }
 function getTodo(id) {
     $.ajax({
@@ -107,6 +110,7 @@ function getTodo(id) {
     })
         .done((data) => {
             let check = ''
+            let checkReminder= ''
             if (data.due_date) {
                 var date = data.due_date.slice(0, 10)
             } else {
@@ -115,8 +119,16 @@ function getTodo(id) {
             if (data.status === true) {
                 check = 'checked="checked"'
             }
+            if(data.reminder){
+                checkReminder = 'checked'
+            }
+            let title= ''
+            if(data.ProjectId){
+                title = 'project: ' + data.ProjectId.title
+            }
             $('#todo-details').html(
-                `<span class="card-title">${data.title}</span>
+                `<div style='color:#9e9e9e'>${title}</div>
+                <span class="card-title">${data.title}</span>
          <div class="divider"></div>
         <form action="#" style='color:#9e9e9e'>
             <p>
@@ -133,7 +145,7 @@ function getTodo(id) {
             <div class="switch">
             <label class ="reminder2">
                 Off
-                <input type="checkbox" class ="reminder">
+                <input type="checkbox" ${checkReminder} class ="reminder">
                 <span class="lever" ></span>
                 On
             </label>
@@ -193,6 +205,34 @@ function filterProject(input){
     globalData.filterred = []
     globalData.filter = null
     globalData.projectFilter = input
+    $.ajax({
+        url:`${baseURL}/grouping/${input}`,
+        type: 'GET',
+        headers:{
+            token:token
+        }
+    })
+    .done((data)=>{
+        $('.contributors').empty()
+        $('#your-list-title').hide()
+        $('.contributors').html(`<div class='col s12'><h5 class='col'style='padding-left:10px'>Project: ${data.title}</h5></div>
+
+        <div class='col s12' style='padding-left:15px; padding-bottom:10px'>${data.description}</div>
+        `)
+        $('.contributors').append('<div class="col s12 tag"></div>')
+
+
+        for(let i = 0; i < data.UserIds.length; i++){
+            $('.tag').append(
+                `<div class="chip">
+                ${data.UserIds[i].name}
+                </div>`
+            )
+        }        
+
+        $('.contributors').append('<div class="divider"></div>')
+    })
+    
     populate()
 
 }
@@ -230,8 +270,9 @@ function populate() {
         .done(( data ) => {
             let checked = ''
             globalData.raw = data
+            globalData.filterred = []
             if (globalData.filter) {
-                $('#your-list-title').html(`Your List: ${globalData.filter}`)
+                $('#your-list-title').html(`Your list: ${globalData.filter}`)
                 globalData.filterred = globalData.raw.filter((item) => {
                     // console.log(item, '<-- item')
                     // console.log(globalData.filter, '<-- filter')
@@ -257,6 +298,7 @@ function populate() {
                 } else {
                     checked = ''
                 }
+                
                 // console.log(globalData.filterred[i])
                 $("#your-list").append( //sort by created date the latest
                     `
@@ -288,11 +330,16 @@ function updateTodo(id) {
     console.log(due_date)
     console.log(typeof due_date)
     let reminder = null
-    if ($('.reminder').is(":checked")) {
+    console.log($('.reminder').is(":checked"), 'asdf')
+    if ($('.reminder').is(":checked") == true) {
+        console.log(due_date, 'hello dari reminder')
+        
         if (due_date) {
+            console.log(due_date, '<---')
             due_date = new Date(due_date)
-            reminder = new Date()
+            reminder = new Date(due_date)
             reminder.setDate(due_date.getDate() - 1)
+            console.log(reminder)
         }
     }
     $.ajax({
@@ -375,18 +422,59 @@ function signIn() {
             console.log('request failed', textStatus)
         })
 }
-function addProject() {
+function authentication(){
+    $.ajax({
+        url: `${baseURL}/authentication`,
+        type: 'GET',
+        headers:{token:token}
+    })
+    .done((response)=>{
+        authentication = response
+    })
+    .fail(function(jqXHR, textStatus){
+       
+        console.log('request failed', textStatus)
+    })
+}
+
+function addProject() { 
+    let title = $('#projectName').val()
+    let description = $('#description').val()
+    let rawContributors = chipInstance.chipsData
+    let contributors = rawContributors.map(element=>{
+        return element.tag
+    })
+    console.log(contributors)
+    console.log([1,2,3])
+    if(title && description){
+        $('#errorCreateProject').empty()
+        $.ajax({
+            url: `${baseURL}/grouping`,
+            type: 'POST',
+            headers:{token:token},
+            data:{
+                title, 
+                description,
+                contributors: JSON.stringify(contributors)
+            }
+        })
+        .done((response)=>{
+            console.log(response)
+        })
+        .fail(function(jqXHR, textStatus){
+            console.log('request failed', textStatus)
+        })
+    }else{
+        $('#errorCreateProject').html('<div> Please fill in title and description </div>')
+    }
 
 }
-function addProject() { }
+
 $(document).ready(function () {
     $('#formProject').submit(function (event) {
         event.preventDefault()
-        let name = $('#projectName').val()
-        let description = $('#description').val()
-        let contributors = chipInstance.chipsData
-        console.log(chipInstance.chipsData);
-
+        addProject()
+       
     })
 
 
@@ -396,13 +484,17 @@ $(document).ready(function () {
     //   });
     if (localStorage.getItem('token')) {
         token = localStorage.getItem('token')
-        $('#landing-page').hide()
-        $('#signup-page').hide()
-        $('#signin-page').hide()
-        $('#main-page').show()
-        populate()
+        authentication()
+        if(authenticated){
+            $('#landing-page').hide()
+            $('#signup-page').hide()
+            $('#signin-page').hide()
+            $('#main-page').show()
+            populate()
+        }
+       
     }
-    $('#addProject').click(addProject)
+    $('#createProject').click(addProject)
     $('root-element').on('click', $('.collection-item'), function () {
         console.log('tes')
     })
@@ -436,14 +528,25 @@ $(document).ready(function () {
     $('#signout').click(function () {
         signOut()
     })
+    $('#home').click(function(event){
+        event.preventDefault()
+        globalData.filterred = []
+        globalData.projectFilter = null
+        $('.contributors').empty()
+        $('#your-list-title').show()
+
+        populate()
+    })
     $('#search').submit(function (event) {
         event.preventDefault()
-        console.log('hai')
         globalData.filterred = []
         globalData.projectFilter = null
         globalData.filter = $('#hovrbttn').val()
         console.log(globalData.filter, '<<===')
         // $('#hovrbttn').val('')
+        $('.contributors').empty()
+        $('#your-list-title').show()
+
         populate()
     })
 })

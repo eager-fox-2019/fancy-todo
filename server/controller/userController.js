@@ -9,6 +9,9 @@ const client = new OAuth2Client('1056185331186-91l3oas8aoj68kvg1eni03q58fsh0qnf.
 const randomPassword = require('../helper/randomPass')
 
 class userController{
+    static authentication(req,res,next){
+        res.status(200).json(req.decoded)
+    }
     static googleSignIn(req, res, next) {
         let payload = null
         let newPass = null
