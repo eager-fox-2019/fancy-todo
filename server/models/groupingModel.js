@@ -1,6 +1,4 @@
 const mongoose = require('mongoose')
-//port = 27017
-//dbName = fancy-todo
 
 const {Schema} = mongoose
 
