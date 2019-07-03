@@ -4,7 +4,7 @@ const ObjectId = mongoose.Types.ObjectId
 const grouping = require('../models/groupingModel')
 const {nodeMailer} = require('../helper/nodeMailer')
 const CronJob = require('cron').CronJob
-new CronJob('*/10 * * * * *', function() {
+new CronJob('* 1 0 * * *', function() {
     todo
         .find()
         .populate('UserId')

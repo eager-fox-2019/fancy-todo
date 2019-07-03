@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 //port = 27017
 //dbName = fancy-todo
-mongoose.connect('mongodb://localhost:27017/fancy-todo', {useNewUrlParser: true})
+
 const {Schema} = mongoose
 
 const groupingSchema = new Schema({
