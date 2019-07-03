@@ -108,10 +108,12 @@ class userController{
         let email = req.body.email
         console.log('lagi signin')
         console.log(email)
+        console.log(req.body.password)
         User
-            .findOne({email:email})
+            .findOne({email:req.body.email})
             .then((oneUser)=>{
-                console.log(oneUser)
+                console.log(oneUser, 'user')
+                
                 if(oneUser){
                     if(bcrypt.compareSync(req.body.password, oneUser.password)){
                         let payload = {
