@@ -11,7 +11,8 @@ app.use(cors())
 app.use(express.json())
 
 const db = process.env.DB || 'mongodb://localhost:27017/fancy-todo'
-mongoose.connect(, {useNewUrlParser: true})
+
+mongoose.connect(db, {useNewUrlParser: true})
 
 app.use('/', index)
 app.use(errorHandler)
