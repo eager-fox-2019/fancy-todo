@@ -123,7 +123,7 @@ class userController{
                         }
                         let token = jwt.sign(payload, process.env.SECRET_SAUCE) //don't forget to use .env
                         
-                        res.json({
+                        res.status(200).json({
                             data: oneUser,
                             token: token
                         })
