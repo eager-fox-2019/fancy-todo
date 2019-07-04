@@ -85,7 +85,7 @@ $(document).ready(function(){
         const due_date = $("#due_date").val()
         $.ajax({
             method: "POST",
-            url: `${serverUrl}/todo/create`,
+            url: `${serverUrl}/todo`,
             headers: {token: localStorage.getItem("token")},
             data: {
                 name,
@@ -235,7 +235,7 @@ function updateList() {
 function complete(id){
     $.ajax({
         method: "PATCH",
-        url: `${serverUrl}/todo/edit/${id}`,
+        url: `${serverUrl}/todo/${id}`,
         headers: { token: localStorage.getItem('token') },
         data: {status: true}
     })
@@ -253,7 +253,7 @@ function complete(id){
 function incomplete(id){
     $.ajax({
         method: "PATCH",
-        url: `${serverUrl}/todo/edit/${id}`,
+        url: `${serverUrl}/todo/${id}`,
         headers: { token: localStorage.getItem('token') },
         data: {status: false}
     })
@@ -271,7 +271,7 @@ function incomplete(id){
 function deleteTodo(id){
     $.ajax({
         method: "DELETE",
-        url: `${serverUrl}/todo/delete/${id}`,
+        url: `${serverUrl}/todo/${id}`,
         headers: { token: localStorage.getItem('token') }
     })
         .done(function(res) {

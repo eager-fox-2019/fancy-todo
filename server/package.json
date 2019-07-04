@@ -4,7 +4,12 @@
   "description": "fancy-todo",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test npx mocha --exit",
+    "dev": "NODE_ENV=development nodemon app.js",
+    "start": "NODE_ENV=production node app.js",
+    "testWin": "SET \"NODE_ENV=test\" && npx mocha --exit",
+    "devWin": "SET \"NODE_ENV=development\" &&  nodemon app.js",
+    "startWin": "SET \"NODE_ENV=production\" &&  node app.js"
   },
   "repository": {
     "type": "git",
