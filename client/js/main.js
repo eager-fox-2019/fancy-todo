@@ -1,4 +1,4 @@
-const serverURL = "http://localhost:3000";
+const serverURL = "http://35.239.53.68";
 var reminder = [];
 var todos = [];
 var projects = [];
@@ -18,7 +18,6 @@ $(document).ready(function() {
   $("button").dblclick(function(event) {
     event.preventDefault();
   });
-
 
   $("form").on("submit", function(event) {
     event.preventDefault();
@@ -67,4 +66,3 @@ function formatDate(date) {
 
   return [year, month, day].join("-");
 }
-

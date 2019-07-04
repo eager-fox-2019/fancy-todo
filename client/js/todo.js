@@ -67,8 +67,8 @@ function loadtodopage() {
         `There are ${reminder.length} todos that needs to be done!`,
         "info"
       );
-      console.log(todos)
-      console.log(reminder)
+      console.log(todos);
+      console.log(reminder);
     }
   }, 2000);
 }
@@ -97,7 +97,6 @@ function loadlisttodos(todos) {
     } else {
       if (days < 2) {
         if (todo.status !== "Completed" && !todo.project) {
-
           reminder.push(todo);
           todo.bg = "bg-warning";
         }
@@ -108,7 +107,7 @@ function loadlisttodos(todos) {
 
       strTimeDetail = `${days} ${dd} left to due date`;
 
-      if(days == 0){
+      if (days == 0) {
         strTimeDetail = `Today is the due date !!`;
       }
 
@@ -236,7 +235,7 @@ function loadformupdatetodo(i) {
 }
 
 function getAllTodos() {
-  todos = []
+  todos = [];
   $.ajax({
     url: serverURL + "/todos",
     method: `GET`,

@@ -117,11 +117,11 @@ function loadprojectlist() {
   $("#projectlist").html("");
   projects.forEach((project, i) => {
     let ownership = "bg-light";
-    let deletion = ""
-    
+    let deletion = "";
+
     if (project.owner._id == loggedInUser._id) {
       ownership = "bg-warning";
-      deletion = `<i class="fa fa-trash text-danger" onclick="deleteProject('${i}')" ></i>`
+      deletion = `<i class="fa fa-trash text-danger" onclick="deleteProject('${i}')" ></i>`;
     }
     $("#projectlist").append(`
   <div class="p-2 ${ownership} m-2">
@@ -183,13 +183,13 @@ function viewProjectDetail(id) {
           }</option>`;
         }
       });
-      let sectionTitle = "View Project"
+      let sectionTitle = "View Project";
       let disabled = "disabled";
       let updButton = "";
       if (data.owner._id == loggedInUser._id) {
         updButton = `<button type="submit" class="btn btn-block btn-primary">Update Project Detail</button>`;
         disabled = "";
-        sectionTitle = `${data.name}'s Detail`
+        sectionTitle = `${data.name}'s Detail`;
       }
 
       $("#formproject").html(`
@@ -225,9 +225,8 @@ function viewProjectDetail(id) {
 }
 
 function getAllProjectTodos(id) {
-  let target = id;
   $.ajax({
-    url: serverURL + "/todos/project/" + target,
+    url: serverURL + "/todos/project/" + id,
     method: `GET`,
     headers: {
       token: localStorage.getItem("token")
@@ -412,7 +411,6 @@ function getAllProjects() {
     .done(response => {
       projects = response;
       loadprojectlist();
-      console.log(projects, "project list");
     })
     .fail(function(jqXHR, textStatus) {
       console.log(JSON.stringify(jqXHR));
@@ -422,10 +420,7 @@ function getAllProjects() {
 }
 
 function newProject() {
-  console.log("====================");
-  console.log($("#members").val())
   let members = $("#members").val();
-  console.log(members)
   let input = {
     owner: loggedInUser._id,
     name: $("#name").val(),
@@ -434,6 +429,7 @@ function newProject() {
   };
 
   input.members.push(input.owner);
+  console.log(input, "1");
   $.ajax({
     url: serverURL + "/projects",
     method: `POST`,
@@ -443,15 +439,16 @@ function newProject() {
     data: input
   })
     .done(response => {
-      projects = response;
+      projects.push(response);
       $("#name").val("");
       $("#description").val("");
       $("#members").val("");
-      console.log(projects, "kokoko");
-      setTimeout(function(){
+      setTimeout(function() {
         getAllProjects();
-        loadprojectlist();
-      }, 1000)
+        setTimeout(function() {
+          loadprojectlist();
+        }, 1000);
+      }, 1000);
     })
     .fail(function(jqXHR, textStatus) {
       console.log(JSON.stringify(jqXHR));
@@ -471,7 +468,7 @@ function deleteProject(i) {
   }).then(willDelete => {
     if (willDelete) {
       $.ajax({
-        url: serverURL + "/projects/" + id +"?adminOnly=true",
+        url: serverURL + "/projects/" + id + "?adminOnly=true",
         method: `DELETE`,
         headers: {
           token: localStorage.getItem("token")
@@ -479,9 +476,9 @@ function deleteProject(i) {
       })
         .done(response => {
           $("#title").val(""),
-          $("#description").val(""),
-          $("#targetdate").val(getTomorrowDate()),
-          getAllProjects();
+            $("#description").val(""),
+            $("#targetdate").val(getTomorrowDate()),
+            getAllProjects();
           loadprojectlist();
           swal("Deleted", "That todo has been deleted", "success");
         })
@@ -494,7 +491,6 @@ function deleteProject(i) {
 }
 
 function updateProject(id) {
-  console.log("HERE");
   let input = {
     owner: loggedInUser._id,
     name: $("#name").val(),
@@ -502,9 +498,8 @@ function updateProject(id) {
     members: $("#members").val()
   };
   input.members.push(input.owner);
+
   let url = `/projects/${id}?adminOnly=false`;
-  console.log(input);
-  console.log(url);
   $.ajax({
     url: serverURL + url,
     method: `PATCH`,
