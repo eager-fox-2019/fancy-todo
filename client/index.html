@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="google-signin-client_id" content="168247526060-2a0ocm7heujiappg1ldophc9c422haes.apps.googleusercontent.com">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="./style.css" type="text/css" rel="stylesheet">
+        <title>Fancy Todo!</title>
+        <link rel="stylesheet" href="./compiled/flipclock.css">
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="./compiled/flipclock.js"></script> 
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+
+    <body>
+        <!--
+        <div id="fb-root"></div>
+        <script async defer crossorigin="anonymous" src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&version=v3.3&appId=2373734499376645&autoLogAppEvents=1"></script>
+        <script>
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    console.log('Welcome!  Fetching your information.... ');
+                    FB.api('/me', function(response) {
+                    console.log('Good to see you, ' + response.name + '.');
+                    });
+                } else {
+                    console.log('User cancelled login or did not fully authorize.');
+                }
+            });
+            FB.getLoginStatus(function(response) {
+                if (response.status === 'connected') {
+                    console.log(response.authResponse.accessToken);
+                }
+            });
+            FB.api('/me', function(response) {
+                console.log(JSON.stringify(response));
+            });
+        </script>
+        -->
+        <div class="layer">
+            <div class="vertical-center" id="userform" style="padding: 100px; margin: 0 auto">
+                <div class="container center-content">
+                    <div class="row h-100 shadow mb-5 bg-white rounded" style="display: inline-block; padding: 32px 48px; border: 1px solid #EEE; background-color: white">
+                        <h1 style="text-align: center">Fancy Todo</h1>
+                        <form id="login-form">
+                            <div class="form-group">
+                                <label for="log-email"><b>Email</b></label>
+                                <input type="text" placeholder="Enter your email" name="email" id="log-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="log-psw"><b>Password</b></label>
+                                <input type="password" placeholder="Enter your password" name="password" id="log-psw" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%" id="login">Login</button>
+                            <br>Or sign in with:
+                            <br><div class="g-signin2" data-onsuccess="onSignIn"></div>
+                            <!--
+                            <div class="fb-login-button" data-width="" data-size="medium" data-button-type="login_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
+                            -->
+                            <br><small>New user? <a href="#" id="to-register-form">Register here!</a></small>
+                        </form>
+                        <form id="register-form" style="display:none">
+                            <div class="form-group">
+                                <label for="username"><b>Name</b></label>
+                                <input type="text" placeholder="Enter your name" name="username" id="username" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-email"><b>Email</b></label>
+                                <input type="text" placeholder="Enter your email" name="email" id="reg-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reg-psw"><b>Password</b></label>
+                                <input type="password" placeholder="Enter your password" name="password" id="reg-psw" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width: 100%" id="register">Create an account</button>
+                            <small>Already have an account? <a href="#" id="to-login-form">Login here!</a></small>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container" id="todolist" style="display:none">
+                <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+                    <a class="navbar-brand" style="color:white"><b>Fancy Todo</b></a>
+                    <div id="acc">
+                        <a id="navbarDropdown" class="nav-link" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: white"><p id="loggedUsername"></p></a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 0; left: auto;">
+                            <div id="outButton"></div>
+                        </div>
+                    </div>
+                </nav>
+                <div class="row">
+                    <div class="col-sm" style="padding: 20px">
+                        <div class="h-100 shadow mb-5 bg-white rounded floatingbox">
+                            <h1>Clock</h1>
+                            <div class="clock" style="align-items: center"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm" style="padding: 20px">
+                        <div class="h-100 shadow mb-5 rounded floatingbox">
+                            <h1>Your Task</h1>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: 100%">
+                                    Add Task
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <form class="center" id="add-form" style="padding: 10px 20px">
+                                        <div class="form-group">
+                                            <label for="name">Name</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Enter Task Name" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <textarea rows="5" cols="50" class="form-control" id="description" placeholder="Enter Description" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="due_date">Due Date</label>
+                                            <input type="date" class="form-control" id="due_date" required>
+                                        </div>
+                                        <div class="col text-center">
+                                            <button type="submit" class="btn btn-success center addTask" style="width:100%">Add Task</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <br>
+                            <div id="list"></div>
+                        </div>
+                    </div>
+                    <div class="col-sm" style="padding: 20px">
+                        <div class="h-100 shadow mb-5 rounded floatingbox">
+                            <h1>Finished Task</h1>
+                            <div id="finished"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Optional JavaScript -->
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
+    
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+        <script src='./main.js'></script>
+        <script>
+            const el = document.querySelector('.clock');
+            const clock = new FlipClock(el, new Date, {
+                clockFace: 'TwentyFourHourClock'
+            });
+		</script>
+        <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    </body>
+</html>
