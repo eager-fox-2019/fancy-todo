@@ -27,12 +27,7 @@ const UserSchema = new Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        validate: {
-            validator: function(input){
-                if(input.length < 6) return false
-            },
-            message: props => `Password minimum 6 characters!`
-        }
+        minLength: 6
     }
 }, {timestamps: true})
 
