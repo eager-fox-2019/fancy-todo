@@ -16,7 +16,7 @@ const TodoSchema = new Schema({
 }, {timestamps: true})
 
 TodoSchema.pre('save', function(next){
-    this.status = 0
+    this.status = false
     next()
 })
 
