@@ -3,6 +3,7 @@ const { compare } = require('../helpers/bcrypt')
 const { sign } = require('../helpers/jwt')
 const {OAuth2Client} = require('google-auth-library');
 const client = new OAuth2Client(process.env.CLIENT_ID);
+const { nodeMailer } = require('../helpers/nodemailer')
 
 class userController{
     static signIn(req,res,next){
@@ -44,6 +45,7 @@ class userController{
         User
         .create(userData)
         .then((regUser) => {
+            nodeMailer(regUser.email,'welcome',null)
             res.status(201).json({regUser,message: 'Thanks for registering'})
         })
         .catch(next)
