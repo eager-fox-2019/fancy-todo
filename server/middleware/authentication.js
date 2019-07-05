@@ -17,13 +17,6 @@ function Authenticate(req, res, next) {
         next(error)
     }
 }
-
-
-
-module.exports = {
-    Authenticate
-}
-
 async function AuthorizeRead(req, res, next) {
     try {
         let result = await Project.findById(req.params.projectId)
@@ -71,4 +64,10 @@ async function AuthorizeDelete(req, res, next) {
     } catch (error) {
         next(error)
     }
+}
+
+module.exports = {
+    Authenticate,
+    AuthorizeRead,
+    AuthorizeDelete
 }
