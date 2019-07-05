@@ -83,7 +83,7 @@ const registerHtml = `
 </form>
 `
 
-const url_server = 'http://35.198.211.11:80' // GCS 35.198.211.11:80 / localhost:3000
+const url_server = 'http://localhost:3000' // GCS 35.198.211.11:80 / localhost:3000
 
 $(document).ready(function(){
   checkToken()

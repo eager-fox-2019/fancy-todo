@@ -97,13 +97,16 @@ class ControllerUser {
   }
 
   static register(req, res, next) {
+    if (!req.body.username || !req.body.password || !req.body.email) {
+      throw { code: 404, message: 'Please input username / password / email'}
+    }
     let schemaField = Object.keys(User.prototype.schema.paths)
     let filteredField = Object.keys(req.body).filter((x) => schemaField.indexOf(x) > -1)
     let newUser = filteredField.reduce((acc, el) => Object.assign(acc, {[el]: req.body[el]}), {})
     User.create(newUser)
       .then((user) => {
         console.log('success register');
-        res.status(201)
+        res.status(201).json(user)
       })
       .catch(next)
   }
