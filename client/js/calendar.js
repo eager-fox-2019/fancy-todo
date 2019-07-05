@@ -15,7 +15,6 @@ function onlyDateEvent(events) {
 }
 
 function renderCalendar(events) {
-  console.log('event result', events);
   $('#calendar1').empty()
   $('#calendar1').fullCalendar({
     defaultView: 'month',

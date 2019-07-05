@@ -5,7 +5,7 @@ function oneCard(cmd, target, oneTask) {
     due_date = due_date.toDateString()
   }
   const cardHtml = `
-    <div class="card" id="${oneTask._id}-card">
+    <div class="card task-${oneTask.is_done}" id="${oneTask._id}-card">
       <div class="card-header row" id="${oneTask._id}-heading">
         <div id='${oneTask._id}-checkbox-group' class="col-1">
           <input id='${oneTask._id}-checkbox' onChange="checkBoxChange(this)" class='checkbox checkbox-round' type="checkbox">
@@ -229,12 +229,13 @@ function checkBoxChange(el) {
     .fail((err) => showError(err))
 }
 
-function filterCompleteTask() {
-  console.log('masuk complete task'); 
-  // $("#all-task-accordion .card").filter(':checked');
-  $('input:checked')
-}
-
-function filterUncompleteTask() {
-  
-}
+// $('.nav-item').click(function() {
+//   console.log('ini this', this)
+//   if (this.id == 'nav-all-tab') {
+//     $('#parent > div').fadeIn(450);
+//   } else {
+//     var $el = $('.' + this.id).fadeIn(450);
+//     $('#parent > div').not($el).hide();
+//   }
+//   $(this).addClass('active');
+// })

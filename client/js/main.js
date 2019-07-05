@@ -25,9 +25,9 @@ const taskHtml = `
     <h3>Task List</h3>
     <nav>
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
-        <a class="nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">All Task</a>
-        <a class="nav-item nav-link" onclick="filterCompleteTask()" id="nav-complete-tab" data-toggle="tab"  aria-selected="false">Completed Task</a>
-        <a class="nav-item nav-link" onclick="filterUncompleteTask()" id="nav-uncomplete-tab" data-toggle="tab"  aria-selected="false">Uncompleted Task</a>
+        <a class="nav-task nav-item nav-link active" id="nav-all-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">All Task</a>
+        <a class="nav-task nav-item nav-link" id="task-true" data-toggle="tab"  aria-selected="false">Completed Task</a>
+        <a class="nav-task nav-item nav-link" id="task-false" data-toggle="tab"  aria-selected="false">Uncompleted Task</a>
       </div>
     </nav>
  
@@ -83,9 +83,19 @@ const registerHtml = `
 </form>
 `
 
-const url_server = 'http://localhost:3000'
+const url_server = 'http://35.198.211.11:80' // GCS 35.198.211.11:80 / localhost:3000
 
 $(document).ready(function(){
   checkToken()
+  var $btns = $('.nav-task').click(function() {
+    if (this.id == 'nav-all-tab') {
+      $('#all-task-accordion > div').fadeIn(450);
+    } else {
+      var $el = $('.' + this.id).fadeIn(450);
+      $('#all-task-accordion > div').not($el).hide();
+    }
+    $btns.removeClass('active');
+    $(this).addClass('active');
+  })
 });
 
