@@ -9,10 +9,12 @@ const app = express()
 
 const { errorHandler } = require('./middlewares/errorHandlers')
 const routeIndex = require('./routes')
-const Port = 3000
+const Port = process.env.PORT
+const mongoDbUrl = process.env.MONGODB_URI
+
 
 // connect mongodb
-mongoose.connect('mongodb://localhost:27017/task_db', { useNewUrlParser: true })
+mongoose.connect(mongoDbUrl, { useNewUrlParser: true })
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
