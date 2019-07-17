@@ -2,7 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 let todoSchema = new Schema({
-    userId : String,
+    userId : { type : Schema.Types.ObjectId, ref : 'Users'},
     title : String,
     description : String,
     status : String,

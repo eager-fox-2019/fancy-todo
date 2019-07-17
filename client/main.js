@@ -23,14 +23,13 @@ function loginCheck(){
             showAllTodo()
             // showAllTodo()
             // loginCheck()
-            
-            
         }else{
             $('#nav-home').hide()
             $('#loginBar').hide()
-            $('#registerBar').show()
+            $('#loginBar').show()
+            $('#registerBar').hide()
             $('#totoBar').hide()
-            $('#nav-register').hide()
+            $('#nav-register').show()
             $('#nav-out').show()
             $('#editBar').hide()
         }
