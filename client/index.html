@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+  <head>
+       
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="497570610847-iljnt66nggglf4v7k61pmg0ps8euf8e8.apps.googleusercontent.com">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Acme&display=swap" rel="stylesheet">
+
+    <title>Fancy Todo!</title>
+    <style>
+        body {background-image: url('https://images.unsplash.com/photo-1474691434279-638c6487426d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80'); font-family: 'Acme', sans-serif;};
+        
+    </style>
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Fancy Todo</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#" id="nav-home">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-item nav-link" href="#" id="nav-login">Login</a>
+            <a class="nav-item nav-link" href="#" id="nav-register">Register</a>
+            <a class="nav-item nav-link" href="#" id="nav-out">Log out</a>
+            
+            </div>
+        </div>
+    </nav>
+    <!-- form -->
+    <!-- <div class="view" style="background-image: url('https://images.unsplash.com/photo-1470329508532-be27fda94658?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80')"> -->
+        
+        <div class="row mt-3 justify-content-center" id="registerBar" style="background-color: rgba(111, 213, 238, 0.3) ; margin : 290px">
+            <div class="col-md-5">
+                <h1 style="margin-bottom : 50px">Register</h1>
+                <form>
+                    <div>
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="input-email" aria-describedby="emailHelp" placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="input-password" placeholder="Password">
+                    </div>
+                    <div class="row mt-3 justify-content-center">
+                        <button type="submit" class="btn btn-primary" class="form-group" id="form-register">Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    
+        <!-- login form -->
+        <div class="row mt-3 justify-content-center" id="loginBar" style="background-color: rgba(111, 213, 238, 0.3)">
+            <div class="col-md-5">
+                <h1 style="margin-bottom : 50px">Login</h1>
+                <form>
+                    <div>
+                        <label for="email">Email address</label>
+                        <input type="email" class="form-control" id="login-email"  placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="login-password" placeholder="Password">
+                    </div>
+                    <div class="row mt-3 justify-content-center">
+                        <button type="submit" class="btn btn-primary" class="form-group" id="form-login">Sign In</button>
+                        <small style="margin-right: 20px; margin-left : 20px"> if you don't have any account, go to register on the nav bar or register by google sign in<br>
+                       
+                    </div>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                </form>
+            </div>
+        </div>
+
+    <!-- </div> -->
+
+    <!-- todo input -->
+    <div class="row mt-3 justify-content-center" id="totoBar">
+            <div class="col-md-5">
+                <h1>Create your Todo Here</h1>
+                <form>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Title</label>
+                        <input type="text" class="form-control" id="todo-title" placeholder="Example input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">description</label>
+                        <input type="text" class="form-control" id="todo-desc" placeholder="Another input" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">due date</label>
+                        <input type="date" class="form-control" id="todo-date" placeholder="Another input" required>
+                    </div>
+                    <div class="form-group">
+                            <label for="formGroupExampleInput2" value="undone">Status : Undone  (note:  <i>status will be 'uncomplete' by default when you create the todo</i>)</label>
+                        </div>
+                    <div class="row mt-3 justify-content-center">
+                        <button type="submit" class="btn btn-primary" class="form-group" id="todo-submit">Submit</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    <hr>
+
+    <!-- list Todo -->
+
+    <h2 style="text-align : center">List of Todos</h2>
+    <div class="row mt-2">
+        <div class="col-md-5" id="list">
+        </div>
+    </div>
+
+    <!-- input edit -->
+    <div class="row mt-4">
+        <div class="col-md-5" id="form-edit">
+            
+        </div>
+    </div>
+
+    <!-- edit form -->
+
+
+
+    <div class="row mt-3 justify-content-center" id="editBar">
+            <div class="col-md-5">
+                <h1>
+                    Edit your Todo Here</h1>
+                <form>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Title</label>
+                        <input type="text" class="form-control" id="edit-title">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">description</label>
+                        <input type="text" class="form-control" id="edit-desc" >
+                    </div>
+                    <!-- <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="done" id="#edit-status">
+                            <label class="form-check-label" for="defaultCheck1">
+                              Done!
+                            </label>
+                        </div>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">if your task done, write "complete" here :</label>
+                        <input type="text" class="form-control" id="edit-status" >
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">due date</label>
+                        <input type="date" class="form-control" id="edit-date" placeholder="Another input" required >
+                    </div>
+                    <div class="row mt-3 justify-content-center">
+                        <button type="submit" class="btn btn-primary" class="form-group" id="btn-edit">Submit</button>
+                    </div>
+                </form>
+            </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="./main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://rawgit.com/moment/moment/2.2.1/min/moment.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+  </body>
+</html>
